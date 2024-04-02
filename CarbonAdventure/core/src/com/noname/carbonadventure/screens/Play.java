@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.noname.carbonadventure.entities.Player;
 
 public class Play implements Screen {
 
@@ -14,12 +17,19 @@ public class Play implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
 
+    private Player player;
+
     @Override
     public void show() {
         TmxMapLoader loader = new TmxMapLoader();
         map = loader.load("maps/Level_1.tmx");
+
         renderer = new OrthogonalTiledMapRenderer(map);
+
         camera = new OrthographicCamera();
+
+        player = new Player(new Sprite(new Texture("img/player.png")));
+
 
 
     }
@@ -31,6 +41,12 @@ public class Play implements Screen {
 
         renderer.setView(camera);
         renderer.render();
+
+        renderer.getBatch().begin();
+        player.draw(renderer.getBatch());
+        renderer.getBatch().end();
+
+
 
     }
 
@@ -63,6 +79,7 @@ public class Play implements Screen {
     public void dispose() {
         map.dispose();
         renderer.dispose();
+        player.getTexture().dispose();
 
     }
 }
