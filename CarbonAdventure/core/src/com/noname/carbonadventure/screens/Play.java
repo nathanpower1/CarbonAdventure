@@ -24,6 +24,7 @@ public class Play implements Screen {
     private Player player;
     private Texture gemTexture;
     private Gem gem;
+    private AnimationManager animationManager;
 
 
     @Override
@@ -36,10 +37,10 @@ public class Play implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+        animationManager = new AnimationManager();
         Vector2 startPosition = new Vector2(340, 340);
-        player = new Player(new Sprite(new Texture("img/player.png")));
-        player.setPosition(startPosition.x, startPosition.y);
-
+        AnimationManager animationManager = new AnimationManager();
+        this.player = new Player(startPosition, animationManager);
         gemTexture = new Texture(Gdx.files.internal("img/gem.png"));
         gem = new Gem(gemTexture, new Vector2(-10, -10));
     }
@@ -67,7 +68,8 @@ public class Play implements Screen {
         renderer.render();
 
         renderer.getBatch().begin();
-        player.draw(renderer.getBatch());
+        SpriteBatch spriteBatch = (SpriteBatch) renderer.getBatch();
+        player.draw(spriteBatch);
         renderer.getBatch().end();
     }
 
