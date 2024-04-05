@@ -3,15 +3,20 @@ package com.noname.carbonadventure;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.noname.carbonadventure.screens.MainMenuScreen;
 import com.noname.carbonadventure.screens.Play;
 
 public class CarbonAdventure extends Game {
-	SpriteBatch batch;
+
+	public static final int WIDTH = 400;
+	public static final int HEIGHT = 700;
+	public SpriteBatch batch;
 	Texture img;
 	
 	@Override
 	public void create () {
-		setScreen(new Play());
+		batch = new SpriteBatch();
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override

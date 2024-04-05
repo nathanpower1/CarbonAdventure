@@ -10,11 +10,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.noname.carbonadventure.CarbonAdventure;
 import com.noname.carbonadventure.entities.Player;
 import com.noname.carbonadventure.entities.Gem;
 import com.badlogic.gdx.math.Vector2;
 
 public class Play implements Screen {
+    private CarbonAdventure game;
+
+    public Play(CarbonAdventure game){
+        this.game = game;
+    }
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
