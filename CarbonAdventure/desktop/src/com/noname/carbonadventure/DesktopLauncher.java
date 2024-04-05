@@ -2,7 +2,7 @@ package com.noname.carbonadventure;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.noname.carbonadventure.CarbonAdventure;
+import com.noname.carbonadventure.Play;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
@@ -10,6 +10,6 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setTitle("CarbonAdventure");
-		new Lwjgl3Application(new CarbonAdventure(), config);
+		new Lwjgl3Application(new Play(), config);
 	}
 }
