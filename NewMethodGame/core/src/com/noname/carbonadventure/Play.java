@@ -1,12 +1,8 @@
 package com.noname.carbonadventure;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.noname.carbonadventure.Screens.PlayScreen;
-import com.noname.carbonadventure.Screens.MainMenuScreen;
 
 
 public class Play extends Game {
@@ -23,7 +19,7 @@ public class Play extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new MainMenuScreen(this)); // Change this line
+		setScreen(new PlayScreen(this)); // Change this line
 	}
 
 	@Override
