@@ -2,6 +2,7 @@ package com.noname.carbonadventure;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.noname.carbonadventure.Screens.MainMenuScreen;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 
@@ -19,7 +20,7 @@ public class Play extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this)); // Change this line
+		 this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override
