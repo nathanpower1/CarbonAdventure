@@ -16,15 +16,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
-import com.noname.carbonadventure.Screens.MainMenuScreen;
 
 public class PlayScreen implements Screen {
     private Play game;
@@ -52,7 +48,7 @@ public class PlayScreen implements Screen {
         //create cam to follow player
         gamecam = new OrthographicCamera();
         //create fitview to maintain aspect ratio
-        gamePort = new FitViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
+        gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
 
         // create HUD
         hud = new HUD(game.batch);
@@ -71,6 +67,10 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world,map);
 
         player = new Player(world, this);
+
+        gamecam.zoom = 1;
+
+        gamecam.update();
 
     }
 
@@ -134,12 +134,18 @@ public class PlayScreen implements Screen {
         world.step(1/60f,6,2);
 
         player.update(dt);
+        hud.update(dt);
 
         gamecam.position.x= player.b2body.getPosition().x;
         gamecam.position.y= player.b2body.getPosition().y;
 
         gamecam.update();
         renderer.setView(gamecam);
+
+        if (!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT) &&
+                !Gdx.input.isKeyPressed(Input.Keys.UP) && !Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            player.b2body.setLinearVelocity(0, 0);
+        }
     }
 
     @Override
