@@ -1,6 +1,7 @@
 package com.noname.carbonadventure.Sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -22,8 +23,11 @@ public class Gem extends InteractiveTileObject{
     @Override
     public void OnBodyHit() {
         Gdx.app.log("Gem Collision","");
+        Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
         setCategoryFilter(Play.DESTROYED_BIT);
         getCell().setTile(null);
         HUD.addScore(100);
+
+
     }
 }

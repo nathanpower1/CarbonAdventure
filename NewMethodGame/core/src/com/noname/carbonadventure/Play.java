@@ -1,6 +1,9 @@
 package com.noname.carbonadventure;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.noname.carbonadventure.Screens.MainMenuScreen;
 import com.noname.carbonadventure.Screens.PlayScreen;
@@ -20,15 +23,24 @@ public class Play extends Game {
 
 	public SpriteBatch batch;
 
+	public static AssetManager manager;
+
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		manager = new AssetManager();
+		manager.load("audio/music/Wicked.mp3", Music.class);
+		manager.load("audio/music/buckbumble.mp3", Music.class);
+		manager.load("audio/sounds/Gem_Collect.wav", Sound.class);
+		manager.finishLoading();
 		 this.setScreen(new MainMenuScreen(this));
+
 	}
 
 	@Override
 	public void render () {
+
 		super.render();
 	}
 

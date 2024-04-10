@@ -2,6 +2,7 @@ package com.noname.carbonadventure.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +18,7 @@ public class MainMenuScreen implements Screen {
     private Play game;
     private Stage stage;
     private Texture bgTexture;
+    private Music music;
 
     public MainMenuScreen(final Play game) {
         this.game = game;
@@ -28,6 +30,11 @@ public class MainMenuScreen implements Screen {
         Image backgroundImage = new Image(bgTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
+
+        //Music
+        music = Play.manager.get("audio/music/buckbumble.mp3",Music.class);
+        music.setLooping(true);
+        music.play();
 
         // Buttons
         ImageButton playButton = createImageButton("img/play01.png", "img/play02.png", new Runnable() {

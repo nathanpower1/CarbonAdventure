@@ -118,7 +118,7 @@ public class Player extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(8 / Play.PPM);
+        shape.setRadius(5 / Play.PPM);
         fdef.filter.categoryBits = Play.PLAYER_BIT;
         fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT;
 
