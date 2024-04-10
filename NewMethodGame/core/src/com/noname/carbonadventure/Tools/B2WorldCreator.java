@@ -6,7 +6,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.noname.carbonadventure.Play;
+import com.noname.carbonadventure.Sprites.Bus_Stop;
 import com.noname.carbonadventure.Sprites.Gem;
+import com.noname.carbonadventure.Sprites.Walls;
 
 public class B2WorldCreator {
     public B2WorldCreator(World world, TiledMap map){
@@ -19,14 +21,8 @@ public class B2WorldCreator {
         for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX()+rect.getWidth()/2)/ Play.PPM,(rect.getY()+rect.getHeight()/2)/ Play.PPM);
+            new Walls(world, map, rect);
 
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2 / Play.PPM,rect.getHeight()/2 / Play.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
         }
 
         // create Gems objects
@@ -34,6 +30,13 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
            new Gem(world, map, rect);
+        }
+
+        // create Bus Stop objects
+        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new Bus_Stop(world, map, rect);
         }
 
 
