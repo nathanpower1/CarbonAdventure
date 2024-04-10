@@ -1,5 +1,6 @@
 package com.noname.carbonadventure.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -11,7 +12,13 @@ import com.noname.carbonadventure.Play;
 public class Gem extends InteractiveTileObject{
     public Gem(World world, TiledMap map, Rectangle bounds){
         super(world,map,bounds);
+        fixture.setUserData(this);
 
 
+    }
+
+    @Override
+    public void OnBodyHit() {
+        Gdx.app.log("Gem Collision","");
     }
 }

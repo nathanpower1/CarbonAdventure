@@ -21,6 +21,7 @@ import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
+import com.noname.carbonadventure.Tools.WorldContactListener;
 
 public class PlayScreen implements Screen {
     private Play game;
@@ -67,6 +68,8 @@ public class PlayScreen implements Screen {
         new B2WorldCreator(world,map);
 
         player = new Player(world, this);
+
+        world.setContactListener(new WorldContactListener());
 
         gamecam.zoom = 1;
 

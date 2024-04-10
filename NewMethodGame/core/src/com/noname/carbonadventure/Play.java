@@ -13,6 +13,10 @@ public class Play extends Game {
 
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 780;
+	public static final short DEFAULT_BIT = 1;
+	public static final short PLAYER_BIT = 2;
+	public static final short GEM_BIT = 4;
+	public static final short DESTROYED_BIT = 8;
 
 	public SpriteBatch batch;
 

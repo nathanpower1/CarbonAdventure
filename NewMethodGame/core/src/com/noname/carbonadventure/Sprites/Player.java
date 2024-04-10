@@ -121,7 +121,7 @@ public class Player extends Sprite {
         shape.setRadius(8 / Play.PPM);
 
         fdef.shape = shape;
-        b2body.createFixture(fdef);
+        b2body.createFixture(fdef).setUserData("body");
     }
 
 
