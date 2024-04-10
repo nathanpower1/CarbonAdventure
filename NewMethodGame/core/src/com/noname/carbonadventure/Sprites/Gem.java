@@ -13,6 +13,7 @@ public class Gem extends InteractiveTileObject{
     public Gem(World world, TiledMap map, Rectangle bounds){
         super(world,map,bounds);
         fixture.setUserData(this);
+        setCategoryFilter(Play.GEM_BIT);
 
 
     }
@@ -20,5 +21,7 @@ public class Gem extends InteractiveTileObject{
     @Override
     public void OnBodyHit() {
         Gdx.app.log("Gem Collision","");
+        setCategoryFilter(Play.DESTROYED_BIT);
+        getCell().setTile(null);
     }
 }
