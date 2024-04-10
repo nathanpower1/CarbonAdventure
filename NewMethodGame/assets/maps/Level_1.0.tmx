@@ -238,7 +238,6 @@
   <object id="43" x="337.097" y="512.522" width="113.818" height="32.2519"/>
  </objectgroup>
  <objectgroup id="4" name="Gems">
-  <object id="27" x="861.607" y="303.693" width="18.5" height="17.5"/>
   <object id="37" x="142.4" y="304.471" width="18.5" height="17.5"/>
   <object id="69" x="71" y="808"/>
  </objectgroup>

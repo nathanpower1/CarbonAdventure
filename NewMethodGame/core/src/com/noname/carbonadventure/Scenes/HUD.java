@@ -43,11 +43,12 @@ public class HUD implements Disposable {
         table.setFillParent(true);
 
         countdownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        scoreLabel = new Label(String.format("%06d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        //scoreLabel = new Label(String.format("%06d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        scoreLabel = new Label(String.format("%01d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timelabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levellabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldlabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        playerlabel = new Label("CARBON ADVENTURE", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        //levellabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+       // worldlabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        playerlabel = new Label("GEM COUNTER", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(playerlabel).expandX().padTop(10);
         table.add(worldlabel).expandX().padTop(10);
@@ -76,7 +77,7 @@ public class HUD implements Disposable {
 
     public static void addScore(int value){
         score += value;
-        scoreLabel.setText(String.format("%06d", score));
+        scoreLabel.setText(String.format("%01d", score));
     }
 
     @Override
