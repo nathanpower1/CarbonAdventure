@@ -194,7 +194,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="5" name="Walls" opacity="0">
+ <objectgroup id="5" name="Walls">
   <object id="2" x="209.751" y="341.662" width="55.9466" height="83.778"/>
   <object id="46" x="211.168" y="508.902" width="55.9466" height="105.037"/>
   <object id="4" x="96.3679" y="851.537" width="349.088" height="26.5828"/>
@@ -241,6 +241,6 @@
   <object id="27" x="861.607" y="303.693" width="18.5" height="17.5"/>
   <object id="37" x="142.4" y="304.471" width="18.5" height="17.5"/>
   <object id="63" gid="4102" x="471.17" y="471.751" width="16" height="16"/>
-  <object id="64" gid="4102" x="63.1638" y="807.407" width="16" height="16"/>
+  <object id="64" gid="4102" x="65.1638" y="824.407" width="16" height="16"/>
  </objectgroup>
 </map>
