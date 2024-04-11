@@ -21,6 +21,9 @@ public class HUD implements Disposable {
     private Integer worldTimer;
     private float timeCount;
     private static Integer score;
+    private static Integer carbonMeter = 0;
+
+    static Label carbonMeterLabel;
 
     Label countdownLabel;
     static Label scoreLabel;
@@ -45,9 +48,11 @@ public class HUD implements Disposable {
         countdownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         //scoreLabel = new Label(String.format("%06d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%01d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        carbonMeterLabel = new Label(String.format("%07d", carbonMeter), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timelabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         //levellabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-       // worldlabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        worldlabel = new Label("Carbon Meter", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        // worldlabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         playerlabel = new Label("GEM COUNTER", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(playerlabel).expandX().padTop(10);
@@ -55,7 +60,8 @@ public class HUD implements Disposable {
         table.add(timelabel).expandX().padTop(10);
         table.row();
         table.add(scoreLabel).expandX();
-        table.add(levellabel).expandX();
+        table.add(carbonMeterLabel).expandX();
+        //table.add(levellabel).expandX();
         table.add(countdownLabel).expandX();
 
         stage.addActor(table);
