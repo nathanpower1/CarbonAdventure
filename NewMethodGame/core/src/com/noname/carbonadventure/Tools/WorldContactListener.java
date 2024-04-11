@@ -16,7 +16,12 @@ public class WorldContactListener implements ContactListener {
             Object userDataA = fixA.getUserData();
             Object userDataB = fixB.getUserData();
 
+        // Get the category bits of fixtures
+        short categoryA = fixA.getFilterData().categoryBits;
+        short categoryB = fixB.getFilterData().categoryBits;
+
             Gdx.app.log("Contact", "Begin Contact between " + userDataA + " and " + userDataB);
+            Gdx.app.log("Contact", "Begin Contact between " + categoryA + " and " + categoryB);
 
         int cDef = fixA.getFilterData().categoryBits | fixB.getFilterData().categoryBits;
 
@@ -24,9 +29,9 @@ public class WorldContactListener implements ContactListener {
         if (userDataA != null && userDataB != null) {
             switch (cDef){
                 case Play.NPC_BIT | Play.PLAYER_BIT:
-                    if(fixA.getFilterData().categoryBits == Play.NPC_BODY_BIT)
+                    if(fixA.getFilterData().categoryBits == Play.NPC_BIT)
                         ((NPC) fixA.getUserData()).BodyHit();
-                    else if(fixB.getFilterData().categoryBits == Play.NPC_BODY_BIT)
+                    else if(fixB.getFilterData().categoryBits == Play.NPC_BIT)
                         ((NPC) fixB.getUserData()).BodyHit();
             }
         } else {
@@ -46,19 +51,25 @@ public class WorldContactListener implements ContactListener {
         }
 
         switch (cDef) {
-            case Play.NPC_BIT | Play.PLAYER_BIT: {
+            case Play.NPC_BIT | Play.PLAYER_BIT:
                 if (fixA.getFilterData().categoryBits == Play.NPC_BIT &&
-                        fixB.getFilterData().categoryBits == Play.PLAYER_BIT) {
+                        fixB.getFilterData().categoryBits == Play.PLAYER_BIT)
                     ((NPC) fixA.getUserData()).BodyHit();
-                } else if (fixB.getFilterData().categoryBits == Play.NPC_BIT &&
-                        fixA.getFilterData().categoryBits == Play.PLAYER_BIT) {
+                else if (fixB.getFilterData().categoryBits == Play.NPC_BIT &&
+                        fixA.getFilterData().categoryBits == Play.PLAYER_BIT)
                     ((NPC) fixB.getUserData()).BodyHit();
-                }
                 break;
+            case Play.NPC_BIT | Play.OBJECT_BIT:
+                if (fixA.getFilterData().categoryBits == Play.NPC_BIT)
+                    ((NPC) fixA.getUserData()).reverseVelocity(true, false);
+                else
+                    ((NPC) fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
             }
         }
 
-    }
+
 
     @Override
     public void endContact(Contact contact) {

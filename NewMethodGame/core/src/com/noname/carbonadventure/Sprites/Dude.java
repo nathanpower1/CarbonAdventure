@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
@@ -20,6 +21,7 @@ public class Dude extends NPC{
     private Animation <TextureRegion> NPCUp;
     private TextureRegion NPCStand;
     private Array<TextureRegion> frames;
+    private boolean isSoundPlaying = false;
     public Dude(PlayScreen screen, float x, float y) {
         super(screen, x, y);
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -37,6 +39,7 @@ public class Dude extends NPC{
         stateTime += dt;
         setPosition(b2body.getPosition().x - getWidth()/2 , b2body.getPosition().y - getHeight()/2);
         setRegion(NPCRun.getKeyFrame(stateTime, true));
+        b2body.setLinearVelocity(velocity);
     }
 
     @Override
@@ -73,9 +76,31 @@ public class Dude extends NPC{
 
     }
 
-    @Override
+
+   // @Override
+    //public void BodyHit() {
+    //    Gdx.app.log("NPC Collision","");
+    //    Play.manager.get("audio/sounds/cuh.wav", Sound.class).play();
+  //  }
     public void BodyHit() {
-        Gdx.app.log("NPC Collision","");
-        Play.manager.get("audio/sounds/cuh.wav", Sound.class).play();
+        // Check if the sound is not currently playing
+        if (!isSoundPlaying) {
+            // Log the collision
+            Gdx.app.log("NPC Collision","");
+
+            // Play the sound
+            Play.manager.get("audio/sounds/cuh.wav", Sound.class).play();
+
+            // Set the flag to indicate that the sound is playing
+            isSoundPlaying = true;
+
+            // Start a timer to reset the flag after 10 seconds
+            Timer.schedule(new Timer.Task(){
+                @Override
+                public void run() {
+                    isSoundPlaying = false;
+                }
+            }, 10); // Reset the flag after 10 seconds
+        }
     }
 }

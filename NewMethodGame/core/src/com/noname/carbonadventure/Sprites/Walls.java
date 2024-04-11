@@ -16,7 +16,7 @@ public class Walls extends InteractiveTileObject{
     public Walls(PlayScreen screen, Rectangle bounds){
         super(screen,bounds);
         fixture.setUserData(this);
-        //setCategoryFilter(Play.GEM_BIT);
+        setCategoryFilter(Play.OBJECT_BIT);
 
 
     }
