@@ -13,6 +13,11 @@ import com.noname.carbonadventure.Play;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import java.util.List;
+import java.util.Arrays;
+
+
 
 public class MainMenuScreen implements Screen {
     private Play game;
@@ -20,10 +25,20 @@ public class MainMenuScreen implements Screen {
     private Texture bgTexture;
     private Music music;
 
+    private Table table;
+
+    private ImageButton playButton;
+    private ImageButton leaderboardButton;
+    private ImageButton tutorialButton;
+    private ImageButton exitButton;
+
+
     public MainMenuScreen(final Play game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
+
 
         // Background
         bgTexture = new Texture(Gdx.files.internal("img/FbQJeV5WYAM_58i.png"));
@@ -31,54 +46,37 @@ public class MainMenuScreen implements Screen {
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
+        Table table = new Table();
+        table.setFillParent(true); // The table will fill the stage
+        stage.addActor(table);
+
         //Music
         music = Play.manager.get("audio/music/buckbumble.mp3",Music.class);
         music.setLooping(true);
         music.play();
 
+
+
         // Buttons
-        ImageButton playButton = createImageButton("img/play01.png", "img/play02.png", new Runnable() {
-            @Override
-            public void run() {
-                game.setScreen(new PlayScreen(game));
-            }
-        });
+        playButton = createImageButton("img/play01.png", "img/play02.png", () -> game.setScreen(new PlayScreen(game)));
+        leaderboardButton = createImageButton("img/leaderboard01.png", "img/leaderboard02.png", () -> {});
+        tutorialButton = createImageButton("img/option01.png", "img/option02.png", () -> {});
+        exitButton = createImageButton("img/restart01.png", "img/restart02.png", Gdx.app::exit);
 
-        ImageButton leaderboardButton = createImageButton("img/leaderboard01.png", "img/leaderboard02.png", new Runnable() {
-            @Override
-            public void run() {
-                // Switch to LeaderboardScreen
-            }
-        });
 
-        ImageButton tutorialButton = createImageButton("img/option01.png", "img/option02.png", new Runnable() {
-            @Override
-            public void run() {
-                // Switch to TutorialScreen
-            }
-        });
 
-        ImageButton exitButton = createImageButton("img/restart01.png", "img/restart02.png", new Runnable() {
-            @Override
-            public void run() {
-                Gdx.app.exit();
-            }
-        });
 
-        int buttonSpacing = 10; // Adjust as needed for the spacing between buttons
-        int initialY = 300; // Adjust as needed for the initial Y position of the first button
 
-        playButton.setPosition(220, initialY);
-        leaderboardButton.setPosition(220, initialY - (playButton.getHeight() + buttonSpacing));
-        tutorialButton.setPosition(220, initialY - 2 * (playButton.getHeight() + buttonSpacing));
-        exitButton.setPosition(220, initialY - 3 * (playButton.getHeight() + buttonSpacing));
 
-        // Add buttons to stage
-        stage.addActor(playButton);
-        stage.addActor(leaderboardButton);
-        stage.addActor(tutorialButton);
-        stage.addActor(exitButton);
+        table.center();
+        table.add(playButton).padBottom(10).row();
+        table.add(leaderboardButton).padBottom(10).row();
+        table.add(tutorialButton).padBottom(10).row();
+        table.add(exitButton);
+
     }
+
+
 
     private ImageButton createImageButton(String upPath, String downPath, final Runnable onClick) {
         Texture upTexture = new Texture(Gdx.files.internal(upPath));
@@ -111,7 +109,63 @@ public class MainMenuScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+
+
+        final int minWidth = 800;
+        final int minHeight = 600;
+
+        float scaleFactorWidth = (float) width / minWidth;
+        float scaleFactorHeight = (float) height / minHeight;
+        float scaleFactor = Math.min(scaleFactorWidth, scaleFactorHeight);
+
+
+        float scalingModifier = 1.0f;
+        if (width > minWidth || height > minHeight) {
+            scalingModifier = 1.5f;
+        }
+        scaleFactor *= scalingModifier;
+
+
+        updateButtonSizes(scaleFactor);
     }
+
+    private void updateButtonSizes(float scaleFactor) {
+
+        if (table == null) {
+            return;
+        }
+
+        float baseSize = 72;
+
+        table.clearChildren();
+        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, tutorialButton, exitButton)) {
+            float newSize = baseSize * scaleFactor;
+            button.setSize(newSize, newSize); // Apply new size
+            table.add(button).size(newSize, newSize).padBottom(10 * scaleFactor).row();
+        }
+
+        table.pack();
+
+
+        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, tutorialButton, exitButton)) {
+
+            button.setSize(baseSize * scaleFactor, baseSize * scaleFactor);
+
+            button.getImage().setScale(scaleFactor);
+        }
+
+
+        table.clearChildren();
+        table.add(playButton).size(playButton.getWidth(), playButton.getHeight()).padBottom(10 * scaleFactor).row();
+        table.add(leaderboardButton).size(leaderboardButton.getWidth(), leaderboardButton.getHeight()).padBottom(10 * scaleFactor).row();
+        table.add(tutorialButton).size(tutorialButton.getWidth(), tutorialButton.getHeight()).padBottom(10 * scaleFactor).row();
+        table.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).row();
+
+
+        table.pack();
+    }
+
+
 
     @Override
     public void pause() {
@@ -132,8 +186,8 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
         bgTexture.dispose();
-        // Dispose of other textures if not managed by Skin
+
     }
 
-    // Implement other required methods (pause, resume, hide) as empty
+
 }
