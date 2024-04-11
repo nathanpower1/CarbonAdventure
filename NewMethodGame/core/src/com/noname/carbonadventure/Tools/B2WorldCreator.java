@@ -5,14 +5,15 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
-import com.noname.carbonadventure.Sprites.Bus_Stop;
-import com.noname.carbonadventure.Sprites.Gem;
-import com.noname.carbonadventure.Sprites.Walls;
+import com.noname.carbonadventure.Sprites.*;
 
 public class B2WorldCreator {
-    public B2WorldCreator(PlayScreen screen){
+    private Array<Dude> dudes;
+
+    public B2WorldCreator(PlayScreen screen) {
         World world = screen.getWorld();
         TiledMap map = screen.getMap();
         BodyDef bdef = new BodyDef();
@@ -25,7 +26,6 @@ public class B2WorldCreator {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
 
-
             new Walls(screen, rect);
 
         }
@@ -34,7 +34,14 @@ public class B2WorldCreator {
         for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-           new Gem(screen, rect);
+            new Gem(screen, rect);
+        }
+
+        // create Garbage objects
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            new Garbage(screen, rect);
         }
 
         // create Bus Stop objects
@@ -44,6 +51,17 @@ public class B2WorldCreator {
             new Bus_Stop(screen, rect);
         }
 
+        // create all dudes
+        dudes = new Array<Dude>();
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            dudes.add(new Dude(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
 
+
+        }
+    }
+
+    public Array<Dude> getDudes() {
+        return dudes;
     }
 }

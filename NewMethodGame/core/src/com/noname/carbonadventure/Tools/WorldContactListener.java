@@ -59,12 +59,23 @@ public class WorldContactListener implements ContactListener {
                         fixA.getFilterData().categoryBits == Play.PLAYER_BIT)
                     ((NPC) fixB.getUserData()).BodyHit();
                 break;
-            case Play.NPC_BIT | Play.OBJECT_BIT:
+            case Play.NPC_BIT | Play.OBJECT_BIT :
                 if (fixA.getFilterData().categoryBits == Play.NPC_BIT)
                     ((NPC) fixA.getUserData()).reverseVelocity(true, false);
                 else
                     ((NPC) fixB.getUserData()).reverseVelocity(true, false);
                 break;
+            case Play.NPC_BIT | Play.GEM_BIT :
+                if (fixA.getFilterData().categoryBits == Play.NPC_BIT)
+                    ((NPC) fixA.getUserData()).reverseVelocity(true, false);
+                else
+                    ((NPC) fixB.getUserData()).reverseVelocity(false, true);
+                break;
+            case Play.NPC_BIT | Play.NPC_BIT :
+                ((NPC) fixA.getUserData()).reverseVelocity(true, false);
+                ((NPC) fixB.getUserData()).reverseVelocity(true, false);
+                break;
+
 
             }
         }

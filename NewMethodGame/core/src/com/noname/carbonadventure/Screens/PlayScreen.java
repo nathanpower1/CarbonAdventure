@@ -41,9 +41,10 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer b2dr;
+    private B2WorldCreator creator;
 
     private Player player;
-    private Dude dude;
+
     private Music music;
 
 
@@ -74,7 +75,7 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         b2dr.setDrawBodies(false);
 
-        new B2WorldCreator(this);
+        creator = new B2WorldCreator(this);
 
         player = new Player(this);
 
@@ -86,7 +87,7 @@ public class PlayScreen implements Screen {
 
         gamecam.update();
 
-        dude = new Dude(this,1,1);
+
 
     }
 
@@ -120,7 +121,8 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         player.draw(game.batch);
-        dude.draw(game.batch);
+        for (NPC npc : creator.getDudes())
+            npc.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
@@ -154,7 +156,11 @@ public class PlayScreen implements Screen {
         world.step(1/60f,6,2);
 
         player.update(dt);
-        dude.update(dt);
+        for (NPC npc : creator.getDudes()){
+            npc.update(dt);
+            if (npc.getX() < player.getX() + 1)
+                npc.b2body.setActive(true);
+        }
         hud.update(dt);
 
         gamecam.position.x= player.b2body.getPosition().x;

@@ -21,9 +21,11 @@ public abstract class NPC extends Sprite {
         defineNPC();
 
         velocity = new Vector2(.1f,.1f);
+        b2body.setActive(false);
     }
 
     protected abstract void defineNPC();
+    public abstract void update(float dt);
 
     public abstract void BodyHit();
 
