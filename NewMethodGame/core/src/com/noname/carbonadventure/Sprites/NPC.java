@@ -18,4 +18,8 @@ public abstract class NPC extends Sprite {
     }
 
     protected abstract void defineNPC();
+
+    public abstract void BodyHit();
+
+
 }

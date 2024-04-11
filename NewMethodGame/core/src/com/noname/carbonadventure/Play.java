@@ -23,6 +23,7 @@ public class Play extends Game {
 
 	public static final short OBJECT_BIT = 16;
 	public static final short NPC_BIT = 32;
+	public static final short NPC_BODY_BIT = 32;
 
 	public SpriteBatch batch;
 
@@ -36,6 +37,7 @@ public class Play extends Game {
 		manager.load("audio/music/Wicked.mp3", Music.class);
 		manager.load("audio/music/buckbumble.mp3", Music.class);
 		manager.load("audio/sounds/Gem_Collect.wav", Sound.class);
+		manager.load("audio/sounds/cuh.wav", Sound.class);
 		manager.finishLoading();
 		 this.setScreen(new MainMenuScreen(this));
 

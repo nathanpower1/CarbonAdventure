@@ -118,12 +118,12 @@ public class Player extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
-        shape.setRadius(5 / Play.PPM);
+        shape.setRadius(8 / Play.PPM);
         fdef.filter.categoryBits = Play.PLAYER_BIT;
         fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT| Play.NPC_BIT;
 
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("body");
+        b2body.createFixture(fdef).setUserData("Player_body");
     }
 
 
