@@ -23,10 +23,10 @@ public class Player extends Sprite {
 
     private boolean runningRight;
 
-    public Player(World world, PlayScreen screen){
+    public Player(PlayScreen screen){
         //super(screen.getAtlas().findRegion("boy_down"));
         super(new Texture("player.png"));
-        this.world = world;
+        this.world = screen.getWorld();
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
@@ -120,7 +120,7 @@ public class Player extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(5 / Play.PPM);
         fdef.filter.categoryBits = Play.PLAYER_BIT;
-        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT;
+        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT| Play.NPC_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData("body");
