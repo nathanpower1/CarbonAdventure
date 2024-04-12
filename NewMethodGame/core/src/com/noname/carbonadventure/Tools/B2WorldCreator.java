@@ -1,6 +1,7 @@
 package com.noname.carbonadventure.Tools;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
@@ -21,43 +22,34 @@ public class B2WorldCreator {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        // create walls objects
-        for (MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-
-            new Walls(screen, rect);
-
-        }
-
-        // create Gems objects
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            new Gem(screen, rect);
-        }
-
-        // create Garbage objects
-        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            new Garbage(screen, rect);
-        }
-
-        // create Bus Stop objects
-        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
-            new Bus_Stop(screen, rect);
-        }
-
-        // create all dudes
-        dudes = new Array<Dude>();
-        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            dudes.add(new Dude(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
-
-
+        for (MapLayer layer : map.getLayers()) {
+            if ("Walls".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Walls(screen, rect);
+                }
+            } else if ("Gems".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Gem(screen, rect);
+                }
+            } else if ("Garbage".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Garbage(screen, rect);
+                }
+            } else if ("Bus_Stop".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Bus_Stop(screen, rect);
+                }
+            } else if ("Dudes".equals(layer.getName())) {
+                dudes = new Array<Dude>();
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    dudes.add(new Dude(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
+                }
+            }
         }
     }
 
