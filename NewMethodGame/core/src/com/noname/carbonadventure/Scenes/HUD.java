@@ -2,6 +2,7 @@ package com.noname.carbonadventure.Scenes;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,6 +16,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.sun.tools.javac.util.Name;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 
 import java.awt.*;
@@ -25,7 +29,12 @@ public class HUD implements Disposable {
     private Integer worldTimer;
     private float timeCount;
     private static Integer score;
-    private static Integer carbonMeter = 0;
+    private static Integer carbonMeter = 50;
+    private static final int MAX_CARBON = 100;
+    private WidgetGroup carbonMeterGroup;
+    private Image carbonMeterBase;
+    private Image carbonMeterFill;
+
 
     static Label carbonMeterLabel;
 
@@ -48,9 +57,16 @@ public class HUD implements Disposable {
     private Texture playerHeadTexture;
     private Image playerHeadImage;
 
+    private Texture carbonMeterTexture;
+
+    private float maxTime = 5.0f;
+    private float currentTime = 0.0f;
+    private Image timeBarBase;
+    private Image timeBarFill;
+    private Texture timeBarTexture;
 
 
-    public HUD(SpriteBatch sb){
+    public HUD(SpriteBatch sb) {
         this.UIatlas = new TextureAtlas("ui.atlas");
         this.playerHeadTexture = new Texture("img/Playerhead.png");
 
@@ -63,23 +79,63 @@ public class HUD implements Disposable {
         // Option 2: Scale the image
         this.playerHeadImage.setScale(0.5f, 0.75f);
 
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.GREEN);
+        pixmap.fill();
+        Texture carbonMeterTexture = new Texture(pixmap);
+        pixmap.dispose();
+
+        // Use this texture for the meter background and fill
+        TextureRegionDrawable carbonMeterDrawable = new TextureRegionDrawable(new TextureRegion(carbonMeterTexture));
+
+        carbonMeterBase = new Image(carbonMeterDrawable);
+        carbonMeterBase.setColor(Color.DARK_GRAY);
+        carbonMeterBase.setSize(1, 1);
+        carbonMeterBase.setPosition(38.8f, Play.V_HEIGHT - 14.5f);
+
+        // Carbon Meter Fill
+        carbonMeterFill = new Image(carbonMeterDrawable);
+        carbonMeterFill.setColor(Color.WHITE);
+        carbonMeterFill.setSize(0, 1);
+        carbonMeterFill.setPosition(38.8f, Play.V_HEIGHT - 14.5f);
+
+        Pixmap pixmapTime = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmapTime.setColor(Color.BLUE);
+        pixmapTime.fill();
+        timeBarTexture = new Texture(pixmapTime);
+        pixmapTime.dispose();
+
+        TextureRegionDrawable timeBarDrawable = new TextureRegionDrawable(new TextureRegion(timeBarTexture));
+        timeBarBase = new Image(timeBarDrawable);
+        timeBarBase.setColor(Color.DARK_GRAY);
+        timeBarBase.setSize(0, 20);
+        timeBarBase.setPosition(38.8f, Play.V_HEIGHT - 22.5f);
+
+        timeBarFill = new Image(timeBarDrawable);
+        timeBarFill.setColor(Color.BLUE);
+        timeBarFill.setSize(0, 20);
+        timeBarFill.setPosition(38.8f, Play.V_HEIGHT - 26.9f);
+
         //worldTimer = 3;
         //timeCount = 0;
         //score = null;
 
-        viewport = new FitViewport(Play.V_WIDTH,Play.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport,sb);
+        viewport = new FitViewport(Play.V_WIDTH, Play.V_HEIGHT, new OrthographicCamera());
+        stage = new Stage(viewport, sb);
 
         TextureAtlas.AtlasRegion charInfoRegion = UIatlas.findRegion("char_info");
         if (charInfoRegion != null) {
             this.charInfoImage = new Image(charInfoRegion);
-            // Set position and size of the image as needed
             charInfoImage.setPosition(5, Play.V_HEIGHT - charInfoImage.getHeight() - 30);
-            charInfoImage.setSize(100, 50); // Set size as needed, or use pack size
+            charInfoImage.setSize(100, 50);
 
             // Add to the stage
             stage.addActor(charInfoImage);
             stage.addActor(playerHeadImage);
+            stage.addActor(carbonMeterBase);
+            stage.addActor(carbonMeterFill);
+            stage.addActor(timeBarBase);
+            stage.addActor(timeBarFill);
         }
 
         //Table table = new Table();
@@ -108,34 +164,55 @@ public class HUD implements Disposable {
         //stage.addActor(table);
 
 
-
-
-
     }
 
     public void update(float dt) {
         //timeCount += dt;
         //if (timeCount >= 1) {
-            //if (worldTimer > 0) {
-                //worldTimer--;
-                //countdownLabel.setText(String.format("%03d", worldTimer));
-            //}
-            //timeCount = 0;
+        //if (worldTimer > 0) {
+        //worldTimer--;
+        //countdownLabel.setText(String.format("%03d", worldTimer));
         //}
+        //timeCount = 0;
+        //}
+        updateCarbonMeter();
+        updateCarbonMeter();
+        updateTimeBar(dt);
+    }
+
+    private void updateTimeBar(float dt) {
+        currentTime += dt;
+        if (currentTime > maxTime) {
+            currentTime = maxTime;
+        }
+        float width = 51.75f * (currentTime / maxTime);
+        timeBarFill.setSize(width, 6.25f);
+    }
+
+    private void updateCarbonMeter() {
+        float width = (float) carbonMeter / MAX_CARBON * 120;
+        carbonMeterFill.setSize(width, 6.25f);
+    }
+
+    public static void increaseCarbonMeter(int value) {
+        carbonMeter += value;
+        if (carbonMeter > MAX_CARBON) {
+            carbonMeter = MAX_CARBON;
+        }
     }
 
     //public static void addScore(int value){
-        //score += value;
-        //scoreLabel.setText(String.format("%01d", score));
+    //score += value;
+    //scoreLabel.setText(String.format("%01d", score));
     //}
 
     public static void addGemIcon() {
-        TextureRegion gemRegion = new TextureRegion(new Texture("img/gem.png")); // Consider loading this once, not every time a gem is collected.
+        TextureRegion gemRegion = new TextureRegion(new Texture("img/croppedGem.png"));
         Image gemImage = new Image(gemRegion);
         // Calculate position based on the number of already collected gems
         int offset = gemIcons.size * (ICON_SIZE + ICON_PADDING);
-        gemImage.setPosition(40 + offset, Play.V_HEIGHT - 50); // Adjust y-position according to your HUD layout
-        gemImage.setSize(ICON_SIZE, ICON_SIZE);
+        gemImage.setPosition(+offset, Play.V_HEIGHT - 93);
+        gemImage.setSize(100, 100);
 
         stage.addActor(gemImage);
         gemIcons.add(gemImage);
@@ -145,6 +222,11 @@ public class HUD implements Disposable {
     @Override
     public void dispose() {
         stage.dispose();
+        carbonMeterTexture.dispose();
+        if (timeBarTexture != null) {
+            timeBarTexture.dispose();
+        }
     }
 }
+
 
