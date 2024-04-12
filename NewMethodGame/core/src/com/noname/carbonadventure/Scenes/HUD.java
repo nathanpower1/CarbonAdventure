@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.noname.carbonadventure.Sprites.Player;
 import com.sun.tools.javac.util.Name;
 
 import java.awt.*;
@@ -24,14 +25,17 @@ public class HUD implements Disposable {
 
     Label countdownLabel;
     static Label scoreLabel;
+    private Player player;
     Label timelabel;
 
     Label levellabel;
     Label worldlabel;
     Label playerlabel;
-    public HUD(SpriteBatch sb){
+    public HUD(SpriteBatch sb, Player player){
 
-        worldTimer = 3;
+        this.player = player;
+
+        worldTimer = 10;
         timeCount = 0;
         score = 0;
 
@@ -66,12 +70,20 @@ public class HUD implements Disposable {
 
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+
     public void update(float dt) {
         timeCount += dt;
         if (timeCount >= 1) {
             if (worldTimer > 0) {
                 worldTimer--;
                 countdownLabel.setText(String.format("%03d", worldTimer));
+            }
+            else {
+                Play.player.dead();
             }
             timeCount = 0;
         }

@@ -24,7 +24,8 @@ public class Bus_Stop extends InteractiveTileObject{
     @Override
     public void OnBodyHit() {
         Gdx.app.log("Bus Stop Collision","");
-        Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+        //Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+        Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
         //setCategoryFilter(Play.DESTROYED_BIT);
        // getCell().setTile(null);
        // HUD.addScore(100);
