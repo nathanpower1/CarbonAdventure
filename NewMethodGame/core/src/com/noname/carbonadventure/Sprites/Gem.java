@@ -27,7 +27,8 @@ public class Gem extends InteractiveTileObject{
         Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
         setCategoryFilter(Play.DESTROYED_BIT);
         getCell().setTile(null);
-        HUD.addScore(1);
+        //HUD.addScore(1);
+        HUD.addGemIcon();
 
 
     }

@@ -31,6 +31,7 @@ public class PlayScreen implements Screen {
     private Play game;
     private TextureAtlas atlas;
     private TextureAtlas NPCatlas;
+    private TextureAtlas UIatlas;
     private HUD hud;
     private OrthographicCamera gamecam;
 
@@ -58,6 +59,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
+        UIatlas = new TextureAtlas("ui.atlas");
 
         this.game = game;
         //create cam to follow player
@@ -102,6 +104,10 @@ public class PlayScreen implements Screen {
     }
     public TextureAtlas getNPCAtlas(){
         return NPCatlas;
+    }
+
+    public TextureAtlas getUIatlas(){
+        return UIatlas;
     }
 
     @Override
