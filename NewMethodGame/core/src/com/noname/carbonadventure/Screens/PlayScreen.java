@@ -151,18 +151,27 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float dt){
         //up
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && player.b2body.getLinearVelocity().y <=2)
-            player.b2body.applyLinearImpulse(new Vector2(0,1f), player.b2body.getWorldCenter(),true);
-        //down
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)  && player.b2body.getLinearVelocity().y >= -2)
-            player.b2body.applyLinearImpulse(new Vector2(0,-1f), player.b2body.getWorldCenter(),true);
-        //right
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)  && player.b2body.getLinearVelocity().x <=2)
-            player.b2body.applyLinearImpulse(new Vector2(1f,0), player.b2body.getWorldCenter(),true);
-        //right
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)  && player.b2body.getLinearVelocity().x >= -2)
-            player.b2body.applyLinearImpulse(new Vector2(-1f,0), player.b2body.getWorldCenter(),true);
+        Vector2 currentVelocity = player.b2body.getLinearVelocity();
+        Vector2 newVelocity = new Vector2(0, 0);
+        float impulseStrength = 0.5f;
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            newVelocity.y = impulseStrength;
+            currentVelocity.x = 0;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            newVelocity.y = -impulseStrength;
+            currentVelocity.x = 0;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            newVelocity.x = impulseStrength;
+            currentVelocity.y = 0;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            newVelocity.x = -impulseStrength;
+            currentVelocity.y = 0;
+        }
+
+        player.b2body.setLinearVelocity(currentVelocity.add(newVelocity));
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             isMiniMapVisible = !isMiniMapVisible;
         }
@@ -189,9 +198,11 @@ public class PlayScreen implements Screen {
         gamecam.update();
         renderer.setView(gamecam);
 
-        if (!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT) &&
-                !Gdx.input.isKeyPressed(Input.Keys.UP) && !Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player.b2body.setLinearVelocity(0, 0);
+        Vector2 velocity = player.b2body.getLinearVelocity();
+        float maxSpeed = 1f;
+        if (velocity.len() > maxSpeed) {
+            velocity = velocity.nor().scl(maxSpeed);
+            player.b2body.setLinearVelocity(velocity);
         }
     }
 
