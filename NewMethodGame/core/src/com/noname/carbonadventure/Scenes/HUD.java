@@ -52,7 +52,7 @@ public class HUD implements Disposable {
         timelabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         //levellabel = new Label("1-1", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         worldlabel = new Label("Carbon Meter", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        // worldlabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        //worldlabel = new Label("WORLD", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         playerlabel = new Label("GEM COUNTER", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(playerlabel).expandX().padTop(10);

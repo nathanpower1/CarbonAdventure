@@ -23,6 +23,7 @@ import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
+import com.noname.carbonadventure.Scenes.MiniMap;
 
 public class PlayScreen implements Screen {
     private Play game;
@@ -41,6 +42,10 @@ public class PlayScreen implements Screen {
 
     private Player player;
     private Music music;
+
+    private MiniMap miniMap;
+
+    private boolean isMiniMapVisible = false;
 
 
 
@@ -74,6 +79,7 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
+        miniMap = new MiniMap(game.batch, 2000, 2000, 100, 100);
 
 
         gamecam.zoom = 1;
@@ -115,6 +121,11 @@ public class PlayScreen implements Screen {
         hud.stage.draw();
 
 
+            if (isMiniMapVisible) {
+                miniMap.render(); // Use the instance method here
+            }
+
+
 
     }
 
@@ -132,6 +143,9 @@ public class PlayScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)  && player.b2body.getLinearVelocity().x >= -2)
             player.b2body.applyLinearImpulse(new Vector2(-1f,0), player.b2body.getWorldCenter(),true);
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            isMiniMapVisible = !isMiniMapVisible;
+        }
 
 
     }
