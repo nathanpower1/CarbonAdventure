@@ -29,7 +29,7 @@ public class HUD implements Disposable {
     private Integer worldTimer;
     private float timeCount;
     private static Integer score;
-    private static Integer carbonMeter = 50;
+    private static Integer carbonMeter = 100;
     private static final int MAX_CARBON = 100;
     private WidgetGroup carbonMeterGroup;
     private Image carbonMeterBase;
@@ -59,7 +59,7 @@ public class HUD implements Disposable {
 
     private Texture carbonMeterTexture;
 
-    private float maxTime = 5.0f;
+    private float maxTime = 120;
     private float currentTime = 0.0f;
     private Image timeBarBase;
     private Image timeBarFill;
@@ -190,7 +190,7 @@ public class HUD implements Disposable {
     }
 
     private void updateCarbonMeter() {
-        float width = (float) carbonMeter / MAX_CARBON * 120;
+        float width = (float) carbonMeter / MAX_CARBON * 60.5f;
         carbonMeterFill.setSize(width, 6.25f);
     }
 
