@@ -10,12 +10,13 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
+import com.noname.carbonadventure.Screens.PlayScreen;
 
 public class Walls extends InteractiveTileObject{
-    public Walls(World world, TiledMap map, Rectangle bounds){
-        super(world,map,bounds);
+    public Walls(PlayScreen screen, Rectangle bounds){
+        super(screen,bounds);
         fixture.setUserData(this);
-        //setCategoryFilter(Play.GEM_BIT);
+        setCategoryFilter(Play.OBJECT_BIT);
 
 
     }

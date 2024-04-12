@@ -20,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.*;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
+import com.noname.carbonadventure.Sprites.Dude;
+import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
@@ -28,6 +30,7 @@ import com.noname.carbonadventure.Scenes.MiniMap;
 public class PlayScreen implements Screen {
     private Play game;
     private TextureAtlas atlas;
+    private TextureAtlas NPCatlas;
     private HUD hud;
     private OrthographicCamera gamecam;
 
@@ -39,8 +42,10 @@ public class PlayScreen implements Screen {
 
     private World world;
     private Box2DDebugRenderer b2dr;
+    private B2WorldCreator creator;
 
     private Player player;
+
     private Music music;
 
     private MiniMap miniMap;
@@ -52,6 +57,8 @@ public class PlayScreen implements Screen {
 
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
+        NPCatlas = new TextureAtlas("NPC.atlas");
+
         this.game = game;
         //create cam to follow player
         gamecam = new OrthographicCamera();
@@ -73,9 +80,9 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         b2dr.setDrawBodies(false);
 
-        new B2WorldCreator(world,map);
+        creator = new B2WorldCreator(this);
 
-        player = new Player(world, this);
+        player = new Player(this);
 
         world.setContactListener(new WorldContactListener());
 
@@ -86,10 +93,15 @@ public class PlayScreen implements Screen {
 
         gamecam.update();
 
+
+
     }
 
     public TextureAtlas getAtlas(){
         return atlas;
+    }
+    public TextureAtlas getNPCAtlas(){
+        return NPCatlas;
     }
 
     @Override
@@ -115,6 +127,8 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         player.draw(game.batch);
+        for (NPC npc : creator.getDudes())
+            npc.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
@@ -156,6 +170,11 @@ public class PlayScreen implements Screen {
         world.step(1/60f,6,2);
 
         player.update(dt);
+        for (NPC npc : creator.getDudes()){
+            npc.update(dt);
+            if (npc.getX() < player.getX() + 1)
+                npc.b2body.setActive(true);
+        }
         hud.update(dt);
 
         gamecam.position.x= player.b2body.getPosition().x;
@@ -175,6 +194,14 @@ public class PlayScreen implements Screen {
         gamePort.update(width,height);
 
 
+    }
+
+    public  TiledMap getMap(){
+        return map;
+    }
+
+    public World getWorld(){
+        return world;
     }
 
     @Override

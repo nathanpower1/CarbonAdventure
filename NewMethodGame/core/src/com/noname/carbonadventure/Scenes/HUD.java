@@ -34,7 +34,7 @@ public class HUD implements Disposable {
     Label playerlabel;
     public HUD(SpriteBatch sb){
 
-        worldTimer = 300;
+        worldTimer = 3;
         timeCount = 0;
         score = 0;
 
@@ -72,11 +72,13 @@ public class HUD implements Disposable {
 
     }
 
-    public void update(float dt){
+    public void update(float dt) {
         timeCount += dt;
-        if(timeCount >= 1){
-            worldTimer--;
-            countdownLabel.setText(String.format("%03d", worldTimer));
+        if (timeCount >= 1) {
+            if (worldTimer > 0) {
+                worldTimer--;
+                countdownLabel.setText(String.format("%03d", worldTimer));
+            }
             timeCount = 0;
         }
     }
