@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -52,6 +53,8 @@ public class PlayScreen implements Screen {
     private MiniMap miniMap;
 
     private boolean isMiniMapVisible = false;
+    private int mapWidth;
+    private int mapHeight;
 
 
 
@@ -94,6 +97,9 @@ public class PlayScreen implements Screen {
         gamecam.zoom = 1;
 
         gamecam.update();
+
+        mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
+        mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
 
 
 
@@ -179,6 +185,23 @@ public class PlayScreen implements Screen {
 
     }
 
+    public void updateCamera(float delta) {
+        float posX = player.b2body.getPosition().x;
+        float posY = player.b2body.getPosition().y;
+
+        float camHalfWidth = gamecam.viewportWidth * 0.5f;
+        float camHalfHeight = gamecam.viewportHeight * 0.5f;
+
+        float mapWidthInUnits = mapWidth / Play.PPM;
+        float mapHeightInUnits = mapHeight / Play.PPM;
+
+        float clampedX = MathUtils.clamp(posX, camHalfWidth, mapWidthInUnits - camHalfWidth);
+        float clampedY = MathUtils.clamp(posY, camHalfHeight, mapHeightInUnits - camHalfHeight);
+
+        gamecam.position.set(clampedX, clampedY, 0);
+        gamecam.update();
+    }
+
     public void update(float dt){
         handleInput(dt);
 
@@ -195,6 +218,7 @@ public class PlayScreen implements Screen {
         gamecam.position.x= player.b2body.getPosition().x;
         gamecam.position.y= player.b2body.getPosition().y;
 
+        updateCamera(dt);
         gamecam.update();
         renderer.setView(gamecam);
 
