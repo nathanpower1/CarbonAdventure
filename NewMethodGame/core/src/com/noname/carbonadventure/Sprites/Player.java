@@ -131,7 +131,7 @@ public class Player extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(8 / Play.PPM);
         fdef.filter.categoryBits = Play.PLAYER_BIT;
-        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT| Play.NPC_BIT;
+        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT| Play.NPC_BIT | Play.FINISH_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData("Player_body");

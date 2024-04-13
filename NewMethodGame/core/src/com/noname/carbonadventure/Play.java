@@ -27,6 +27,8 @@ public class Play extends Game {
 
 	public static final short OBJECT_BIT = 16;
 	public static final short NPC_BIT = 32;
+
+	public static final short FINISH_BIT = 64;
 	public static Player player;
 
 	public SpriteBatch batch;

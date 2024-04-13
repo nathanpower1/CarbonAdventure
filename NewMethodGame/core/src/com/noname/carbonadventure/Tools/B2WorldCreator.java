@@ -49,6 +49,17 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     dudes.add(new Dude(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
                 }
+            } else if ("Finish".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Finish(screen, rect);
+                }
+            } else if ("Barricade".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Barricade(screen, rect);
+                }
+
             }
         }
     }
