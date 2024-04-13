@@ -180,34 +180,37 @@ public class PlayScreen implements Screen {
         return false;
     }
 
-    public void handleInput(float dt){
-        //up
-        Vector2 currentVelocity = player.b2body.getLinearVelocity();
-        Vector2 newVelocity = new Vector2(0, 0);
-        float impulseStrength = 0.5f;
+    public void handleInput(float dt) {
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            newVelocity.y = impulseStrength;
-            currentVelocity.x = 0;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            newVelocity.y = -impulseStrength;
-            currentVelocity.x = 0;
+        if (player.currentState != Player.State.DEAD) {
+            //up
+            Vector2 currentVelocity = player.b2body.getLinearVelocity();
+            Vector2 newVelocity = new Vector2(0, 0);
+            float impulseStrength = 0.5f;
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                newVelocity.y = impulseStrength;
+                currentVelocity.x = 0;
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+                newVelocity.y = -impulseStrength;
+                currentVelocity.x = 0;
+            }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+                newVelocity.x = impulseStrength;
+                currentVelocity.y = 0;
+            } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+                newVelocity.x = -impulseStrength;
+                currentVelocity.y = 0;
+            }
+
+            player.b2body.setLinearVelocity(currentVelocity.add(newVelocity));
+            if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+                isMiniMapVisible = !isMiniMapVisible;
+            }
+
+
         }
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-            newVelocity.x = impulseStrength;
-            currentVelocity.y = 0;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-            newVelocity.x = -impulseStrength;
-            currentVelocity.y = 0;
-        }
-
-        player.b2body.setLinearVelocity(currentVelocity.add(newVelocity));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-            isMiniMapVisible = !isMiniMapVisible;
-        }
-
-
     }
 
     public void updateCamera(float delta) {
