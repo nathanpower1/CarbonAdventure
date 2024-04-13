@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="35">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="60" height="60" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="35">
  <tileset firstgid="1" source="city.tsx"/>
  <tileset firstgid="4097" source="Gems.tsx"/>
  <layer id="3" name="Tile Layer bottom" width="60" height="60">
@@ -231,4 +231,7 @@
   <object id="28" x="541" y="625" width="20.5" height="15"/>
   <object id="29" x="702.5" y="623" width="18" height="17.5"/>
  </objectgroup>
+ <objectgroup id="10" name="Bus_Stop"/>
+ <objectgroup id="11" name="Dudes"/>
+ <objectgroup id="12" name="Garbage"/>
 </map>

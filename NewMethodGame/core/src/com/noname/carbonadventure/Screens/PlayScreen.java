@@ -71,7 +71,7 @@ public class PlayScreen implements Screen {
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
 
         // create HUD
-        hud = new HUD(game.batch);
+        //hud = new HUD(game.batch);
 
         //create map
         loader = new TmxMapLoader();
@@ -88,6 +88,12 @@ public class PlayScreen implements Screen {
         creator = new B2WorldCreator(this);
 
         player = new Player(this);
+        Play.player = player;
+
+        // create HUD
+        hud = new HUD(game.batch , player);
+
+
 
         world.setContactListener(new WorldContactListener());
 
@@ -121,6 +127,13 @@ public class PlayScreen implements Screen {
 
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+
+
+
     @Override
     public void render(float delta) {
         update(delta);
@@ -146,6 +159,11 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
 
+        if(gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
+
 
             if (isMiniMapVisible) {
                 miniMap.render(); // Use the instance method here
@@ -153,6 +171,13 @@ public class PlayScreen implements Screen {
 
 
 
+    }
+
+    public boolean gameOver(){
+        if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3){
+            return true;
+        }
+        return false;
     }
 
     public void handleInput(float dt){
@@ -215,8 +240,14 @@ public class PlayScreen implements Screen {
         }
         hud.update(dt);
 
-        gamecam.position.x= player.b2body.getPosition().x;
-        gamecam.position.y= player.b2body.getPosition().y;
+        if(player.currentState != Player.State.DEAD){
+            gamecam.position.x= player.b2body.getPosition().x;
+            gamecam.position.y= player.b2body.getPosition().y;
+
+        }
+
+       // gamecam.position.x= player.b2body.getPosition().x;
+       // gamecam.position.y= player.b2body.getPosition().y;
 
         updateCamera(dt);
         gamecam.update();

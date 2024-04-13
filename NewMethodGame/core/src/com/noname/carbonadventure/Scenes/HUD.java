@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.noname.carbonadventure.Sprites.Player;
 import com.sun.tools.javac.util.Name;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -40,6 +41,7 @@ public class HUD implements Disposable {
 
     Label countdownLabel;
     static Label scoreLabel;
+    private Player player;
     Label timelabel;
 
     Label levellabel;
@@ -66,7 +68,7 @@ public class HUD implements Disposable {
     private Texture timeBarTexture;
 
 
-    public HUD(SpriteBatch sb) {
+    public HUD(SpriteBatch sb, Player player) {
         this.UIatlas = new TextureAtlas("ui.atlas");
         this.playerHeadTexture = new Texture("img/Playerhead.png");
 
@@ -78,6 +80,8 @@ public class HUD implements Disposable {
 
         // Option 2: Scale the image
         this.playerHeadImage.setScale(0.5f, 0.75f);
+
+        this.player = player;
 
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.GREEN);
@@ -166,15 +170,23 @@ public class HUD implements Disposable {
 
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+
     public void update(float dt) {
-        //timeCount += dt;
-        //if (timeCount >= 1) {
-        //if (worldTimer > 0) {
-        //worldTimer--;
-        //countdownLabel.setText(String.format("%03d", worldTimer));
-        //}
-        //timeCount = 0;
-        //}
+        timeCount += dt;
+        if (timeCount >= 1) {
+            if (worldTimer > 0) {
+                worldTimer--;
+                countdownLabel.setText(String.format("%03d", worldTimer));
+            }
+            else {
+                Play.player.dead();
+            }
+            timeCount = 0;
+
         updateCarbonMeter();
         updateCarbonMeter();
         updateTimeBar(dt);

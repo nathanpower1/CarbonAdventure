@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.noname.carbonadventure.Sprites.InteractiveTileObject;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Sprites.NPC;
+import com.noname.carbonadventure.Sprites.Player;
 
 
 public class WorldContactListener implements ContactListener {
