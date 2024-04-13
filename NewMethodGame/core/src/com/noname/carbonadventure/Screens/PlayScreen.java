@@ -1,27 +1,22 @@
 package com.noname.carbonadventure.Screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.viewport.*;
 import com.noname.carbonadventure.Play;
+import com.noname.carbonadventure.Scenes.GameMenu;
 import com.noname.carbonadventure.Scenes.HUD;
-import com.noname.carbonadventure.Sprites.Dude;
 import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
@@ -56,6 +51,7 @@ public class PlayScreen implements Screen {
     private int mapWidth;
     private int mapHeight;
 
+    private GameMenu gameMenu;
 
 
 
@@ -93,6 +89,10 @@ public class PlayScreen implements Screen {
         // create HUD
         hud = new HUD(game.batch , player);
 
+        gameMenu = new GameMenu(game);
+
+
+
 
 
         world.setContactListener(new WorldContactListener());
@@ -111,6 +111,9 @@ public class PlayScreen implements Screen {
 
     }
 
+
+
+
     public TextureAtlas getAtlas(){
         return atlas;
     }
@@ -125,6 +128,7 @@ public class PlayScreen implements Screen {
     @Override
     public void show() {
 
+
     }
 
     public Player getPlayer() {
@@ -136,6 +140,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
+
         update(delta);
 
         Gdx.gl.glClearColor(0,0,0,1);
@@ -157,7 +162,9 @@ public class PlayScreen implements Screen {
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+
         hud.stage.draw();
+        gameMenu.render(delta);
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
@@ -267,6 +274,9 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         gamePort.update(width,height);
+        gameMenu.resize(width, height);
+
+
 
 
     }
@@ -301,7 +311,15 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
+        gameMenu.dispose();
 
 
     }
-}
+
+
+
+    }
+
+
+
+
