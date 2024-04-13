@@ -86,7 +86,7 @@ public class HUD implements Disposable {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(Color.GREEN);
         pixmap.fill();
-        Texture carbonMeterTexture = new Texture(pixmap);
+        this.carbonMeterTexture = new Texture(pixmap);
         pixmap.dispose();
 
         // Use this texture for the meter background and fill
@@ -120,7 +120,7 @@ public class HUD implements Disposable {
         timeBarFill.setSize(0, 20);
         timeBarFill.setPosition(38.8f, Play.V_HEIGHT - 26.9f);
 
-        //worldTimer = 3;
+        worldTimer = 3;
         //timeCount = 0;
         //score = null;
 
@@ -146,7 +146,7 @@ public class HUD implements Disposable {
         //table.top();
         //table.setFillParent(true);
 
-        //countdownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        countdownLabel = new Label(String.format("%03d",worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         //scoreLabel = new Label(String.format("%06d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         //scoreLabel = new Label(String.format("%01d",score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         //carbonMeterLabel = new Label(String.format("%07d", carbonMeter), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -181,15 +181,15 @@ public class HUD implements Disposable {
             if (worldTimer > 0) {
                 worldTimer--;
                 countdownLabel.setText(String.format("%03d", worldTimer));
-            }
-            else {
+            } else {
                 Play.player.dead();
             }
             timeCount = 0;
 
-        updateCarbonMeter();
-        updateCarbonMeter();
-        updateTimeBar(dt);
+            updateCarbonMeter();
+            updateCarbonMeter();
+            updateTimeBar(dt);
+        }
     }
 
     private void updateTimeBar(float dt) {
