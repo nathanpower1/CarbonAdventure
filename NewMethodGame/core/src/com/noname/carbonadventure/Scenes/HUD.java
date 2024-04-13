@@ -120,7 +120,7 @@ public class HUD implements Disposable {
         timeBarFill.setSize(0, 20);
         timeBarFill.setPosition(38.8f, Play.V_HEIGHT - 26.9f);
 
-        worldTimer = 3;
+        worldTimer = 300;
         //timeCount = 0;
         //score = null;
 
