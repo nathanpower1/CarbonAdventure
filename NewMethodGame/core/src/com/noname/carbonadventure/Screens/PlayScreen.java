@@ -14,6 +14,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -25,11 +26,13 @@ import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
+import com.noname.carbonadventure.Scenes.MiniMap;
 
 public class PlayScreen implements Screen {
     private Play game;
     private TextureAtlas atlas;
     private TextureAtlas NPCatlas;
+    private TextureAtlas UIatlas;
     private HUD hud;
     private OrthographicCamera gamecam;
 
@@ -47,12 +50,19 @@ public class PlayScreen implements Screen {
 
     private Music music;
 
+    private MiniMap miniMap;
+
+    private boolean isMiniMapVisible = false;
+    private int mapWidth;
+    private int mapHeight;
+
 
 
 
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
+        UIatlas = new TextureAtlas("ui.atlas");
 
         this.game = game;
         //create cam to follow player
@@ -60,7 +70,8 @@ public class PlayScreen implements Screen {
         //create fitview to maintain aspect ratio
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
 
-
+        // create HUD
+        //hud = new HUD(game.batch);
 
         //create map
         loader = new TmxMapLoader();
@@ -86,11 +97,15 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldContactListener());
 
+        miniMap = new MiniMap(game.batch, 2000, 2000, 100, 100);
 
 
         gamecam.zoom = 1;
 
         gamecam.update();
+
+        mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
+        mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
 
 
 
@@ -101,6 +116,10 @@ public class PlayScreen implements Screen {
     }
     public TextureAtlas getNPCAtlas(){
         return NPCatlas;
+    }
+
+    public TextureAtlas getUIatlas(){
+        return UIatlas;
     }
 
     @Override
@@ -146,6 +165,11 @@ public class PlayScreen implements Screen {
         }
 
 
+            if (isMiniMapVisible) {
+                miniMap.render(); // Use the instance method here
+            }
+
+
 
     }
 
@@ -157,22 +181,50 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt){
-        if(player.currentState != Player.State.DEAD) {
-            //up
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && player.b2body.getLinearVelocity().y <= 2)
-                player.b2body.applyLinearImpulse(new Vector2(0, 1f), player.b2body.getWorldCenter(), true);
-            //down
-            if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && player.b2body.getLinearVelocity().y >= -2)
-                player.b2body.applyLinearImpulse(new Vector2(0, -1f), player.b2body.getWorldCenter(), true);
-            //right
-            if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && player.b2body.getLinearVelocity().x <= 2)
-                player.b2body.applyLinearImpulse(new Vector2(1f, 0), player.b2body.getWorldCenter(), true);
-            //right
-            if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT) && player.b2body.getLinearVelocity().x >= -2)
-                player.b2body.applyLinearImpulse(new Vector2(-1f, 0), player.b2body.getWorldCenter(), true);
+        //up
+        Vector2 currentVelocity = player.b2body.getLinearVelocity();
+        Vector2 newVelocity = new Vector2(0, 0);
+        float impulseStrength = 0.5f;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            newVelocity.y = impulseStrength;
+            currentVelocity.x = 0;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            newVelocity.y = -impulseStrength;
+            currentVelocity.x = 0;
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            newVelocity.x = impulseStrength;
+            currentVelocity.y = 0;
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            newVelocity.x = -impulseStrength;
+            currentVelocity.y = 0;
+        }
+
+        player.b2body.setLinearVelocity(currentVelocity.add(newVelocity));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            isMiniMapVisible = !isMiniMapVisible;
         }
 
 
+    }
+
+    public void updateCamera(float delta) {
+        float posX = player.b2body.getPosition().x;
+        float posY = player.b2body.getPosition().y;
+
+        float camHalfWidth = gamecam.viewportWidth * 0.5f;
+        float camHalfHeight = gamecam.viewportHeight * 0.5f;
+
+        float mapWidthInUnits = mapWidth / Play.PPM;
+        float mapHeightInUnits = mapHeight / Play.PPM;
+
+        float clampedX = MathUtils.clamp(posX, camHalfWidth, mapWidthInUnits - camHalfWidth);
+        float clampedY = MathUtils.clamp(posY, camHalfHeight, mapHeightInUnits - camHalfHeight);
+
+        gamecam.position.set(clampedX, clampedY, 0);
+        gamecam.update();
     }
 
     public void update(float dt){
@@ -197,12 +249,15 @@ public class PlayScreen implements Screen {
        // gamecam.position.x= player.b2body.getPosition().x;
        // gamecam.position.y= player.b2body.getPosition().y;
 
+        updateCamera(dt);
         gamecam.update();
         renderer.setView(gamecam);
 
-        if (!Gdx.input.isKeyPressed(Input.Keys.RIGHT) && !Gdx.input.isKeyPressed(Input.Keys.LEFT) &&
-                !Gdx.input.isKeyPressed(Input.Keys.UP) && !Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player.b2body.setLinearVelocity(0, 0);
+        Vector2 velocity = player.b2body.getLinearVelocity();
+        float maxSpeed = 1f;
+        if (velocity.len() > maxSpeed) {
+            velocity = velocity.nor().scl(maxSpeed);
+            player.b2body.setLinearVelocity(velocity);
         }
     }
 
