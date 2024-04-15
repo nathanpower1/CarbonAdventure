@@ -30,7 +30,6 @@ public class Bus_Stop extends InteractiveTileObject {
         Gdx.app.log("Bus Stop Collision", "");
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
 
-        // List of bus stops
         List<String> busStops = Arrays.asList("Stop 1", "Stop 2", "Stop 3");
 
         new Dialogue(screen.getStage(), "Welcome to Dublin Bus", "Please choose a stop you would like to travel to:", busStops);
@@ -46,7 +45,6 @@ public class Bus_Stop extends InteractiveTileObject {
     }
 
     public Stage getStage() {
-        return screen.getStage();  // Assuming PlayScreen has a method to get the Stage
-    }
+        return screen.getStage();  
 
 }
