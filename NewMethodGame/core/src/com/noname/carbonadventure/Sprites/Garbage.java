@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
+import com.noname.carbonadventure.Scenes.HUD;
 
 public class Garbage extends InteractiveTileObject{
     public Garbage(PlayScreen screen, Rectangle bounds){
@@ -23,12 +24,14 @@ public class Garbage extends InteractiveTileObject{
 
     @Override
     public void OnBodyHit() {
-        Gdx.app.log("Garbage Collision","");
-        Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
-        setCategoryFilter(Play.DESTROYED_BIT);
-        getCell().setTile(null);
-        //HUD.addScore(1);
-
-
+        if (HUD.getCarbonMeter() > 0) {
+            Gdx.app.log("Garbage Collision","");
+            Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+            setCategoryFilter(Play.DESTROYED_BIT);
+            getCell().setTile(null);
+            // Update carbon meter
+            HUD.increaseCarbonMeter(-5); // Decrease carbon meter by 5
+            //HUD.addScore(1);
+        }
     }
 }

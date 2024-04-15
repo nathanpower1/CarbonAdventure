@@ -55,7 +55,7 @@ public class Player extends Sprite {
         frames.clear();
 
 
-        definePlayer();
+        definePlayer(2,2);
         playerStand = new TextureRegion(getTexture(),0, 0, 16, 16);
         setBounds(0,0,16/Play.PPM,16/Play.PPM);
         setRegion(playerStand);
@@ -121,9 +121,9 @@ public class Player extends Sprite {
         }
 
 
-    public void definePlayer(){
+    public void definePlayer(float x, float y) {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(2,2);
+        bdef.position.set(x, y); // Set the initial position to the teleport destination
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -131,11 +131,15 @@ public class Player extends Sprite {
         CircleShape shape = new CircleShape();
         shape.setRadius(8 / Play.PPM);
         fdef.filter.categoryBits = Play.PLAYER_BIT;
-        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT| Play.NPC_BIT | Play.FINISH_BIT;
+        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT | Play.NPC_BIT;
 
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData("Player_body");
+
+        // Update the player's sprite position to match the new body position
+        setPosition(x - getWidth() / 2, y - getHeight() / 2);
     }
+
 
     public void dead() {
         // Stop the music

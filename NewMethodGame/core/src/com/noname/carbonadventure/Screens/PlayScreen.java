@@ -271,6 +271,18 @@ public class PlayScreen implements Screen {
         }
     }
 
+    public void teleportPlayer(Player player, float destinationX, float destinationY) {
+        // Schedule the teleportation to happen after the current physics step
+        Gdx.app.postRunnable(() -> {
+            // Set the new position of the player's Box2D body
+            player.b2body.setTransform(destinationX, destinationY, player.b2body.getAngle());
+
+            // Update the position of the sprite to match the new position of the Box2D body
+            player.setPosition(destinationX - player.getWidth() / 2, destinationY - player.getHeight() / 2);
+        });
+    }
+
+
     @Override
     public void resize(int width, int height) {
         gamePort.update(width,height);
