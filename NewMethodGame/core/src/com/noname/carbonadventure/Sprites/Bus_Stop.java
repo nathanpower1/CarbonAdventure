@@ -7,6 +7,7 @@ import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 import static com.noname.carbonadventure.Play.player;
+import com.noname.carbonadventure.Scenes.HUD;
 
 public class Bus_Stop extends InteractiveTileObject {
     private PlayScreen screen;
@@ -28,6 +29,8 @@ public class Bus_Stop extends InteractiveTileObject {
 
         // Teleport the player to the destination
         screen.teleportPlayer(player, destinationX, destinationY);
-    }
 
+        // Update carbon meter
+        HUD.increaseCarbonMeter(10); // Change the value as needed
+    }
 }
