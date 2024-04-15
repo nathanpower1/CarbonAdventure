@@ -2,34 +2,32 @@ package com.noname.carbonadventure.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
-public class Bus_Stop extends InteractiveTileObject{
-    public Bus_Stop(PlayScreen screen, Rectangle bounds){
-        super(screen,bounds);
+import static com.noname.carbonadventure.Play.player;
+
+public class Bus_Stop extends InteractiveTileObject {
+    private PlayScreen screen;
+
+    public Bus_Stop(PlayScreen screen, Rectangle bounds) {
+        super(screen, bounds);
+        this.screen = screen;
         fixture.setUserData(this);
         setCategoryFilter(Play.GEM_BIT);
-
-
     }
 
     @Override
     public void OnBodyHit() {
-        Gdx.app.log("Bus Stop Collision","");
-        //Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
-        Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        //setCategoryFilter(Play.DESTROYED_BIT);
-       // getCell().setTile(null);
-       // HUD.addScore(100);
+        Gdx.app.log("Bus Stop Collision", "");
 
+        // Determine the destination coordinates for teleportation
+        float destinationX = 3; // Change this to the desired X coordinate
+        float destinationY = 3; // Change this to the desired Y coordinate
 
+        // Teleport the player to the destination
+        screen.teleportPlayer(player, destinationX, destinationY);
     }
+
 }
