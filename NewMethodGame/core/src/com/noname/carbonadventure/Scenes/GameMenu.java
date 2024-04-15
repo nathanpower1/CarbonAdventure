@@ -17,9 +17,9 @@ import com.noname.carbonadventure.Screens.MainMenuScreen;
 
 public class GameMenu {
     private Stage stage;
-    private float yOffsetFromHead = 52;
+    private float yOffsetFromHead = 20;
     private Play game;
-    private ImageButton menuButton, quitButton, pauseButton;  // Declare buttons globally within the class
+    private ImageButton menuButton, quitButton, pauseButton,toggleButton;  // Declare buttons globally within the class
 
     public GameMenu(Play game) {
         this.game = game;
@@ -29,22 +29,39 @@ public class GameMenu {
     }
 
     private void initButtons() {
-        Texture menuTexture = new Texture(Gdx.files.internal("img/menubuttonmain.png"));
-        Texture quitTexture = new Texture(Gdx.files.internal("img/exit.png"));
-        Texture pauseTexture = new Texture(Gdx.files.internal("img/pause.png"));
+        Texture toggleTexture = new Texture(Gdx.files.internal("img/menuicon.png"));
+        Texture menuTexture = new Texture(Gdx.files.internal("img/ingamainmenubutton.png"));
+        Texture quitTexture = new Texture(Gdx.files.internal("img/QuitIngame.png"));
+        Texture pauseTexture = new Texture(Gdx.files.internal("img/Resumegame.png"));
 
+        toggleButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(toggleTexture)));
         menuButton = new ImageButton(new TextureRegionDrawable(menuTexture));
         quitButton = new ImageButton(new TextureRegionDrawable(quitTexture));
         pauseButton = new ImageButton(new TextureRegionDrawable(pauseTexture));
 
+        menuButton.setVisible(false);
+        quitButton.setVisible(false);
+        pauseButton.setVisible(false);
 
         addListeners();
+        stage.addActor(toggleButton);
         stage.addActor(menuButton);
         stage.addActor(quitButton);
         stage.addActor(pauseButton);
     }
 
     private void addListeners() {
+
+        toggleButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                boolean isVisible = menuButton.isVisible();
+                menuButton.setVisible(!isVisible);
+                quitButton.setVisible(!isVisible);
+                pauseButton.setVisible(!isVisible);
+            }
+        });
+
         menuButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -69,6 +86,8 @@ public class GameMenu {
 
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
+        stage.getCamera().position.set(Play.V_WIDTH / 2, Play.V_HEIGHT / 2, 0);
+        Gdx.input.setInputProcessor(stage);
         updateButtonPositions(width, height);
     }
 
@@ -76,18 +95,18 @@ public class GameMenu {
         float buttonWidth = menuButton.getWidth();
         float buttonHeight = menuButton.getHeight();
 
-        // Calculate new Y position
-        float buttonY = Play.V_HEIGHT - yOffsetFromHead; // Use your virtual screen height
+        // Calculate new Y positions using virtual screen height, stacked vertically
+        float baseY = Play.V_HEIGHT - yOffsetFromHead; // Use your virtual screen height
 
-        // Calculate X positions using virtual screen dimensions
-        float menuButtonX = 4; // Distance from the left edge of the virtual screen
-        float quitButtonX = menuButtonX + buttonWidth + 1; // Spacing between buttons
-        float pauseButtonX = quitButtonX + buttonWidth + 1;
+        // All buttons will have the same X position (right aligned)
+        float buttonsX = Play.V_WIDTH - buttonWidth - 4; // Right margin of 4
 
-        // Update button positions
-        menuButton.setPosition(menuButtonX, buttonY - buttonHeight); // Subtract the button height if needed
-        quitButton.setPosition(quitButtonX, buttonY - buttonHeight);
-        pauseButton.setPosition(pauseButtonX, buttonY - buttonHeight);
+        // Update button positions - align to the right, stacked vertically
+        // Note that we're adjusting the Y position for each button based on the one above it
+        toggleButton.setPosition(buttonsX, baseY);
+        menuButton.setPosition(buttonsX, baseY - (buttonHeight + 1)); // Positioned 1 unit below the toggle button
+        quitButton.setPosition(buttonsX, baseY - 2 * (buttonHeight + 1)); // Positioned 1 unit below the menu button
+        pauseButton.setPosition(buttonsX, baseY - 3 * (buttonHeight + 1)); // Positioned 1 unit below the quit button
     }
     public void dispose() {
         stage.dispose();
@@ -95,6 +114,7 @@ public class GameMenu {
         disposeButtonTexture(menuButton);
         disposeButtonTexture(quitButton);
         disposeButtonTexture(pauseButton);
+        disposeButtonTexture(toggleButton);
     }
 
 
