@@ -20,8 +20,6 @@ public class Dialogue {
 
 
         skin = new Skin(Gdx.files.internal("data/uiskin.json"));
-
-        // Create a dialog using the default skin
         dialog = new Dialog(title, skin);
 
         float dialogWidth = 200; // Width in pixels
@@ -33,7 +31,6 @@ public class Dialogue {
         dialog.setPosition(dialogX, dialogY);
         dialog.text(message);
 
-        // Add buttons to the dialog for each bus stop
         for (String stop : busStops) {
             dialog.button(stop, stop);
         }
