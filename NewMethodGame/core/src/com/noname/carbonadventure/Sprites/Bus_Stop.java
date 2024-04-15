@@ -2,34 +2,39 @@ package com.noname.carbonadventure.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.HUD;
+import com.noname.carbonadventure.Scenes.Dialogue;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
-public class Bus_Stop extends InteractiveTileObject{
-    public Bus_Stop(PlayScreen screen, Rectangle bounds){
-        super(screen,bounds);
+import java.util.Arrays;
+import java.util.List;
+
+public class Bus_Stop extends InteractiveTileObject {
+    private PlayScreen screen;
+    public Bus_Stop(PlayScreen screen, Rectangle bounds) {
+        super(screen, bounds);
+        this.screen = screen;
         fixture.setUserData(this);
         setCategoryFilter(Play.GEM_BIT);
-
 
     }
 
     @Override
     public void OnBodyHit() {
-        Gdx.app.log("Bus Stop Collision","");
-        //Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+        Gdx.app.log("Bus Stop Collision", "");
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        //setCategoryFilter(Play.DESTROYED_BIT);
-       // getCell().setTile(null);
-       // HUD.addScore(100);
 
+        // List of bus stops
+        List<String> busStops = Arrays.asList("Stop 1", "Stop 2", "Stop 3");
 
+        // Create and show the dialogue box with the list of bus stops
+        // Pass the stage from the PlayScreen to the Dialogue
+        new Dialogue(screen.getStage(), "Welcome to Dublin Bus", "Please choose a stop you would like to travel to:", busStops);
+    }
+
+    public Stage getStage() {
+        return screen.getStage();  // Assuming PlayScreen has a method to get the Stage
     }
 }
