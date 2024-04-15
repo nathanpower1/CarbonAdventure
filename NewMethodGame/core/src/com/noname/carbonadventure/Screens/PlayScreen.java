@@ -183,10 +183,7 @@ public class PlayScreen implements Screen {
                 miniMap.render(); // Use the instance method here
             }
 
-        stage.act(delta); // Important: Update the stage's actors
-        stage.draw(); // Draw the stage and its actors (including dialogue)
-
-        stage.act(delta); // Update HUD stage separately if needed
+        stage.act(delta); 
         stage.draw();
 
 
