@@ -170,6 +170,10 @@ public class HUD implements Disposable {
 
     }
 
+    public static int getCarbonMeter() {
+        return carbonMeter;
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
