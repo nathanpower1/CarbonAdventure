@@ -11,17 +11,24 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
+import com.noname.carbonadventure.Scenes.Dialogue;
 import com.noname.carbonadventure.Scenes.GameMenu;
 import com.noname.carbonadventure.Scenes.HUD;
+import com.noname.carbonadventure.Scenes.MiniMap;
 import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
-import com.noname.carbonadventure.Scenes.MiniMap;
+
+import static com.noname.carbonadventure.Scenes.HUD.stage;
 
 public class PlayScreen implements Screen {
     private Play game;
@@ -53,6 +60,10 @@ public class PlayScreen implements Screen {
 
     private GameMenu gameMenu;
 
+    private Dialogue currentDialogue;
+
+    private Rectangle currentBusStopBounds;
+
 
 
     public PlayScreen(Play game){
@@ -65,6 +76,7 @@ public class PlayScreen implements Screen {
         gamecam = new OrthographicCamera();
         //create fitview to maintain aspect ratio
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
+        stage = new Stage(new ExtendViewport(800, 480), game.batch);
 
         // create HUD
         //hud = new HUD(game.batch);
@@ -91,14 +103,9 @@ public class PlayScreen implements Screen {
 
         gameMenu = new GameMenu(game);
 
-
-
-
-
         world.setContactListener(new WorldContactListener());
 
         miniMap = new MiniMap(game.batch, 2000, 2000, 100, 100);
-
 
         gamecam.zoom = 1;
 
@@ -111,8 +118,9 @@ public class PlayScreen implements Screen {
 
     }
 
-
-
+    public Stage getStage() {
+        return stage;
+    }
 
     public TextureAtlas getAtlas(){
         return atlas;
@@ -153,7 +161,6 @@ public class PlayScreen implements Screen {
         b2dr.render(world,gamecam.combined);
 
 
-
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         player.draw(game.batch);
@@ -161,9 +168,9 @@ public class PlayScreen implements Screen {
             npc.draw(game.batch);
         game.batch.end();
 
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        game.batch.setProjectionMatrix(stage.getCamera().combined);
 
-        hud.stage.draw();
+        stage.draw();
         gameMenu.render(delta);
 
         if(gameOver()){
@@ -176,6 +183,8 @@ public class PlayScreen implements Screen {
                 miniMap.render(); // Use the instance method here
             }
 
+        stage.act(delta); 
+        stage.draw();
 
 
     }
