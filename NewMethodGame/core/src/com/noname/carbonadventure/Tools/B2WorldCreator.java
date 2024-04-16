@@ -70,50 +70,50 @@ public class B2WorldCreator {
             }else if ("Finish2".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Finish(screen, rect);
+                    new Finish2(screen, rect);
                 }
             } else if ("Barricade2".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Barricade(screen, rect);
+                    new Barricade2(screen, rect);
                 }
 
             }else if ("Gems2".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Gem(screen, rect);
+                    new Gem2(screen, rect);
                 }
             }else if ("Finish3".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Finish(screen, rect);
+                    new Finish3(screen, rect);
                 }
             } else if ("Barricade3".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Barricade(screen, rect);
+                    new Barricade3(screen, rect);
                 }
 
-            }else if ("Gems4".equals(layer.getName())) {
+            }else if ("Gems3".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Gem(screen, rect);
+                    new Gem3(screen, rect);
                 }
             }else if ("Finish4".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Finish(screen, rect);
+                    new Finish4(screen, rect);
                 }
             } else if ("Barricade4".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Barricade(screen, rect);
+                    new Barricade4(screen, rect);
                 }
 
             }else if ("Gems4".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    new Gem(screen, rect);
+                    new Gem4(screen, rect);
                 }
             }
         }
