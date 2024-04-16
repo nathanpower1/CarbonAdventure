@@ -45,6 +45,7 @@ public class Bus_Stop extends InteractiveTileObject {
     }
 
     public Stage getStage() {
-        return screen.getStage();  
+        return screen.getStage();
 
+    }
 }
