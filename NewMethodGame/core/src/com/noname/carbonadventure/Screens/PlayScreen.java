@@ -34,6 +34,8 @@ public class PlayScreen implements Screen {
     private Play game;
     private TextureAtlas atlas;
     private TextureAtlas NPCatlas;
+    private TextureAtlas fellaAtlas;
+
     private TextureAtlas UIatlas;
     private HUD hud;
     private OrthographicCamera gamecam;
@@ -69,6 +71,7 @@ public class PlayScreen implements Screen {
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
+        fellaAtlas = new TextureAtlas("fella.atlas");
         UIatlas = new TextureAtlas("ui.atlas");
 
         this.game = game;
@@ -129,6 +132,10 @@ public class PlayScreen implements Screen {
         return NPCatlas;
     }
 
+    public TextureAtlas getFellaAtlas(){
+        return fellaAtlas;
+    }
+
     public TextureAtlas getUIatlas(){
         return UIatlas;
     }
@@ -164,7 +171,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
         player.draw(game.batch);
-        for (NPC npc : creator.getDudes())
+        for (NPC npc : creator.getNPCs())
             npc.draw(game.batch);
         game.batch.end();
 
@@ -252,7 +259,7 @@ public class PlayScreen implements Screen {
         world.step(1/60f,6,2);
 
         player.update(dt);
-        for (NPC npc : creator.getDudes()){
+        for (NPC npc : creator.getNPCs()){
             npc.update(dt);
             if (npc.getX() < player.getX() + 1)
                 npc.b2body.setActive(true);

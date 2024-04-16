@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="21" nextobjectid="638">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="640">
  <tileset firstgid="1" source="city.tsx"/>
  <tileset firstgid="4097" source="garbage.tsx"/>
  <tileset firstgid="4132" source="Gems.tsx"/>
@@ -919,5 +919,8 @@
  <objectgroup id="20" name="Barricade4">
   <object id="634" x="2384.75" y="3173.75" width="14.5" height="10"/>
   <object id="635" x="2400.75" y="3173.75" width="14.5" height="9.75"/>
+ </objectgroup>
+ <objectgroup id="21" name="Fellas">
+  <object id="639" x="480" y="80"/>
  </objectgroup>
 </map>

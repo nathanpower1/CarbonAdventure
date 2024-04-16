@@ -20,16 +20,18 @@ public class Gem extends InteractiveTileObject {
         fixture.setUserData(this);
         setCategoryFilter(Play.GEM_BIT);
         gemCount++;
+        Gdx.app.log("Gem Collision Now", String.valueOf(gemCount));
     }
 
     @Override
     public void OnBodyHit() {
-        Gdx.app.log("Gem Collision", "");
+        Gdx.app.log("Gem Collision Before", String.valueOf(gemCount));
         Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
         setCategoryFilter(Play.DESTROYED_BIT);
         getCell().setTile(null);
         HUD.addGemIcon();
         gemCount--;
+        Gdx.app.log("Gem Collision Now", String.valueOf(gemCount));
 
         // Check if all gems are collected
         if (gemCount == 0) {

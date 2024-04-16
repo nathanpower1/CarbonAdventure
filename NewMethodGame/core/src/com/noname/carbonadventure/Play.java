@@ -46,6 +46,9 @@ public class Play extends Game {
 		manager.load("audio/sounds/cuh.wav", Sound.class);
 		manager.load("audio/sounds/booo.wav", Sound.class);
 		manager.load("audio/sounds/bus_honk.wav", Sound.class);
+		manager.load("audio/sounds/hello.wav", Sound.class);
+		manager.load("audio/sounds/car_horn.wav", Sound.class);
+
 
 
 		manager.finishLoading();
