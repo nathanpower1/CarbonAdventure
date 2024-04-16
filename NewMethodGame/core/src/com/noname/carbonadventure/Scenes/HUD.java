@@ -235,6 +235,15 @@ public class HUD implements Disposable {
 
     }
 
+    public static void resetGemIcons() {
+        for (Image gemIcon : gemIcons) {
+            gemIcon.remove(); // This will remove the icon from the stage
+        }
+        gemIcons.clear(); // Now clear the list to remove all references
+    }
+
+
+
     @Override
     public void dispose() {
         stage.dispose();
