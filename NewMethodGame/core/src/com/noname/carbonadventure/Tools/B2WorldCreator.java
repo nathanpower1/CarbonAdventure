@@ -14,6 +14,8 @@ import com.noname.carbonadventure.Sprites.*;
 public class B2WorldCreator {
     private Array<Dude> dudes;
     private Array<Fella> fellas;
+    private Array<Geezer> geezers;
+
 
     public B2WorldCreator(PlayScreen screen) {
         World world = screen.getWorld();
@@ -55,6 +57,12 @@ public class B2WorldCreator {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     fellas.add(new Fella(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
+                }
+            } else if ("Geezers".equals(layer.getName())) {
+                geezers = new Array<Geezer>();
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    geezers.add(new Geezer(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
                 }
             } else if ("Finish".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
@@ -126,6 +134,7 @@ public class B2WorldCreator {
         Array<NPC> npcs = new Array<NPC>();
         npcs.addAll(dudes);
         npcs.addAll(fellas);
+        npcs.addAll(geezers);
         return npcs;
     }
 }

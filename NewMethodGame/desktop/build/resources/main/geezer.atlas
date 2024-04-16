@@ -1,0 +1,12 @@
+geezer.png
+size:64,16
+repeat:none
+Geezer_down
+index:2
+bounds:0,0,16,16
+Geezer_down
+index:1
+bounds:18,0,16,16
+Geezer_right
+index:2
+bounds:36,0,16,16
