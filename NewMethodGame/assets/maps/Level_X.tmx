@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="617">
- <tileset firstgid="1" source="../../Documents/Github/CarbonAdventureMain/CarbonAdventure/NewMethodGame/assets/maps/city.tsx"/>
- <tileset firstgid="4097" source="../../Documents/Github/CarbonAdventureMain/CarbonAdventure/NewMethodGame/assets/maps/garbage.tsx"/>
- <tileset firstgid="4132" source="../../Documents/Github/CarbonAdventureMain/CarbonAdventure/NewMethodGame/assets/maps/Gems.tsx"/>
+    <tileset firstgid="1" source="city.tsx"/>
+    <tileset firstgid="4097" source="garbage.tsx"/>
+    <tileset firstgid="4132" source="Gems.tsx"/>
  <layer id="1" name="Tile Layer 1" width="200" height="200">
   <data encoding="csv">
 3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,3270,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,0,0,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,2710,
