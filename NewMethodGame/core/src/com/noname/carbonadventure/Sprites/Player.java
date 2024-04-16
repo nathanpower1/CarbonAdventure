@@ -184,6 +184,11 @@ public class Player extends Sprite {
         setPosition(x - getWidth() / 2, y - getHeight() / 2);
     }
 
+    public Body getBody() {
+        return this.b2body;
+    }
+
+
 
 
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -27,6 +28,8 @@ import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
+import com.noname.carbonadventure.Sprites.Car;
+
 
 import static com.noname.carbonadventure.Scenes.HUD.stage;
 
@@ -67,6 +70,13 @@ public class PlayScreen implements Screen {
 
     private Rectangle currentBusStopBounds;
 
+    private Car car;
+
+    private Sprite currentCharacter;
+
+    private Vector2 playerLastPosition = new Vector2();
+    private Vector2 carLastPosition = new Vector2();
+
 
 
     public PlayScreen(Play game){
@@ -102,6 +112,8 @@ public class PlayScreen implements Screen {
 
         player = new Player(this);
         Play.player = player;
+        car = new Car(world);
+        currentCharacter = player;
 
         // create HUD
         hud = new HUD(game.batch , player);
@@ -176,7 +188,11 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(gamecam.combined);
         game.batch.begin();
-        player.draw(game.batch);
+        if (currentCharacter.equals(player)) {
+            player.draw(game.batch);
+        } else if (currentCharacter.equals(car)) {
+            car.draw(game.batch);
+        }
         for (NPC npc : creator.getNPCs())
             npc.draw(game.batch);
         game.batch.end();
@@ -210,41 +226,78 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
-
-        if (player.currentState != Player.State.DEAD) {
-            //up
-            Vector2 currentVelocity = player.b2body.getLinearVelocity();
-            Vector2 newVelocity = new Vector2(0, 0);
-            float impulseStrength = 0.5f;
-
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-                newVelocity.y = impulseStrength;
-                currentVelocity.x = 0;
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-                newVelocity.y = -impulseStrength;
-                currentVelocity.x = 0;
+        // Toggle between player and car unless the player is dead
+        if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+            if (currentCharacter.equals(player)) {
+                playerLastPosition.set(player.b2body.getPosition());
+                currentCharacter = car;
+                if (carLastPosition.isZero()) {
+                    car.b2body.setTransform(playerLastPosition, 0);
+                    car.setPosition(playerLastPosition.x, playerLastPosition.y);
+                } else {
+                    // Set the car's position to its last known position
+                    car.b2body.setTransform(carLastPosition, 0);
+                    car.setPosition(carLastPosition.x, carLastPosition.y);
+                }
+            } else {
+                carLastPosition.set(car.b2body.getPosition());
+                currentCharacter = player;
+                player.b2body.setTransform(carLastPosition, 0);
+                player.setPosition(carLastPosition.x, carLastPosition.y);
             }
-
-            if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
-                newVelocity.x = impulseStrength;
-                currentVelocity.y = 0;
-            } else if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
-                newVelocity.x = -impulseStrength;
-                currentVelocity.y = 0;
-            }
-
-            player.b2body.setLinearVelocity(currentVelocity.add(newVelocity));
-            if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-                isMiniMapVisible = !isMiniMapVisible;
-            }
+        }
 
 
+        // Exit early if the player is dead, no further controls should be processed
+        if (player.currentState == Player.State.DEAD) {
+            return;
+        }
+
+        // Prepare to accumulate direction based on key presses
+        Vector2 direction = new Vector2();
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            direction.y += 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            direction.y -= 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            direction.x += 1;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            direction.x -= 1;
+        }
+
+        // Normalize the direction vector to avoid faster diagonal movement
+        if (direction.len() > 0) {
+            direction.nor();
+        }
+
+        // Apply movement mechanics based on the current active character
+        if (currentCharacter instanceof Player) {
+            // Adjust for Player's specific speed or movement characteristics
+            float playerSpeed = 0.5f;
+            ((Player) currentCharacter).b2body.setLinearVelocity(direction.scl(playerSpeed));
+        } else if (currentCharacter instanceof Car) {
+
+            ((Car) currentCharacter).accelerate(direction);
+        }
+
+        // Toggle the minimap visibility
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            isMiniMapVisible = !isMiniMapVisible;
         }
     }
 
     public void updateCamera(float delta) {
-        float posX = player.b2body.getPosition().x;
-        float posY = player.b2body.getPosition().y;
+        Vector2 position;
+        if (currentCharacter instanceof Player) {
+            position = ((Player) currentCharacter).b2body.getPosition();
+        } else if (currentCharacter instanceof Car) {
+            position = ((Car) currentCharacter).b2body.getPosition();
+        } else {
+            return;
+        }
 
         float camHalfWidth = gamecam.viewportWidth * 0.5f;
         float camHalfHeight = gamecam.viewportHeight * 0.5f;
@@ -252,8 +305,8 @@ public class PlayScreen implements Screen {
         float mapWidthInUnits = mapWidth / Play.PPM;
         float mapHeightInUnits = mapHeight / Play.PPM;
 
-        float clampedX = MathUtils.clamp(posX, camHalfWidth, mapWidthInUnits - camHalfWidth);
-        float clampedY = MathUtils.clamp(posY, camHalfHeight, mapHeightInUnits - camHalfHeight);
+        float clampedX = MathUtils.clamp(position.x, camHalfWidth, mapWidthInUnits - camHalfWidth);
+        float clampedY = MathUtils.clamp(position.y, camHalfHeight, mapHeightInUnits - camHalfHeight);
 
         gamecam.position.set(clampedX, clampedY, 0);
         gamecam.update();
@@ -265,6 +318,7 @@ public class PlayScreen implements Screen {
         world.step(1/60f,6,2);
 
         player.update(dt);
+        car.update(dt);
         for (NPC npc : creator.getNPCs()){
             npc.update(dt);
             if (npc.getX() < player.getX() + 1)
@@ -291,6 +345,13 @@ public class PlayScreen implements Screen {
             velocity = velocity.nor().scl(maxSpeed);
             player.b2body.setLinearVelocity(velocity);
         }
+
+        if (currentCharacter.equals(player)) {
+            player.update(dt);
+        } else if (currentCharacter.equals(car)) {
+            car.update(dt);
+        }
+
     }
 
     public void teleportPlayer(Player player, float destinationX, float destinationY) {
