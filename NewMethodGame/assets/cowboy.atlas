@@ -1,0 +1,15 @@
+cowboy.png
+size:128,16
+repeat:none
+cowboy_down
+index:2
+bounds:0,0,16,16
+cowboy_down
+index:1
+bounds:18,0,16,16
+cowboy_left
+index:2
+bounds:36,0,16,16
+cowboy_left
+index:1
+bounds:54,0,16,16

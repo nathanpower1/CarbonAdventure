@@ -42,6 +42,7 @@ public class Play extends Game {
 		manager = new AssetManager();
 		manager.load("audio/music/Wicked.mp3", Music.class);
 		manager.load("audio/music/buckbumble.mp3", Music.class);
+		manager.load("audio/music/cowboy.mp3", Music.class);
 		manager.load("audio/sounds/Gem_Collect.wav", Sound.class);
 		manager.load("audio/sounds/cuh.wav", Sound.class);
 		manager.load("audio/sounds/booo.wav", Sound.class);
@@ -49,6 +50,8 @@ public class Play extends Game {
 		manager.load("audio/sounds/hello.wav", Sound.class);
 		manager.load("audio/sounds/car_horn.wav", Sound.class);
 		manager.load("audio/sounds/geezer.mp3", Sound.class);
+		manager.load("audio/sounds/best_shot.wav", Sound.class);
+
 
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="646">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="648">
  <tileset firstgid="1" source="city.tsx"/>
  <tileset firstgid="4097" source="garbage.tsx"/>
  <tileset firstgid="4132" source="Gems.tsx"/>
@@ -931,5 +931,8 @@
  <objectgroup id="22" name="Geezers">
   <object id="644" x="432" y="64"/>
   <object id="645" x="528" y="64"/>
+ </objectgroup>
+ <objectgroup id="23" name="Cowboys">
+  <object id="647" x="32" y="2880"/>
  </objectgroup>
 </map>
