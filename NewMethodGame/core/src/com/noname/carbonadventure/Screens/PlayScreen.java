@@ -83,7 +83,7 @@ public class PlayScreen implements Screen {
 
         //create map
         loader = new TmxMapLoader();
-        map = loader.load("maps/Level_1.0.tmx");
+        map = loader.load("maps/Level_X.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 1/ Play.PPM);
 
         //initial starting camera position
