@@ -41,17 +41,17 @@ public class Player extends Sprite {
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i = 4; i <6; i++)
             frames.add(new TextureRegion(getTexture(), i*16, 0 ,16, 16));
-        playerRun = new Animation<TextureRegion>(0.1f,frames);
+        playerRun = new Animation<TextureRegion>(.5f,frames);
         frames.clear();
 
         for(int i = 0; i <2; i++)
             frames.add(new TextureRegion(getTexture(), i*16, 0 ,16, 16));
-        playerDown = new Animation<TextureRegion>(0.1f,frames);
+        playerDown = new Animation<TextureRegion>(.5f,frames);
         frames.clear();
 
         for(int i = 6; i <8; i++)
             frames.add(new TextureRegion(getTexture(), i*16, 0 ,16, 16));
-        playerUp = new Animation<TextureRegion>(0.1f,frames);
+        playerUp = new Animation<TextureRegion>(.5f,frames);
         frames.clear();
 
 
@@ -148,8 +148,11 @@ public class Player extends Sprite {
     public void dead() {
         // Stop the music
         Music music = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
-        if (music.isPlaying()) {
+        Music music2 = Play.manager.get("audio/music/cowboy.mp3", Music.class);
+
+        if (music.isPlaying() | music2.isPlaying()) {
             music.stop();
+            music2.stop();
         }
 
         // Check if the "boo" sound asset is loaded before playing it
@@ -158,6 +161,7 @@ public class Player extends Sprite {
             if (!hasPlayedBooSound) {
                 // Play the "boo" sound once without looping
                 Sound booSound = Play.manager.get("audio/sounds/booo.wav", Sound.class);
+                Play.manager.get("audio/sounds/wompwomp.mp3", Sound.class).play();
                 booSound.play(1.0f); // Volume set to 1.0f to ensure it's not muted
                 hasPlayedBooSound = true; // Update the flag to indicate that the sound has been played
             }

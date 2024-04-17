@@ -51,9 +51,17 @@ public class MainMenuScreen implements Screen {
         stage.addActor(table);
 
         //Music
+        Music music2 = Play.manager.get("audio/music/cowboy.mp3", Music.class);
+
         music = Play.manager.get("audio/music/buckbumble.mp3",Music.class);
         music.setLooping(true);
-        music.play();
+        if(!music2.isPlaying()){
+            music.play();}
+        else if (music2.isPlaying()){
+                music2.stop();
+                music.play();
+        }
+
 
 
 
