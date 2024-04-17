@@ -29,7 +29,7 @@ public class Gem extends InteractiveTileObject {
         Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
         setCategoryFilter(Play.DESTROYED_BIT);
         getCell().setTile(null);
-        HUD.addGemIcon();
+        HUD.addGemIcon(null);
         gemCount--;
         Gdx.app.log("Gem Collision Now", String.valueOf(gemCount));
 

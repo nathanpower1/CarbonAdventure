@@ -20,7 +20,7 @@ public class Finish3 extends InteractiveTileObject {
 
     @Override
     public void OnBodyHit() {
-        HUD.resetGemIcons();
+        HUD.levelReset();
         Gdx.app.log("Finish", "Finish line has been triggered.");
         // 2410/Play.PPM,1570/Play.PPM
         float destinationX = 2410/Play.PPM;// Change this to the desired X coordinate
