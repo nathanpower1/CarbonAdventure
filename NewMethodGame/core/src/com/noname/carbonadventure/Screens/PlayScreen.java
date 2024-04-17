@@ -12,23 +12,23 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.*;
+import com.noname.carbonadventure.Scenes.GameMenu;
+import com.noname.carbonadventure.Scenes.HUD;
+import com.noname.carbonadventure.Scenes.MiniMap;
+import com.noname.carbonadventure.Scenes.PlayerNameDisplay;
+import com.noname.carbonadventure.Sprites.Car;
 import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
-import com.noname.carbonadventure.Sprites.Car;
-
 
 import static com.noname.carbonadventure.Scenes.HUD.stage;
 
@@ -67,22 +67,11 @@ public class PlayScreen implements Screen {
 
     private GameMenu gameMenu;
 
-    private Dialogue currentDialogue;
-
-    private Rectangle currentBusStopBounds;
-
     private Car car;
 
     private Sprite currentCharacter;
 
-    private Vector2 playerLastPosition = new Vector2();
-    private Vector2 carLastPosition = new Vector2();
-
     private PlayerNameDisplay playerNameDisplay;
-
-
-
-
 
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
@@ -99,7 +88,7 @@ public class PlayScreen implements Screen {
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
         stage = new Stage(new ExtendViewport(800, 480), game.batch);
 
-        Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json")); // Ensure this skin is loaded
+        Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
 
         playerNameDisplay = new PlayerNameDisplay(game, stage, uiSkin);
         Gdx.app.log("Debug", "Retrieved Name: " + game.getPlayerName());
@@ -142,8 +131,6 @@ public class PlayScreen implements Screen {
         mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
         mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
 
-
-
     }
 
     public Stage getStage() {
@@ -175,16 +162,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-
-
     }
 
     public Player getPlayer() {
         return player;
     }
-
-
-
 
     @Override
     public void render(float delta) {
@@ -229,8 +211,6 @@ public class PlayScreen implements Screen {
 
         stage.act(delta); 
         stage.draw();
-
-
     }
 
     public boolean gameOver(){
@@ -341,7 +321,6 @@ public class PlayScreen implements Screen {
         if(player.currentState != Player.State.DEAD){
             gamecam.position.x= player.b2body.getPosition().x;
             gamecam.position.y= player.b2body.getPosition().y;
-
         }
 
        // gamecam.position.x= player.b2body.getPosition().x;
@@ -377,16 +356,11 @@ public class PlayScreen implements Screen {
         });
     }
 
-
     @Override
     public void resize(int width, int height) {
         gamePort.update(width,height);
         stage.getViewport().update(width, height, true);
         gameMenu.resize(width, height);
-
-
-
-
     }
 
     public  TiledMap getMap(){

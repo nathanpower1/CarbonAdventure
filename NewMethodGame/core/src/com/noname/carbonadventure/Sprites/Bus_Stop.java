@@ -12,7 +12,7 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.noname.carbonadventure.Play.player;
+import static com.noname.carbonadventure.Scenes.HUD.stage;
 
 public class Bus_Stop extends InteractiveTileObject {
     private final PlayScreen screen;
@@ -32,18 +32,10 @@ public class Bus_Stop extends InteractiveTileObject {
 
         List<String> busStops = Arrays.asList("Stop 1", "Stop 2", "Stop 3");
 
-        new Dialogue(screen.getStage(), "Welcome to Dublin Bus", "Please choose a stop you would like to travel to:", busStops);
-
-        float destinationX = 3;// Change this to the desired X coordinate
-        float destinationY = 3;// Change this to the desired Y coordinate
-
-        // Teleport the player to the destination
-        screen.teleportPlayer(player, destinationX, destinationY);
-
+        new Dialogue(screen, stage, "Welcome to Dublin Bus", "Please choose a stop you would like to travel to:", busStops);
         // Update carbon meter
         HUD.increaseCarbonMeter(10);
     }
-
     public Stage getStage() {
         return screen.getStage();
 
