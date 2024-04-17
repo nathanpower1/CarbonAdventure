@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -14,22 +13,17 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.noname.carbonadventure.Sprites.Player;
-import com.sun.tools.javac.util.Name;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
-
-import java.awt.*;
 
 public class HUD implements Disposable {
     public static Stage stage;
     private Viewport viewport;
-    private Integer worldTimer;
+    private static Integer worldTimer;
     private float timeCount;
-    private static Integer score;
+    private static Integer score = 0;
     private static Integer carbonMeter = 0;
     private static final int MAX_CARBON = 100;
     private WidgetGroup carbonMeterGroup;
@@ -62,10 +56,11 @@ public class HUD implements Disposable {
     private Texture carbonMeterTexture;
 
     private float maxTime = 2;
-    private float currentTime = 0.0f;
+    private static float currentTime = 0.0f;
     private Image timeBarBase;
     private Image timeBarFill;
     private Texture timeBarTexture;
+
 
 
     public HUD(SpriteBatch sb, Player player) {
@@ -173,6 +168,20 @@ public class HUD implements Disposable {
     public static int getCarbonMeter() {
         return carbonMeter;
     }
+    public static void setCarbonMeter(int carbon) {
+        carbonMeter = carbon;
+    }
+    public static int getWorldTimer() {return worldTimer;}
+
+    public static void setWorldTimer(int time){
+        worldTimer = time;
+        currentTime = 0;
+    }
+    public static void setScore(int time, int carbon){
+        score = time*100 - carbon;
+    }
+
+    public static int getScore() {return score;}
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -217,13 +226,14 @@ public class HUD implements Disposable {
         }
     }
 
-    //public static void addScore(int value){
-    //score += value;
-    //scoreLabel.setText(String.format("%01d", score));
-    //}
 
-    public static void addGemIcon() {
-        TextureRegion gemRegion = new TextureRegion(new Texture("img/croppedGem.png"));
+    public static void addGemIcon(String texturePath) {
+
+        if (texturePath == null || texturePath.isEmpty()) {
+            texturePath = "img/croppedGem.png";
+        }
+
+        TextureRegion gemRegion = new TextureRegion(new Texture(texturePath));
         Image gemImage = new Image(gemRegion);
         // Calculate position based on the number of already collected gems
         int offset = gemIcons.size * (ICON_SIZE + ICON_PADDING);
@@ -242,6 +252,16 @@ public class HUD implements Disposable {
         gemIcons.clear(); // Now clear the list to remove all references
     }
 
+
+    public static void levelReset() {
+
+        int time = getWorldTimer();
+        int carbon = getCarbonMeter();
+        setScore(time, carbon);
+        setCarbonMeter(0);
+        setWorldTimer(120);
+        resetGemIcons();
+    }
 
 
     @Override
