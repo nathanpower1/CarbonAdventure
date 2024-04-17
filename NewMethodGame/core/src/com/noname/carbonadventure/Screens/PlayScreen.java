@@ -236,21 +236,18 @@ public class PlayScreen implements Screen {
         // Toggle between player and car unless the player is dead
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             if (currentCharacter.equals(player)) {
-                playerLastPosition.set(player.b2body.getPosition());
+                Vector2 currentPosition = new Vector2(player.b2body.getPosition());
+
                 currentCharacter = car;
-                if (carLastPosition.isZero()) {
-                    car.b2body.setTransform(playerLastPosition, 0);
-                    car.setPosition(playerLastPosition.x, playerLastPosition.y);
-                } else {
-                    // Set the car's position to its last known position
-                    car.b2body.setTransform(carLastPosition, 0);
-                    car.setPosition(carLastPosition.x, carLastPosition.y);
-                }
+                car.b2body.setTransform(currentPosition, 0);
+                car.setPosition(currentPosition.x - car.getWidth() / 2, currentPosition.y - car.getHeight() / 2);
+
             } else {
-                carLastPosition.set(car.b2body.getPosition());
+                Vector2 currentPosition = new Vector2(car.b2body.getPosition());
+
                 currentCharacter = player;
-                player.b2body.setTransform(carLastPosition, 0);
-                player.setPosition(carLastPosition.x, carLastPosition.y);
+                player.b2body.setTransform(currentPosition, 0);
+                player.setPosition(currentPosition.x - player.getWidth() / 2, currentPosition.y - player.getHeight() / 2);
             }
         }
 
