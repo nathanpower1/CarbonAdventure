@@ -87,8 +87,10 @@ public class GameMenu {
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
         stage.getCamera().position.set(Play.V_WIDTH / 2, Play.V_HEIGHT / 2, 0);
+        stage.getCamera().update();
         Gdx.input.setInputProcessor(stage);
         updateButtonPositions(width, height);
+
     }
 
     public void updateButtonPositions(int width, int height) {

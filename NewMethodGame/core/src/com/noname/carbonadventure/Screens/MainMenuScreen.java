@@ -66,7 +66,7 @@ public class MainMenuScreen implements Screen {
 
 
         // Buttons
-        playButton = createImageButton("img/play01.png", "img/play02.png", () -> game.setScreen(new PlayScreen(game)));
+        playButton = createImageButton("img/play01.png", "img/play02.png", () -> game.setScreen(new PlayerNameScreen(game)));
         leaderboardButton = createImageButton("img/leaderboard01.png", "img/leaderboard02.png", () -> {});
         tutorialButton = createImageButton("img/option01.png", "img/option02.png", () -> {});
         exitButton = createImageButton("img/restart01.png", "img/restart02.png", Gdx.app::exit);

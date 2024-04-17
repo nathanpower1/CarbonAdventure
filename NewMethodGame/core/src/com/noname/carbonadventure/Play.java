@@ -34,6 +34,7 @@ public class Play extends Game {
 	public SpriteBatch batch;
 
 	public static AssetManager manager;
+	public String playerName;
 
 
 	@Override
@@ -72,6 +73,16 @@ public class Play extends Game {
 	public void render () {
 
 		super.render();
+	}
+
+	public void setPlayerName(String name) {
+		this.playerName = name;
+
+	}
+
+	public String getPlayerName() {
+
+		return playerName;
 	}
 
 }
