@@ -17,13 +17,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.Dialogue;
-import com.noname.carbonadventure.Scenes.GameMenu;
-import com.noname.carbonadventure.Scenes.HUD;
-import com.noname.carbonadventure.Scenes.MiniMap;
+import com.noname.carbonadventure.Scenes.*;
 import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
@@ -79,6 +78,10 @@ public class PlayScreen implements Screen {
     private Vector2 playerLastPosition = new Vector2();
     private Vector2 carLastPosition = new Vector2();
 
+    private PlayerNameDisplay playerNameDisplay;
+
+
+
 
 
     public PlayScreen(Play game){
@@ -96,8 +99,13 @@ public class PlayScreen implements Screen {
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
         stage = new Stage(new ExtendViewport(800, 480), game.batch);
 
+        Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json")); // Ensure this skin is loaded
+
+        playerNameDisplay = new PlayerNameDisplay(game, stage, uiSkin);
+        Gdx.app.log("Debug", "Retrieved Name: " + game.getPlayerName());
         // create HUD
         //hud = new HUD(game.batch);
+
 
         //create map
         loader = new TmxMapLoader();
@@ -373,6 +381,7 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         gamePort.update(width,height);
+        stage.getViewport().update(width, height, true);
         gameMenu.resize(width, height);
 
 
@@ -411,6 +420,7 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
         gameMenu.dispose();
+
 
 
     }
