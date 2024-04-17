@@ -1,5 +1,7 @@
 package com.noname.carbonadventure.Sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.noname.carbonadventure.Play;
+import com.noname.carbonadventure.Scenes.HUD;
 
 public class Car extends Sprite implements Box2DObject {
     private Texture upTexture, downTexture, leftTexture, rightTexture;
@@ -20,6 +23,10 @@ public class Car extends Sprite implements Box2DObject {
     // Attributes specific to car movement
     private float maxSpeed = 2.0f;
     private float acceleration = 0.1f;
+    private float timeSinceLastCarbonIncrease = 0;
+    private static final float CARBON_INCREASE_INTERVAL = 1.0f;
+    private static final float CARBON_PER_INTERVAL = 0.5f;
+    private float carbonAccumulator = 0;
 
     public Car(World world) {
         this.world = world;
@@ -56,7 +63,7 @@ public class Car extends Sprite implements Box2DObject {
         // Update position based on the body's position
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
 
-        // Determine and set the texture region based on velocity direction
+        // Update texture based on velocity direction
         if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
             if (velocity.x > 0) {
                 setRegion(new TextureRegion(rightTexture));
@@ -75,6 +82,23 @@ public class Car extends Sprite implements Box2DObject {
         if (velocity.len() > maxSpeed) {
             velocity = velocity.nor().scl(maxSpeed);
             b2body.setLinearVelocity(velocity);
+        }
+
+        // Check if there is currently no input (this requires input management outside this method)
+        if (!isMoving()) {
+            b2body.setLinearVelocity(0, 0);
+        }
+
+        // Carbon meter management
+        if (velocity.len() > 0) {
+            timeSinceLastCarbonIncrease += dt;
+            if (timeSinceLastCarbonIncrease >= CARBON_INCREASE_INTERVAL) {
+                carbonAccumulator += CARBON_PER_INTERVAL;
+                int carbonToAdd = Math.round(carbonAccumulator);
+                HUD.increaseCarbonMeter(carbonToAdd);
+                carbonAccumulator -= carbonToAdd;
+                timeSinceLastCarbonIncrease = 0;
+            }
         }
     }
 
@@ -108,6 +132,13 @@ public class Car extends Sprite implements Box2DObject {
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }
+    private boolean isMoving() {
+        return Gdx.input.isKeyPressed(Input.Keys.UP) ||
+                Gdx.input.isKeyPressed(Input.Keys.DOWN) ||
+                Gdx.input.isKeyPressed(Input.Keys.LEFT) ||
+                Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+    }
+
 }
 
 
