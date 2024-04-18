@@ -183,6 +183,10 @@ public class HUD implements Disposable {
 
     public static int getScore() {return score;}
 
+    public static void resetScore() {
+        score = 0; // Reset score to zero at the start of each new game
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
