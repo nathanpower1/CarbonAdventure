@@ -29,7 +29,7 @@ import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
-
+import com.noname.carbonadventure.Sprites.Bike;
 import static com.noname.carbonadventure.Scenes.HUD.stage;
 
 public class PlayScreen implements Screen {
@@ -73,6 +73,8 @@ public class PlayScreen implements Screen {
 
     private PlayerNameDisplay playerNameDisplay;
 
+    private Bike bike;
+
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
@@ -106,13 +108,14 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(),true);
         b2dr = new Box2DDebugRenderer();
-        b2dr.setDrawBodies(false);
+        b2dr.setDrawBodies(true);
 
         creator = new B2WorldCreator(this);
 
         player = new Player(this);
         Play.player = player;
         car = new Car(world);
+        bike = new Bike(world);
         currentCharacter = player;
 
         // create HUD
@@ -189,6 +192,8 @@ public class PlayScreen implements Screen {
             player.draw(game.batch);
         } else if (currentCharacter.equals(car)) {
             car.draw(game.batch);
+        } else if (currentCharacter.equals(bike)) {
+            bike.draw(game.batch);
         }
         for (NPC npc : creator.getNPCs())
             npc.draw(game.batch);
@@ -209,7 +214,7 @@ public class PlayScreen implements Screen {
                 miniMap.render(); // Use the instance method here
             }
 
-        stage.act(delta); 
+        stage.act(delta);
         stage.draw();
     }
 
@@ -221,24 +226,31 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float dt) {
-        // Toggle between player and car unless the player is dead
+        // Toggle between player and car with 'C'
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             if (currentCharacter.equals(player)) {
-                Vector2 currentPosition = new Vector2(player.b2body.getPosition());
-
                 currentCharacter = car;
-                car.b2body.setTransform(currentPosition, 0);
-                car.setPosition(currentPosition.x - car.getWidth() / 2, currentPosition.y - car.getHeight() / 2);
-
-            } else {
-                Vector2 currentPosition = new Vector2(car.b2body.getPosition());
-
+                car.b2body.setTransform(player.b2body.getPosition(), 0);
+                car.setPosition(player.getX() - car.getWidth() / 2, player.getY() - car.getHeight() / 2);
+            } else if (currentCharacter.equals(car)) {
                 currentCharacter = player;
-                player.b2body.setTransform(currentPosition, 0);
-                player.setPosition(currentPosition.x - player.getWidth() / 2, currentPosition.y - player.getHeight() / 2);
+                player.b2body.setTransform(car.b2body.getPosition(), 0);
+                player.setPosition(car.getX() - player.getWidth() / 2, car.getY() - player.getHeight() / 2);
             }
         }
 
+        // Toggle between player and bike with 'B'
+        if (Gdx.input.isKeyJustPressed(Input.Keys.B)) {
+            if (currentCharacter.equals(player)) {
+                currentCharacter = bike;
+                bike.b2body.setTransform(player.b2body.getPosition(), 0);
+                bike.setPosition(player.getX() - bike.getWidth() / 2, player.getY() - bike.getHeight() / 2);
+            } else if (currentCharacter.equals(bike)) {
+                currentCharacter = player;
+                player.b2body.setTransform(bike.b2body.getPosition(), 0);
+                player.setPosition(bike.getX() - player.getWidth() / 2, bike.getY() - player.getHeight() / 2);
+            }
+        }
 
         // Exit early if the player is dead, no further controls should be processed
         if (player.currentState == Player.State.DEAD) {
@@ -267,12 +279,12 @@ public class PlayScreen implements Screen {
 
         // Apply movement mechanics based on the current active character
         if (currentCharacter instanceof Player) {
-            // Adjust for Player's specific speed or movement characteristics
-            float playerSpeed = 0.5f;
+            float playerSpeed = 0.5f; // Adjust for Player's specific speed or movement characteristics
             ((Player) currentCharacter).b2body.setLinearVelocity(direction.scl(playerSpeed));
         } else if (currentCharacter instanceof Car) {
-
             ((Car) currentCharacter).accelerate(direction);
+        } else if (currentCharacter instanceof Bike) {
+            ((Bike) currentCharacter).accelerate(direction);
         }
 
         // Toggle the minimap visibility
@@ -282,14 +294,16 @@ public class PlayScreen implements Screen {
     }
 
     public void updateCamera(float delta) {
-        Vector2 position;
+        Vector2 position = null;
         if (currentCharacter instanceof Player) {
             position = ((Player) currentCharacter).b2body.getPosition();
         } else if (currentCharacter instanceof Car) {
             position = ((Car) currentCharacter).b2body.getPosition();
-        } else {
-            return;
+        } else if (currentCharacter instanceof Bike) {
+            position = ((Bike) currentCharacter).b2body.getPosition();
         }
+
+        if (position == null) return;
 
         float camHalfWidth = gamecam.viewportWidth * 0.5f;
         float camHalfHeight = gamecam.viewportHeight * 0.5f;
@@ -304,6 +318,7 @@ public class PlayScreen implements Screen {
         gamecam.update();
     }
 
+
     public void update(float dt){
         handleInput(dt);
 
@@ -311,6 +326,7 @@ public class PlayScreen implements Screen {
 
         player.update(dt);
         car.update(dt);
+        bike.update(dt);
         for (NPC npc : creator.getNPCs()){
             npc.update(dt);
             if (npc.getX() < player.getX() + 1)
