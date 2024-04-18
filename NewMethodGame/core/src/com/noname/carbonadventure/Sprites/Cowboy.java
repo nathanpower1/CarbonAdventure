@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
+import static com.noname.carbonadventure.Play.player;
+
 public class Cowboy extends NPC {
     private float stateTime;
     private Animation<TextureRegion> NPCRun;
@@ -88,6 +90,9 @@ public class Cowboy extends NPC {
                     isSoundPlaying = false;
                 }
             }, 10); // Reset the flag after 10 seconds
+            float destinationX = 490/Play.PPM;// Change this to the desired X coordinate
+            float destinationY = 1500/Play.PPM;// Change this to the desired Y coordinate
+            screen.teleportPlayer(player, destinationX, destinationY);
         }
     }
 }
