@@ -17,6 +17,8 @@ public class B2WorldCreator {
     private Array<Geezer> geezers;
     private Array<Cowboy> cowboys;
 
+    private Array<CowboyDuel> cowboyduel;
+
 
 
     public B2WorldCreator(PlayScreen screen) {
@@ -131,6 +133,12 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new Gem4(screen, rect);
                 }
+            }else if ("CowboyDuel".equals(layer.getName())) {
+                cowboyduel = new Array<CowboyDuel>();
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    cowboyduel.add(new CowboyDuel(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
+                }
             }
         }
     }
@@ -144,6 +152,8 @@ public class B2WorldCreator {
         npcs.addAll(fellas);
         npcs.addAll(geezers);
         npcs.addAll(cowboys);
+        npcs.addAll(cowboyduel);
+
         return npcs;
     }
 }
