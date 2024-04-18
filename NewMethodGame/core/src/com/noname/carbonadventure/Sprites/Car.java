@@ -50,7 +50,7 @@ public class Car extends Sprite implements Box2DObject {
         b2body = world.createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(16 / Play.PPM, 16 / Play.PPM);
+        shape.setAsBox(6 / Play.PPM, 6 / Play.PPM);
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
