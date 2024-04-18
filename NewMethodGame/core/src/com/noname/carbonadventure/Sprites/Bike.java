@@ -15,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
 
-public class Car extends Sprite implements Box2DObject {
+public class Bike extends Sprite implements Box2DObject {
     private Texture upTexture, downTexture, leftTexture, rightTexture;
     public Body b2body;
     private World world;
@@ -23,23 +23,19 @@ public class Car extends Sprite implements Box2DObject {
     // Attributes specific to car movement
     private float maxSpeed = 2.0f;
     private float acceleration = 0.1f;
-    private float timeSinceLastCarbonIncrease = 0;
-    private static final float CARBON_INCREASE_INTERVAL = 1.0f;
-    private static final float CARBON_PER_INTERVAL = 0.5f;
-    private float carbonAccumulator = 0;
 
-    public Car(World world) {
+    public Bike(World world) {
         this.world = world;
-        upTexture = new Texture("img/car_up.PNG");
-        downTexture = new Texture("img/car_down.PNG");
-        leftTexture = new Texture("img/car_left.PNG");
-        rightTexture = new Texture("img/car_right.PNG");
+        upTexture = new Texture("img/Bike.PNG");
+        downTexture = new Texture("img/Bike.PNG");
+        leftTexture = new Texture("img/Bike.PNG");
+        rightTexture = new Texture("img/Bike.PNG");
 
         defineCar();
-        float scale = 2.5f;
+        float scale = 2f;
         setRegion(downTexture);
         float width = 32 * scale / Play.PPM;
-        float height = 32 * scale / Play.PPM;
+        float height = 64 * scale / Play.PPM;
         setBounds(0, 0, width, height);
     }
 
@@ -50,11 +46,11 @@ public class Car extends Sprite implements Box2DObject {
         b2body = world.createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(8 / Play.PPM, 8 / Play.PPM);
+        shape.setAsBox(3 / Play.PPM, 3 / Play.PPM);
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("car");
+        b2body.createFixture(fdef).setUserData("bike");
     }
 
     public void update(float dt) {
@@ -78,30 +74,16 @@ public class Car extends Sprite implements Box2DObject {
             }
         }
 
-        // Manage speed limit
         if (velocity.len() > maxSpeed) {
             velocity = velocity.nor().scl(maxSpeed);
             b2body.setLinearVelocity(velocity);
         }
 
-        // Check if there is currently no input (this requires input management outside this method)
+
         if (!isMoving()) {
             b2body.setLinearVelocity(0, 0);
         }
-
-        // Carbon meter management
-        if (velocity.len() > 0) {
-            timeSinceLastCarbonIncrease += dt;
-            if (timeSinceLastCarbonIncrease >= CARBON_INCREASE_INTERVAL) {
-                carbonAccumulator += CARBON_PER_INTERVAL;
-                int carbonToAdd = Math.round(carbonAccumulator);
-                HUD.increaseCarbonMeter(carbonToAdd);
-                carbonAccumulator -= carbonToAdd;
-                timeSinceLastCarbonIncrease = 0;
-            }
-        }
     }
-
     public void accelerate(Vector2 direction) {
         Vector2 currentVelocity = b2body.getLinearVelocity();
         Vector2 addedVelocity = direction.scl(acceleration);
@@ -140,5 +122,4 @@ public class Car extends Sprite implements Box2DObject {
     }
 
 }
-
 
