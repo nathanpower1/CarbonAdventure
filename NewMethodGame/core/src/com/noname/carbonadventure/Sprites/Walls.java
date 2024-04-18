@@ -15,8 +15,9 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 public class Walls extends InteractiveTileObject{
     public Walls(PlayScreen screen, Rectangle bounds){
         super(screen,bounds);
-        fixture.setUserData(this);
+        fixture.setUserData("walls");
         setCategoryFilter(Play.OBJECT_BIT);
+
 
 
     }

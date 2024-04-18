@@ -26,17 +26,28 @@ public class Gem extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Gdx.app.log("Gem Collision Before", String.valueOf(gemCount));
+
+        // Play gem collection sound effect
         Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+
+        // Set category filter to DESTROYED_BIT to prevent further collisions
         setCategoryFilter(Play.DESTROYED_BIT);
+
+        // Remove the tile representing the gem from the map
         getCell().setTile(null);
+
+        // Update HUD to reflect gem collection
         HUD.addGemIcon(null);
+
+        // Decrement gem count
         gemCount--;
+
         Gdx.app.log("Gem Collision Now", String.valueOf(gemCount));
 
         // Check if all gems are collected
         if (gemCount == 0) {
             Barricade.destroyAll(); // Destroy all Barricade objects
-            System.out.println("All gems are collected!");
+            Gdx.app.log("All gems are collected!", "");
         }
     }
 }

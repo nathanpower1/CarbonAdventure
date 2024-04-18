@@ -6,6 +6,7 @@ import com.noname.carbonadventure.Sprites.InteractiveTileObject;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Sprites.NPC;
 import com.noname.carbonadventure.Sprites.Player;
+import com.noname.carbonadventure.Sprites.Train;
 
 
 public class WorldContactListener implements ContactListener {
@@ -35,7 +36,15 @@ public class WorldContactListener implements ContactListener {
                     else if(fixB.getFilterData().categoryBits == Play.NPC_BIT)
                         ((NPC) fixB.getUserData()).BodyHit();
             }
-        } else {
+            if (userDataA != null && userDataB != null) {
+                // Check for collision between Train and walls
+                if ((userDataA instanceof Train && userDataB instanceof String && userDataB.equals("walls")) ||
+                        (userDataB instanceof Train && userDataA instanceof String && userDataA.equals("walls"))) {
+                    Train train = (userDataA instanceof Train) ? (Train) userDataA : (Train) userDataB;
+                    train.trainReverseVelocity(true);
+                }
+        }}
+        else {
             Gdx.app.error("Contact", "One of the fixtures has null user data.");
         }
         if (userDataA != null && userDataB != null) {
@@ -62,19 +71,19 @@ public class WorldContactListener implements ContactListener {
                 break;
             case Play.NPC_BIT | Play.OBJECT_BIT :
                 if (fixA.getFilterData().categoryBits == Play.NPC_BIT)
-                    ((NPC) fixA.getUserData()).reverseVelocity(true, false);
-                else
-                    ((NPC) fixB.getUserData()).reverseVelocity(true, false);
-                break;
-            case Play.NPC_BIT | Play.GEM_BIT :
-                if (fixA.getFilterData().categoryBits == Play.NPC_BIT)
-                    ((NPC) fixA.getUserData()).reverseVelocity(true, false);
+                    ((NPC) fixA.getUserData()).reverseVelocity(false, true);
                 else
                     ((NPC) fixB.getUserData()).reverseVelocity(false, true);
                 break;
+            case Play.NPC_BIT | Play.GEM_BIT :
+                if (fixA.getFilterData().categoryBits == Play.NPC_BIT)
+                    ((NPC) fixA.getUserData()).reverseVelocity(true, true);
+                else
+                    ((NPC) fixB.getUserData()).reverseVelocity(true, true);
+                break;
             case Play.NPC_BIT | Play.NPC_BIT :
-                ((NPC) fixA.getUserData()).reverseVelocity(true, false);
-                ((NPC) fixB.getUserData()).reverseVelocity(true, false);
+                ((NPC) fixA.getUserData()).reverseVelocity(true, true);
+                ((NPC) fixB.getUserData()).reverseVelocity(true, true);
                 break;
 
 

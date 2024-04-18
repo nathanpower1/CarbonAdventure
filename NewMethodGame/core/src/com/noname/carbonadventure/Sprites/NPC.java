@@ -9,6 +9,8 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 import java.util.Vector;
 
 public abstract class NPC extends Sprite {
+    public Vector2 trainVelocity;
+
     protected World world;
     protected PlayScreen screen;
     public Body b2body;
