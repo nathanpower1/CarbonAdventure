@@ -7,8 +7,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,6 +26,7 @@ public class GameOverScreen implements Screen {
     private Game game;
     public GameOverScreen(Game game){
         this.game = game;
+        Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
         viewport = new FitViewport(Play.V_WIDTH,Play.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport,((Play) game).batch);
 
@@ -33,6 +38,19 @@ public class GameOverScreen implements Screen {
 
         Label gameoverLabel = new Label("Game Over", font);
         table.add(gameoverLabel).expandX();
+
+        TextButton leaderboardButton = new TextButton("View Leaderboard", skin);
+        leaderboardButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // Transition to the leaderboard screen
+                ((Play)game).setScreen(new LeaderboardScreen((Play)game));
+            }
+        });
+
+        // Add the button below the label
+        table.row();
+        table.add(leaderboardButton).padTop(10);
         stage.addActor(table);
 
     }
@@ -40,7 +58,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -53,7 +71,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height, true);
     }
 
     @Override
@@ -68,7 +86,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.input.setInputProcessor(null);
     }
 
     @Override

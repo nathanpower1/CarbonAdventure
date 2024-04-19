@@ -2,14 +2,18 @@ package com.noname.carbonadventure;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Json;
+import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.MainMenuScreen;
-import com.noname.carbonadventure.Screens.PlayScreen;
 import com.noname.carbonadventure.Sprites.Player;
-
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.noname.carbonadventure.models.LeaderboardEntry;
 
 public class Play extends Game {
 	public static final int V_WIDTH = 400;
@@ -37,6 +41,14 @@ public class Play extends Game {
 	public String playerName;
 
 
+	private Json json = new Json();
+
+	private Preferences prefs;
+
+	private Array<LeaderboardEntry> leaderboardEntries = new Array<>();
+
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -58,6 +70,9 @@ public class Play extends Game {
 
 
 		manager.finishLoading();
+		prefs = Gdx.app.getPreferences("MyGamePreferences");
+		loadLeaderboard();
+
 
 		// Log loading status for cuh.wav
 		if (manager.isLoaded("audio/sounds/cuh.wav", Sound.class)) {
@@ -76,13 +91,43 @@ public class Play extends Game {
 	}
 
 	public void setPlayerName(String name) {
-		this.playerName = name;
 
+		prefs.putString("playerName", name);
+		prefs.flush();
 	}
 
 	public String getPlayerName() {
 
-		return playerName;
+		return prefs.getString("playerName", "");
+	}
+
+	private void saveLeaderboard() {
+		String leaderboardJson = json.toJson(leaderboardEntries);
+		prefs.putString("leaderboard", leaderboardJson);
+		prefs.flush();
+	}
+
+	private void loadLeaderboard() {
+		String leaderboardJson = prefs.getString("leaderboard", "");
+		if (!leaderboardJson.isEmpty()) {
+			// We specify LeaderboardEntry.class in the second argument to ensure type correctness
+			Array<LeaderboardEntry> loadedEntries = json.fromJson(Array.class, LeaderboardEntry.class, leaderboardJson);
+			if (loadedEntries != null) {
+				leaderboardEntries = loadedEntries;
+				leaderboardEntries.sort();
+			}
+		}
+	}
+
+	public void addLeaderboardEntry(String playerName, int score) {
+		LeaderboardEntry entry = new LeaderboardEntry(playerName, score);
+		leaderboardEntries.add(entry);
+		leaderboardEntries.sort();
+		saveLeaderboard();
+	}
+
+	public Array<LeaderboardEntry> getLeaderboardEntries() {
+		return leaderboardEntries;
 	}
 
 }

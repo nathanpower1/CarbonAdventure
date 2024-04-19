@@ -84,6 +84,7 @@ public class PlayScreen implements Screen {
         UIatlas = new TextureAtlas("ui.atlas");
 
         this.game = game;
+        Gdx.app.log("Player Name", game.getPlayerName());
         //create cam to follow player
         gamecam = new OrthographicCamera();
         //create fitview to maintain aspect ratio
@@ -205,12 +206,15 @@ public class PlayScreen implements Screen {
         gameMenu.render(delta);
 
         if(gameOver()){
+            // Save the score before transitioning to the game over screen
             game.setScreen(new GameOverScreen(game));
-            dispose();
+            dispose(); // Properly dispose of current screen resources
+            return; // Stop further rendering after game over
         }
 
 
-            if (isMiniMapVisible) {
+
+        if (isMiniMapVisible) {
                 miniMap.render(); // Use the instance method here
             }
 
@@ -220,10 +224,14 @@ public class PlayScreen implements Screen {
 
     public boolean gameOver(){
         if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3){
+            String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
+            int score = hud.getScore();  // Make sure HUD is updating scores correctly
+            game.addLeaderboardEntry(playerName, score);  // Add leaderboard entry before the game ends
             return true;
         }
         return false;
     }
+
 
     public void handleInput(float dt) {
         // Toggle between player and car with 'C'
