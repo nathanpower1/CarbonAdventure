@@ -1,6 +1,8 @@
 package com.noname.carbonadventure.Scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -18,11 +20,14 @@ public class Dialogue {
     private Skin skin;
     private PlayScreen playScreen;
 
-    public Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> busStops) {
+    private Vector2 busStopPosition; // Add this field to store the bus stop's position
+
+    public Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> busStops, Vector2 busStopPosition) {
         this.playScreen = playScreen;
         this.stage = stage;
+        this.busStopPosition = busStopPosition;
 
-        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
 
         dialog = new Dialog(title, skin) {
             @Override
@@ -32,9 +37,9 @@ public class Dialogue {
         };
 
         // Set dialog properties
-        dialog.setMovable(false);
-        dialog.setResizable(false);
-        dialog.text(message);
+        GlyphLayout layout = new GlyphLayout();
+        float textWidth = layout.width;
+        float textHeight = layout.height;
 
         // Buttons for each stop to click
         for (String stop : busStops) {
@@ -70,18 +75,26 @@ public class Dialogue {
 
         // change x and y to bus stops on map
         if (stop.equals("Stop 1")) {
-            destinationX = 10;
-            destinationY = 10;
+            destinationX = 6.00F;
+            destinationY = 27.653332F;
         } else if (stop.equals("Stop 2")) {
-            destinationX = 20;
-            destinationY = 20;
+            destinationX = 0.616f;
+            destinationY = 24.468332f;
         } else if (stop.equals("Stop 3")) {
-            destinationX = 30;
-            destinationY = 30;
+            destinationX = 9.12f;
+            destinationY = 29.62667f;
         }
 
         // Call teleportPlayer method from nathan
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
+    }
+
+    public Vector2 getBusStopPosition() {
+        return busStopPosition;
+    }
+
+    public Dialog getDialog() {
+        return dialog;
     }
 
     public void closeDialog() {

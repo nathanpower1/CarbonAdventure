@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.noname.carbonadventure.Play;
@@ -178,14 +177,6 @@ public class Player extends Sprite {
 
     public float getStateTimer(){
         return stateTimer;
-    }
-
-    public void teleport(float x, float y) {
-        // Set the new position of the player's Box2D body
-        b2body.setTransform(x, y, b2body.getAngle());
-
-        // Update the position of the sprite to match the new position of the Box2D body
-        setPosition(x - getWidth() / 2, y - getHeight() / 2);
     }
 
     public Body getBody() {

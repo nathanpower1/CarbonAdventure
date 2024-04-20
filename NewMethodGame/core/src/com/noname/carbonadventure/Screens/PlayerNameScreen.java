@@ -24,7 +24,7 @@ public class PlayerNameScreen implements Screen {
         stage = new Stage(); // Consider using an appropriate viewport
         Gdx.input.setInputProcessor(stage);
 
-        Skin skin = new Skin(Gdx.files.internal("data/uiskin.json")); // Make sure you have this file
+        Skin skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json")); // Make sure you have this file
         nameTextField = new TextField("", skin);
         nameTextField.setMessageText("Enter Name");
         // Position the text field appropriately on the screen
