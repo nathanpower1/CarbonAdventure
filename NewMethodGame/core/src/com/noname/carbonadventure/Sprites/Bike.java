@@ -16,26 +16,27 @@ import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
 
 public class Bike extends Sprite implements Box2DObject {
-    private Texture upTexture, downTexture, leftTexture, rightTexture;
+    private Texture upTexture, downTexture, leftTexture, rightTexture, idleTexture;
     public Body b2body;
     private World world;
 
     // Attributes specific to car movement
-    private float maxSpeed = 2.0f;
+    private float maxSpeed = 1.5f;
     private float acceleration = 0.1f;
 
     public Bike(World world) {
         this.world = world;
-        upTexture = new Texture("img/Bike.PNG");
-        downTexture = new Texture("img/Bike.PNG");
-        leftTexture = new Texture("img/Bike.PNG");
-        rightTexture = new Texture("img/Bike.PNG");
+        upTexture = new Texture("img/skateboardUp1.PNG");
+        downTexture = new Texture("img/skateboardDown1.PNG");
+        leftTexture = new Texture("img/skateboardLeft.PNG");
+        rightTexture = new Texture("img/skateboardRight.PNG");
+        idleTexture = new Texture("img/skateboard.PNG");
 
         defineCar();
-        float scale = 2f;
-        setRegion(downTexture);
-        float width = 32 * scale / Play.PPM;
-        float height = 64 * scale / Play.PPM;
+        float scale = .75f;
+        setRegion(idleTexture);
+        float width = 64 * scale / Play.PPM;
+        float height = 32 * scale / Play.PPM;
         setBounds(0, 0, width, height);
     }
 
@@ -46,7 +47,7 @@ public class Bike extends Sprite implements Box2DObject {
         b2body = world.createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(3 / Play.PPM, 3 / Play.PPM);
+        shape.setAsBox(5 / Play.PPM, 5 / Play.PPM);
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
@@ -56,34 +57,35 @@ public class Bike extends Sprite implements Box2DObject {
     public void update(float dt) {
         Vector2 velocity = b2body.getLinearVelocity();
 
-        // Update position based on the body's position
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-
-        // Update texture based on velocity direction
-        if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
-            if (velocity.x > 0) {
-                setRegion(new TextureRegion(rightTexture));
-            } else if (velocity.x < 0) {
-                setRegion(new TextureRegion(leftTexture));
-            }
-        } else if (Math.abs(velocity.y) > Math.abs(velocity.x)) {
-            if (velocity.y > 0) {
-                setRegion(new TextureRegion(upTexture));
-            } else if (velocity.y < 0) {
-                setRegion(new TextureRegion(downTexture));
-            }
-        }
-
-        if (velocity.len() > maxSpeed) {
-            velocity = velocity.nor().scl(maxSpeed);
-            b2body.setLinearVelocity(velocity);
-        }
-
-
         if (!isMoving()) {
-            b2body.setLinearVelocity(0, 0);
+            setRegion(new TextureRegion(idleTexture));  // Use the idle texture when not moving
+            b2body.setLinearVelocity(0, 0); // Stop the bike by setting velocity to zero
+        } else {
+            // Handle direction and texture update based on the velocity direction
+            if (Math.abs(velocity.x) > Math.abs(velocity.y)) {
+                if (velocity.x > 0) {
+                    setRegion(new TextureRegion(rightTexture));
+                } else if (velocity.x < 0) {
+                    setRegion(new TextureRegion(leftTexture));
+                }
+            } else if (Math.abs(velocity.y) > Math.abs(velocity.x)) {
+                if (velocity.y > 0) {
+                    setRegion(new TextureRegion(upTexture));
+                } else if (velocity.y < 0) {
+                    setRegion(new TextureRegion(downTexture));
+                }
+            }
+
+            // Cap the velocity at the maximum speed
+            if (velocity.len() > maxSpeed) {
+                velocity = velocity.nor().scl(maxSpeed);
+                b2body.setLinearVelocity(velocity);
+            }
         }
+
+        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
     }
+
     public void accelerate(Vector2 direction) {
         Vector2 currentVelocity = b2body.getLinearVelocity();
         Vector2 addedVelocity = direction.scl(acceleration);
