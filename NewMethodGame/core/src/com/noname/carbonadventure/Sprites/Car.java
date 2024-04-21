@@ -22,7 +22,7 @@ public class Car extends Sprite implements Box2DObject {
 
     // Attributes specific to car movement
     private float maxSpeed = 2.0f;
-    private float acceleration = 0.1f;
+    private float acceleration = 0.5f;
     private float timeSinceLastCarbonIncrease = 0;
     private static final float CARBON_INCREASE_INTERVAL = 1.0f;
     private static final float CARBON_PER_INTERVAL = 0.5f;

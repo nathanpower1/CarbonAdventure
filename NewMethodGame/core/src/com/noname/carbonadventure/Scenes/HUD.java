@@ -55,8 +55,8 @@ public class HUD implements Disposable {
 
     private Texture carbonMeterTexture;
 
-    private float maxTime = 2;
-    private static float currentTime = 0.0f;
+    private float maxTime = 2; // this is in minutes
+    private static float currentTime = 0.0f; // this is in seconds
     private Image timeBarBase;
     private Image timeBarFill;
     private Texture timeBarTexture;
@@ -115,7 +115,7 @@ public class HUD implements Disposable {
         timeBarFill.setSize(0, 20);
         timeBarFill.setPosition(38.8f, Play.V_HEIGHT - 26.9f);
 
-        worldTimer = 120;
+        worldTimer = 120; // This is in seconds
         //timeCount = 0;
         //score = null;
 
@@ -210,7 +210,8 @@ public class HUD implements Disposable {
     }
 
     private void updateTimeBar(float dt) {
-        currentTime += dt;
+        float clampedDt = Math.min(dt, 0.02f);
+        currentTime += clampedDt;
         if (currentTime > maxTime) {
             currentTime = maxTime;
         }
