@@ -30,9 +30,9 @@ public class Elvis extends NPC {
     public Elvis(PlayScreen screen, float x, float y) {
         super(screen, x, y);
         Array<TextureRegion> frames = new Array<TextureRegion>();
-
-        frames.add(screen.getElvisAtlas().findRegion("elvis"));
-
+        for (int i = 1; i <= 2; i++) {
+            frames.add(screen.getElvisAtlas().findRegion("elvis", i));
+        }
         NPCRun = new Animation<TextureRegion>(0.5f,frames);
 
         stateTime = 0;

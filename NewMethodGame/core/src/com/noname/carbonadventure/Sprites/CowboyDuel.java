@@ -28,7 +28,7 @@ public class CowboyDuel extends NPC {
         super(screen, x, y);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 1; i <= 2; i++) {
-            frames.add(screen.getCowboyAtlas().findRegion("cowboy_down", i));
+            frames.add(screen.getCowboyAtlas().findRegion("cowboy_up", i));
         }
         NPCRun = new Animation<TextureRegion>(0.5f, frames);
 

@@ -9,7 +9,13 @@ index:1
 bounds:18,0,16,16
 cowboy_left
 index:2
-bounds:36,0,16,16
+bounds:54,0,16,16
 cowboy_left
 index:1
-bounds:54,0,16,16
+bounds:90,0,16,16
+cowboy_up
+index:2
+bounds:36,0,16,16
+cowboy_up
+index:1
+bounds:72,0,16,16
