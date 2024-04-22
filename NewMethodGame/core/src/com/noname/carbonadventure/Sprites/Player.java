@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.noname.carbonadventure.Play;
@@ -141,6 +142,10 @@ public class Player extends Sprite {
 
         // Update the player's sprite position to match the new body position
         setPosition(x - getWidth() / 2, y - getHeight() / 2);
+    }
+
+    public Vector2 getPosition() {
+        return new Vector2(b2body.getPosition().x, b2body.getPosition().y);
     }
 
 

@@ -24,7 +24,7 @@ public class LeaderboardScreen implements Screen {
         this.game = game;
         stage = new Stage(new FitViewport(Play.V_WIDTH, Play.V_HEIGHT), game.batch);
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
 
         Table table = new Table();
         table.setFillParent(true);

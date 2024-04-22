@@ -1,11 +1,10 @@
 package com.noname.carbonadventure.Scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.noname.carbonadventure.Play;
@@ -13,19 +12,21 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.List;
 
-
 public class Dialogue {
     private Stage stage;
     private Dialog dialog;
     private Skin skin;
     private PlayScreen playScreen;
+    private Vector2 npcPosition;
+    private boolean isBusStopDialogue;
+    private static final float DISTANCE_THRESHOLD = 1.5f;
+    private boolean shouldClose = false;
 
-    private Vector2 busStopPosition; // Add this field to store the bus stop's position
-
-    public Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> busStops, Vector2 busStopPosition) {
+    public Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> options, boolean isBusStopDialogue, Vector2 npcPosition) {
         this.playScreen = playScreen;
         this.stage = stage;
-        this.busStopPosition = busStopPosition;
+        this.isBusStopDialogue = isBusStopDialogue;
+        this.npcPosition = npcPosition;
 
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
 
@@ -36,65 +37,73 @@ public class Dialogue {
             }
         };
 
-        // Set dialog properties
-        GlyphLayout layout = new GlyphLayout();
-        float textWidth = layout.width;
-        float textHeight = layout.height;
+        dialog.setMovable(false);
+        Label label = new Label(message, skin, "default");
+        label.setWrap(true);
+        dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(10);
 
-        // Buttons for each stop to click
-        for (String stop : busStops) {
-            TextButton button = new TextButton(stop, skin);
-            button.setTouchable(Touchable.enabled);
-            dialog.button(button, stop);
+        for (String option : options) {
+            // Create a TextButton for each option
+            TextButton optionButton = new TextButton(option, skin);
+            dialog.button(optionButton, option);
         }
 
-        // dialogue box size
-        float dialogWidth = stage.getWidth() - 20;
-        float dialogHeight = 80;
-
-        // set the dialogue position on the screen
-        dialog.setSize(dialogWidth, dialogHeight);
-        dialog.setPosition(10, 10);
-
         dialog.show(stage);
+        dialog.setPosition((stage.getWidth() - dialog.getWidth()) / 2, 10);
         dialog.toFront();
-
         stage.act();
-        dialog.setPosition((stage.getWidth() - dialogWidth) / 2, 10);
-
         Gdx.input.setInputProcessor(stage);
     }
 
-    private void handleDialogResult(String stop) {
-        System.out.println("User selected: " + stop);
-        closeDialog();
+    public void update(float delta) {
+        if (npcPosition != null && playScreen.getPlayer() != null) {
+            float distance = npcPosition.dst(playScreen.getPlayer().getBody().getPosition());
+            if (distance > 5.0f) {
+                shouldClose = true;
+                closeDialog();
+            }
+        }
+    }
 
-        // Teleport the player bitch!
+    public boolean shouldClose() {
+        return shouldClose;
+    }
+
+    private void handleDialogResult(String option) {
+        closeDialog();
+        switch (option) {
+            case "Tell me more":
+                new Dialogue(playScreen, stage, "Details", "Here are more details.", List.of("Continue"), false, npcPosition);
+                break;
+            case "Enough":
+                break;
+            default:
+                if (isBusStopDialogue) {
+                    teleportPlayerBasedOnStop(option);
+                }
+                break;
+        }
+    }
+
+    private void teleportPlayerBasedOnStop(String stop) {
         float destinationX = 0;
         float destinationY = 0;
 
-        // change x and y to bus stops on map
-        if (stop.equals("Stop 1")) {
-            destinationX = 6.00F;
-            destinationY = 27.653332F;
-        } else if (stop.equals("Stop 2")) {
-            destinationX = 0.616f;
-            destinationY = 24.468332f;
-        } else if (stop.equals("Stop 3")) {
-            destinationX = 9.12f;
-            destinationY = 29.62667f;
+        switch (stop) {
+            case "Stop 1":
+                destinationX = 5.41833f;
+                destinationY = 27.368333f;
+                break;
+            case "Stop 2":
+                destinationX = 0.315f;
+                destinationY = 24.978333f;
+                break;
+            case "Stop 3":
+                destinationX = 9.11167f;
+                destinationY = 28.395002f;
+                break;
         }
-
-        // Call teleportPlayer method from nathan
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
-    }
-
-    public Vector2 getBusStopPosition() {
-        return busStopPosition;
-    }
-
-    public Dialog getDialog() {
-        return dialog;
     }
 
     public void closeDialog() {
