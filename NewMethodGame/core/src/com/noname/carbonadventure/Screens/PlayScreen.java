@@ -37,6 +37,7 @@ public class PlayScreen implements Screen {
     private TextureAtlas NPCatlas;
     private TextureAtlas fellaAtlas;
     private TextureAtlas cowboyAtlas;
+    private TextureAtlas Elvisatlas;
 
     private TextureAtlas geezerAtlas;
 
@@ -84,6 +85,7 @@ public class PlayScreen implements Screen {
         fellaAtlas = new TextureAtlas("fella.atlas");
         geezerAtlas = new TextureAtlas("geezer.atlas");
         cowboyAtlas = new TextureAtlas("cowboy.atlas");
+        Elvisatlas = new TextureAtlas("elvis.atlas");
         UIatlas = new TextureAtlas("ui.atlas");
 
         this.game = game;
@@ -158,6 +160,9 @@ public class PlayScreen implements Screen {
 
     public TextureAtlas getNPCAtlas(){
         return NPCatlas;
+    }
+    public TextureAtlas getElvisAtlas(){
+        return Elvisatlas;
     }
 
     public TextureAtlas getFellaAtlas(){

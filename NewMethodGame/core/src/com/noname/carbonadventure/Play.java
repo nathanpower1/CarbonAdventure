@@ -53,6 +53,7 @@ public class Play extends Game {
 		batch = new SpriteBatch();
 		manager = new AssetManager();
 		manager.load("audio/music/Wicked.mp3", Music.class);
+		manager.load("audio/music/jailhouse.mp3", Music.class);
 		manager.load("audio/music/buckbumble.mp3", Music.class);
 		manager.load("audio/music/cowboy.mp3", Music.class);
 		manager.load("audio/sounds/Gem_Collect.wav", Sound.class);
@@ -64,6 +65,7 @@ public class Play extends Game {
 		manager.load("audio/sounds/geezer.mp3", Sound.class);
 		manager.load("audio/sounds/best_shot.wav", Sound.class);
 		manager.load("audio/sounds/wompwomp.mp3", Sound.class);
+		manager.load("audio/sounds/Elvis.wav", Sound.class);
 
 
 
