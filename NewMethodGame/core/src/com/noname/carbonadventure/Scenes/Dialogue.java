@@ -2,11 +2,13 @@ package com.noname.carbonadventure.Scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
@@ -19,7 +21,7 @@ public class Dialogue {
     private PlayScreen playScreen;
     private Vector2 npcPosition;
     private boolean isBusStopDialogue;
-    private static final float DISTANCE_THRESHOLD = 1.5f;
+    private static final float distance_min = 1f;
     private boolean shouldClose = false;
 
     public Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> options, boolean isBusStopDialogue, Vector2 npcPosition) {
@@ -43,10 +45,18 @@ public class Dialogue {
         dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(10);
 
         for (String option : options) {
-            // Create a TextButton for each option
             TextButton optionButton = new TextButton(option, skin);
             dialog.button(optionButton, option);
         }
+
+        TextButton closeButton = new TextButton("Close", skin);
+        dialog.getButtonTable().add(closeButton).pad(10);
+        closeButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                closeDialog();
+            }
+        });
 
         dialog.show(stage);
         dialog.setPosition((stage.getWidth() - dialog.getWidth()) / 2, 10);
@@ -58,7 +68,7 @@ public class Dialogue {
     public void update(float delta) {
         if (npcPosition != null && playScreen.getPlayer() != null) {
             float distance = npcPosition.dst(playScreen.getPlayer().getBody().getPosition());
-            if (distance > 5.0f) {
+            if (distance > distance_min) {
                 shouldClose = true;
                 closeDialog();
             }
