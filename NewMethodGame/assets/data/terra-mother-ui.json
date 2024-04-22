@@ -41,6 +41,17 @@
 	"com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle": {
 	  "default": { "background": "window-c", "titleFont": "font" },
 	  "window-player": { "background": "window-player-c", "titleFont": "font" }
+	},
+
+	"com.badlogic.gdx.scenes.scene2d.ui.ScrollPane$ScrollPaneStyle": {
+		"default": {
+			"background": "window-c",
+			"corner": null,
+			"hScroll": null,
+			"hScrollKnob": null,
+			"vScroll": null,
+			"vScrollKnob": "white"
+		}
 	}
   }
   
