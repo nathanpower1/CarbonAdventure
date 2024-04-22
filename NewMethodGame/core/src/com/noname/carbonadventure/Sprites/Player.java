@@ -55,11 +55,8 @@ public class Player extends Sprite {
         frames.clear();
 
 
-        // definePlayer(490/Play.PPM,3180/Play.PPM);= First Map Spawn
-        // definePlayer(490/Play.PPM,940/Play.PPM); = Bottom left map spawn
-        // definePlayer(2730/Play.PPM,3180/Play.PPM); = Top Right map spawn
-        // definePlayer(2410/Play.PPM,1570/Play.PPM); = Bottom Right Map Spawn
-        definePlayer(490/Play.PPM,3180/Play.PPM);
+        // definePlayer(490/Play.PPM,3180/Play.PPM);
+        definePlayer(1120/Play.PPM,3180/Play.PPM);
         playerStand = new TextureRegion(getTexture(),0, 0, 16, 16);
         setBounds(0,0,16/Play.PPM,16/Play.PPM);
         setRegion(playerStand);
