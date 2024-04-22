@@ -14,15 +14,18 @@ import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 import static com.noname.carbonadventure.Play.player;
+import static com.noname.carbonadventure.Sprites.Cheeseburger.burgerCount;
 
 public class Elvis extends NPC {
     private float stateTime;
     private Animation<TextureRegion> NPCRun;
+
     private Animation <TextureRegion> NPCDown;
     private Animation <TextureRegion> NPCUp;
     private TextureRegion NPCStand;
     private Array<TextureRegion> frames;
     private boolean isSoundPlaying = false;
+
 
     public Elvis(PlayScreen screen, float x, float y) {
         super(screen, x, y);
@@ -68,17 +71,23 @@ public class Elvis extends NPC {
         // Check if the sound is not currently playing
         if (!isSoundPlaying) {
             // Log the collision
-            Gdx.app.log("Cowboy Collision","");
+            Gdx.app.log("Elvis Collision","");
 
             Music music = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
-            if (music.isPlaying()) {
-                music.stop();
-            }
 
-            Play.manager.get("audio/sounds/Elvis.wav", Sound.class).play();
-            Play.manager.get("audio/music/jailhouse.mp3", Music.class).play();
-            // Play the sound
-            //Play.manager.get("audio/sounds/best_shot.wav", Sound.class).play();
+
+
+
+            if (burgerCount > 0) {
+                if (music.isPlaying()) {
+                    music.stop();
+                    Play.manager.get("audio/music/jailhouse.mp3", Music.class).play();
+                }
+
+            }
+            else {
+                Play.manager.get("audio/sounds/Elvis.wav", Sound.class).play();
+            }
 
             // Set the flag to indicate that the sound is playing
             isSoundPlaying = true;
@@ -92,4 +101,5 @@ public class Elvis extends NPC {
             }, 10); // Reset the flag after 10 seconds
         }
     }
+
 }
