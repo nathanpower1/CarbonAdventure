@@ -31,6 +31,8 @@ public class Play extends Game {
 	public static final short NPC_BIT = 32;
 
 	public static final short FINISH_BIT = 64;
+	public static final short PATH_BIT = 128;
+
 	public static Player player;
 
 	public SpriteBatch batch;

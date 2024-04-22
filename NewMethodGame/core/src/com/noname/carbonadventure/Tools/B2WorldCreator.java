@@ -41,6 +41,11 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new Gem(screen, rect);
                 }
+            } else if ("Paths".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Path(screen, rect);
+                }
             } else if ("Garbage".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();

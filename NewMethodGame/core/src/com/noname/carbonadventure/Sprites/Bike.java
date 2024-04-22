@@ -51,9 +51,10 @@ public class Bike extends Sprite implements Box2DObject {
 
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
-        b2body.createFixture(fdef).setUserData("bike");
         fdef.filter.categoryBits = Play.PLAYER_BIT;
         fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT | Play.NPC_BIT;
+        b2body.createFixture(fdef).setUserData("bike");
+
         fdef.shape = shape;
     }
 
