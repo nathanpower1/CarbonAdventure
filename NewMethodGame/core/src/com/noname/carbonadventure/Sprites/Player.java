@@ -144,6 +144,10 @@ public class Player extends Sprite {
         setPosition(x - getWidth() / 2, y - getHeight() / 2);
     }
 
+    public Vector2 getPosition() {
+        return new Vector2(b2body.getPosition().x, b2body.getPosition().y);
+    }
+
 
     public void dead() {
         // Stop the music
@@ -178,14 +182,6 @@ public class Player extends Sprite {
 
     public float getStateTimer(){
         return stateTimer;
-    }
-
-    public void teleport(float x, float y) {
-        // Set the new position of the player's Box2D body
-        b2body.setTransform(x, y, b2body.getAngle());
-
-        // Update the position of the sprite to match the new position of the Box2D body
-        setPosition(x - getWidth() / 2, y - getHeight() / 2);
     }
 
     public Body getBody() {

@@ -4,19 +4,22 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.noname.carbonadventure.Sprites.Player;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class HUD implements Disposable {
     public static Stage stage;
@@ -61,12 +64,11 @@ public class HUD implements Disposable {
     private Image timeBarFill;
     private Texture timeBarTexture;
 
-
+    private Skin skin;
 
     public HUD(SpriteBatch sb, Player player) {
         this.UIatlas = new TextureAtlas("ui.atlas");
         this.playerHeadTexture = new Texture("img/Playerhead.png");
-
         this.playerHeadImage = new Image(playerHeadTexture);
 
         // Set position of the image on the HUD (modify x, y as needed)

@@ -7,12 +7,10 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Json;
-import com.noname.carbonadventure.Scenes.HUD;
-import com.noname.carbonadventure.Screens.MainMenuScreen;
-import com.noname.carbonadventure.Sprites.Player;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Json;
+import com.noname.carbonadventure.Screens.IntroText;
+import com.noname.carbonadventure.Sprites.Player;
 import com.noname.carbonadventure.models.LeaderboardEntry;
 
 public class Play extends Game {
@@ -48,7 +46,6 @@ public class Play extends Game {
 	private Array<LeaderboardEntry> leaderboardEntries = new Array<>();
 
 
-
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -70,6 +67,7 @@ public class Play extends Game {
 
 
 		manager.finishLoading();
+		setScreen(new IntroText(this));
 		prefs = Gdx.app.getPreferences("MyGamePreferences");
 		loadLeaderboard();
 
@@ -80,11 +78,9 @@ public class Play extends Game {
 		} else {
 			Gdx.app.error("AssetNotLoaded", "cuh.wav failed to load");
 		}
-		 this.setScreen(new MainMenuScreen(this));
-
 	}
 
-	@Override
+@Override
 	public void render () {
 
 		super.render();

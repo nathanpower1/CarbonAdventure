@@ -20,13 +20,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.GameMenu;
-import com.noname.carbonadventure.Scenes.HUD;
-import com.noname.carbonadventure.Scenes.MiniMap;
-import com.noname.carbonadventure.Scenes.PlayerNameDisplay;
+import com.noname.carbonadventure.Scenes.*;
 import com.noname.carbonadventure.Sprites.*;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.noname.carbonadventure.Scenes.HUD.stage;
 
@@ -73,6 +74,10 @@ public class PlayScreen implements Screen {
 
     private Bike bike;
 
+    private List<Bus_Stop> busStops;
+
+    private Dialogue currentDialogue;
+
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
@@ -89,7 +94,8 @@ public class PlayScreen implements Screen {
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
         stage = new Stage(new ExtendViewport(800, 480), game.batch);
 
-        Skin uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        Skin uiSkin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
+        busStops = new ArrayList<>();
 
         playerNameDisplay = new PlayerNameDisplay(game, stage, uiSkin);
         Gdx.app.log("Debug", "Retrieved Name: " + game.getPlayerName());
@@ -107,7 +113,7 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(),true);
         b2dr = new Box2DDebugRenderer();
-        b2dr.setDrawBodies(true);
+        b2dr.setDrawBodies(false);
 
         creator = new B2WorldCreator(this);
 
@@ -135,6 +141,13 @@ public class PlayScreen implements Screen {
 
     }
 
+    public void displayNPCDialogue(String title, String message, List<String> options, boolean isBusStopDialogue, Vector2 npcPosition) {
+        if (currentDialogue != null) {
+            currentDialogue.dispose();
+        }
+        currentDialogue = new Dialogue(this, stage, title, message, options, isBusStopDialogue, npcPosition);
+    }
+
     public Stage getStage() {
         return stage;
     }
@@ -142,6 +155,7 @@ public class PlayScreen implements Screen {
     public TextureAtlas getAtlas(){
         return atlas;
     }
+
     public TextureAtlas getNPCAtlas(){
         return NPCatlas;
     }
@@ -149,10 +163,10 @@ public class PlayScreen implements Screen {
     public TextureAtlas getFellaAtlas(){
         return fellaAtlas;
     }
+
     public TextureAtlas getCowboyAtlas(){
         return cowboyAtlas;
     }
-
 
     public TextureAtlas getGeezerAtlas(){
         return geezerAtlas;
@@ -210,15 +224,6 @@ public class PlayScreen implements Screen {
             return; // Stop further rendering after game over
         }
 
-        if (GameComplete()){
-
-            game.setScreen(new GameComplete(game));
-            dispose();
-            return;
-        }
-
-
-
         if (isMiniMapVisible) {
                 miniMap.render(); // Use the instance method here
             }
@@ -232,16 +237,6 @@ public class PlayScreen implements Screen {
             String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
             int score = hud.getScore();  // Make sure HUD is updating scores correctly
             game.addLeaderboardEntry(playerName, score);  // Add leaderboard entry before the game ends
-            return true;
-        }
-        return false;
-    }
-
-    public boolean GameComplete(){
-        if(Finish4.playerFinish) {
-            String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
-            int score = hud.getScore();  // Make sure HUD is updating scores correctly
-            game.addLeaderboardEntry(playerName, score);
             return true;
         }
         return false;
@@ -341,6 +336,10 @@ public class PlayScreen implements Screen {
         gamecam.update();
     }
 
+    private void someMethodToTriggerDialogue() {
+        Vector2 npcPosition = new Vector2(10, 10);
+        displayNPCDialogue("Hello", "How are you doing?", Arrays.asList("Good", "Bad"), true, npcPosition);
+    }
 
     public void update(float dt){
         handleInput(dt);
@@ -354,10 +353,6 @@ public class PlayScreen implements Screen {
             npc.update(dt);
             if (npc.getX() < player.getX() + 1)
                 npc.b2body.setActive(true);
-            else if (npc.getX() < car.getX() + 1)
-            npc.b2body.setActive(true);
-            else if (npc.getX() < bike.getX() + 1)
-                npc.b2body.setActive(true);
         }
         hud.update(dt);
 
@@ -368,6 +363,13 @@ public class PlayScreen implements Screen {
 
        // gamecam.position.x= player.b2body.getPosition().x;
        // gamecam.position.y= player.b2body.getPosition().y;
+
+        if (currentDialogue != null) {
+            currentDialogue.update(dt);  // Make sure this line is effectively being called
+            if (currentDialogue.shouldClose()) {
+                currentDialogue = null;
+            }
+        }
 
         updateCamera(dt);
         gamecam.update();
@@ -441,8 +443,7 @@ public class PlayScreen implements Screen {
 
 
     }
-
-    }
+}
 
 
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
+
+import java.util.Arrays;
 
 public class Fella extends NPC {
     private float stateTime;
@@ -31,6 +34,7 @@ public class Fella extends NPC {
 
         stateTime = 0;
         setBounds(getX(),getY(),18/ Play.PPM,16 /Play.PPM);
+        defineNPC();
     }
 
     @Override
@@ -72,9 +76,8 @@ public class Fella extends NPC {
 
                 // Set the flag to indicate that the sound is playing
                 isSoundPlaying = true;
-
-                // Start a timer to reset the flag after 10 seconds
-                Timer.schedule(new Timer.Task(){
+                Vector2 npcPosition = new Vector2(b2body.getPosition().x, b2body.getPosition().y);
+                screen.displayNPCDialogue("Greg", "Hello\n Did you know the concept of the “carbon footprint”, that popular measure of personal impact, was the pr tactic of an advertising firm working for BP", Arrays.asList("Tell me more", "Enough"), false, npcPosition);                Timer.schedule(new Timer.Task(){
                     @Override
                     public void run() {
                         isSoundPlaying = false;
