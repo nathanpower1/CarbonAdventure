@@ -26,18 +26,18 @@ public class Bike extends Sprite implements Box2DObject {
 
     public Bike(World world) {
         this.world = world;
-        upTexture = new Texture("img/skateboardUp1.PNG");
-        downTexture = new Texture("img/skateboardDown1.PNG");
-        leftTexture = new Texture("img/skateboardLeft.PNG");
-        rightTexture = new Texture("img/skateboardRight.PNG");
-        idleTexture = new Texture("img/skateboard.PNG");
+        upTexture = new Texture("img/skaterUp.PNG");
+        downTexture = new Texture("img/skaterdown.PNG");
+        leftTexture = new Texture("img/skaterleft.PNG");
+        rightTexture = new Texture("img/skaterright.PNG");
+        idleTexture = new Texture("img/skaterdown.PNG");
 
         defineCar();
         float scale = .75f;
         setRegion(idleTexture);
         float width = 64 * scale / Play.PPM;
         float height = 32 * scale / Play.PPM;
-        setBounds(0, 0, width, height);
+        setBounds(0, 0, 16/ Play.PPM, 21 /Play.PPM);
     }
 
     private void defineCar() {
@@ -52,6 +52,9 @@ public class Bike extends Sprite implements Box2DObject {
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData("bike");
+        fdef.filter.categoryBits = Play.PLAYER_BIT;
+        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT | Play.NPC_BIT;
+        fdef.shape = shape;
     }
 
     public void update(float dt) {

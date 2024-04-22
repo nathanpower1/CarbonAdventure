@@ -24,12 +24,10 @@ import com.noname.carbonadventure.Scenes.GameMenu;
 import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Scenes.MiniMap;
 import com.noname.carbonadventure.Scenes.PlayerNameDisplay;
-import com.noname.carbonadventure.Sprites.Car;
-import com.noname.carbonadventure.Sprites.NPC;
-import com.noname.carbonadventure.Sprites.Player;
+import com.noname.carbonadventure.Sprites.*;
 import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
-import com.noname.carbonadventure.Sprites.Bike;
+
 import static com.noname.carbonadventure.Scenes.HUD.stage;
 
 public class PlayScreen implements Screen {
@@ -212,6 +210,13 @@ public class PlayScreen implements Screen {
             return; // Stop further rendering after game over
         }
 
+        if (GameComplete()){
+
+            game.setScreen(new GameComplete(game));
+            dispose();
+            return;
+        }
+
 
 
         if (isMiniMapVisible) {
@@ -227,6 +232,16 @@ public class PlayScreen implements Screen {
             String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
             int score = hud.getScore();  // Make sure HUD is updating scores correctly
             game.addLeaderboardEntry(playerName, score);  // Add leaderboard entry before the game ends
+            return true;
+        }
+        return false;
+    }
+
+    public boolean GameComplete(){
+        if(Finish4.playerFinish) {
+            String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
+            int score = hud.getScore();  // Make sure HUD is updating scores correctly
+            game.addLeaderboardEntry(playerName, score);
             return true;
         }
         return false;
@@ -339,6 +354,10 @@ public class PlayScreen implements Screen {
             npc.update(dt);
             if (npc.getX() < player.getX() + 1)
                 npc.b2body.setActive(true);
+            else if (npc.getX() < car.getX() + 1)
+            npc.b2body.setActive(true);
+            else if (npc.getX() < bike.getX() + 1)
+                npc.b2body.setActive(true);
         }
         hud.update(dt);
 
@@ -422,8 +441,6 @@ public class PlayScreen implements Screen {
 
 
     }
-
-
 
     }
 
