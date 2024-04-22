@@ -171,6 +171,11 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new BarricadeTutorial(screen, rect);
                 }
+            }else if ("GarbageTutorial".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new GarbageTutorial(screen, rect);
+                }
             }
         }
     }
