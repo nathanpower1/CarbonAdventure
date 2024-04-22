@@ -354,6 +354,10 @@ public class PlayScreen implements Screen {
             npc.update(dt);
             if (npc.getX() < player.getX() + 1)
                 npc.b2body.setActive(true);
+            else if (npc.getX() < car.getX() + 1)
+            npc.b2body.setActive(true);
+            else if (npc.getX() < bike.getX() + 1)
+                npc.b2body.setActive(true);
         }
         hud.update(dt);
 
