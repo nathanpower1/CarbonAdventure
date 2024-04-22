@@ -76,7 +76,7 @@ public class Cowboy extends NPC {
             }
 
             Play.manager.get("audio/sounds/best_shot.wav", Sound.class).play();
-            Play.manager.get("audio/music/cowboy.mp3", Music.class).play();
+            Play.manager.get("audio/music/cowboyTrio.mp3", Music.class).play();
             // Play the sound
             //Play.manager.get("audio/sounds/best_shot.wav", Sound.class).play();
 
@@ -91,7 +91,7 @@ public class Cowboy extends NPC {
                 }
             }, 10); // Reset the flag after 10 seconds
             float destinationX = 490/Play.PPM;// Change this to the desired X coordinate
-            float destinationY = 1500/Play.PPM;// Change this to the desired Y coordinate
+            float destinationY = 1700/Play.PPM;// Change this to the desired Y coordinate
             screen.teleportPlayer(player, destinationX, destinationY);
         }
     }
