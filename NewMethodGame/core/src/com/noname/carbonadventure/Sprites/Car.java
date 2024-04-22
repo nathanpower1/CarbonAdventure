@@ -25,7 +25,7 @@ public class Car extends Sprite implements Box2DObject {
     private float acceleration = 0.5f;
     private float timeSinceLastCarbonIncrease = 0;
     private static final float CARBON_INCREASE_INTERVAL = 1.0f;
-    private static final float CARBON_PER_INTERVAL = 0.5f;
+    private static final float CARBON_PER_INTERVAL = 4f;
     private float carbonAccumulator = 0;
 
     public Car(World world) {

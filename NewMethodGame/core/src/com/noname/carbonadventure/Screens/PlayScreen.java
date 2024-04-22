@@ -115,7 +115,7 @@ public class PlayScreen implements Screen {
 
         world = new World(new Vector2(),true);
         b2dr = new Box2DDebugRenderer();
-        b2dr.setDrawBodies(false);
+        b2dr.setDrawBodies(true);
 
         creator = new B2WorldCreator(this);
 
@@ -255,10 +255,14 @@ public class PlayScreen implements Screen {
                 currentCharacter = car;
                 car.b2body.setTransform(player.b2body.getPosition(), 0);
                 car.setPosition(player.getX() - car.getWidth() / 2, player.getY() - car.getHeight() / 2);
+                player.b2body.setActive(false);
+                car.b2body.setActive(true);
             } else if (currentCharacter.equals(car)) {
                 currentCharacter = player;
                 player.b2body.setTransform(car.b2body.getPosition(), 0);
                 player.setPosition(car.getX() - player.getWidth() / 2, car.getY() - player.getHeight() / 2);
+                car.b2body.setActive(false);
+                player.b2body.setActive(true);
             }
         }
 
@@ -268,10 +272,14 @@ public class PlayScreen implements Screen {
                 currentCharacter = bike;
                 bike.b2body.setTransform(player.b2body.getPosition(), 0);
                 bike.setPosition(player.getX() - bike.getWidth() / 2, player.getY() - bike.getHeight() / 2);
+                player.b2body.setActive(false);
+                bike.b2body.setActive(true);
             } else if (currentCharacter.equals(bike)) {
                 currentCharacter = player;
                 player.b2body.setTransform(bike.b2body.getPosition(), 0);
                 player.setPosition(bike.getX() - player.getWidth() / 2, bike.getY() - player.getHeight() / 2);
+                bike.b2body.setActive(false);
+                player.b2body.setActive(true);
             }
         }
 
