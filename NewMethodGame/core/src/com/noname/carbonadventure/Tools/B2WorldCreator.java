@@ -156,7 +156,7 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new FinishTutorial(screen, rect);
                 }
-            }else if ("GemsTutorial".equals(layer.getName())) {
+            }else if ("GemTutorial".equals(layer.getName())) {
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new GemTutorial(screen, rect);
