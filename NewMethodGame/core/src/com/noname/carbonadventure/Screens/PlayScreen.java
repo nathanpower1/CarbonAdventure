@@ -79,6 +79,8 @@ public class PlayScreen implements Screen {
 
     private Dialogue currentDialogue;
 
+    private Cowboy cowboy;
+
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
@@ -249,6 +251,14 @@ public class PlayScreen implements Screen {
 
 
     public void handleInput(float dt) {
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if (Cowboy.cowboyInteracted) {
+                HUD.levelReset(25);
+                //destroy cowboy duel
+
+            }
+        }
         // Toggle between player and car with 'C'
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
             if (currentCharacter.equals(player)) {
