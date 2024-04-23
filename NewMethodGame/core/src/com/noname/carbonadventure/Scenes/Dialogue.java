@@ -21,8 +21,11 @@ public class Dialogue {
     private PlayScreen playScreen;
     private Vector2 npcPosition;
     private boolean isBusStopDialogue;
-    private static final float distance_min = 1f;
+    public static final float distance_min = 0.5f;
     private boolean shouldClose = false;
+
+    private Vector2 playerPosition; // Ensure this is updated with the player's current position
+    private Vector2 busStopPosition; // Ensure this is set to the bus stop's position
 
     public Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> options, boolean isBusStopDialogue, Vector2 npcPosition) {
         this.playScreen = playScreen;
@@ -65,7 +68,7 @@ public class Dialogue {
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void update(float delta) {
+    public void update(float dt) {
         if (npcPosition != null && playScreen.getPlayer() != null) {
             float distance = npcPosition.dst(playScreen.getPlayer().getBody().getPosition());
             if (distance > distance_min) {
