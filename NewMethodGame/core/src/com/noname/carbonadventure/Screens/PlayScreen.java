@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -231,6 +232,9 @@ public class PlayScreen implements Screen {
             return; // Stop further rendering after game over
         }
 
+        game.batch.setColor(Color.WHITE);
+        game.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
         if (isMiniMapVisible) {
                 miniMap.render(); // Use the instance method here
             }
@@ -363,6 +367,11 @@ public class PlayScreen implements Screen {
         Vector2 npcPosition = new Vector2(10, 10);
         displayNPCDialogue("Hello", "How are you doing?", Arrays.asList("Good", "Bad"), true, npcPosition);
     }
+
+    public void updateMiniMap(String newMapPath) {
+        miniMap.loadMiniMap(newMapPath); // This will only update the mini-map
+    }
+
 
     public void update(float dt){
         handleInput(dt);

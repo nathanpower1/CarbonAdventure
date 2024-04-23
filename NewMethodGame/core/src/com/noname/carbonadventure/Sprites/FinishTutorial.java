@@ -29,5 +29,6 @@ public class FinishTutorial extends InteractiveTileObject {
 
         // Teleport the player to the destination
         screen.teleportPlayer(player, destinationX, destinationY);
+        screen.updateMiniMap("maps/Level_1.0.tmx");
     }
 }

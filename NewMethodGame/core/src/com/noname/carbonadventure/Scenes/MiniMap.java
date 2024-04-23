@@ -34,6 +34,9 @@ public class MiniMap {
     private TiledMap tiledMap;
     private OrthogonalTiledMapRenderer mapRenderer;
 
+    private TmxMapLoader mapLoader;
+
+
 
     public MiniMap(SpriteBatch batch, float worldWidth, float worldHeight, float viewportWidth, float viewportHeight) {
         this.worldSize = Math.max(worldWidth, worldHeight);
@@ -48,7 +51,7 @@ public class MiniMap {
 
         //Texture mapTexture = new Texture("img/miniMap.png");
         //mapImage = new Image(mapTexture);
-        tiledMap = new TmxMapLoader().load("maps/Level_1.0.tmx");
+        //tiledMap = new TmxMapLoader().load("maps/Level_1.0.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 45f / miniMapSize, batch);
 
         //stage.addActor(mapImage);
@@ -67,6 +70,9 @@ public class MiniMap {
 
 
         //miniMapTopLeftCorner = new Vector2(-1250, -1250);
+
+        mapLoader = new TmxMapLoader();
+
     }
 
     public void updatePlayerPosition(Player player) {
@@ -81,13 +87,26 @@ public class MiniMap {
     }
 
     public void render() {
+        if (tiledMap == null || mapRenderer == null) {
+            return; // Skip rendering if the map or renderer has not been initialized
+        }
         camera.position.set(miniMapTopLeftCorner.x + miniMapSize / 2, miniMapTopLeftCorner.y + miniMapSize / 2, 0);
         camera.update();
         mapRenderer.setView(camera);
         mapRenderer.render();
+    }
 
-        stage.act();
-        stage.draw();
+    public void loadMiniMap(String mapPath) {
+        if (tiledMap != null) {
+            tiledMap.dispose();
+        }
+        tiledMap = mapLoader.load(mapPath);
+        if (mapRenderer != null) {
+            mapRenderer.setMap(tiledMap);
+        } else {
+            mapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1 / 16f);
+        }
+        mapRenderer.setView(camera);
     }
 
     public void resize(int width, int height) {
