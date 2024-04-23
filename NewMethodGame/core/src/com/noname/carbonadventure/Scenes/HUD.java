@@ -232,6 +232,7 @@ public class HUD implements Disposable {
         carbonMeter += value;
         if (carbonMeter > MAX_CARBON) {
             carbonMeter = MAX_CARBON;
+            Play.player.dead();
         }
     }
 
