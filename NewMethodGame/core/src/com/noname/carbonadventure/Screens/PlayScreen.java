@@ -77,9 +77,11 @@ public class PlayScreen implements Screen {
 
     private List<Bus_Stop> busStops;
 
-    private Dialogue currentDialogue;
+    private Dialogue_NPC currentNPCDialogue;
+    private Dialogue_Bus currentBusDialogue;
 
     private Cowboy cowboy;
+
 
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
@@ -146,10 +148,17 @@ public class PlayScreen implements Screen {
     }
 
     public void displayNPCDialogue(String title, String message, List<String> options, boolean isBusStopDialogue, Vector2 npcPosition) {
-        if (currentDialogue != null) {
-            currentDialogue.dispose();
+        if (currentNPCDialogue != null) {
+            currentNPCDialogue.dispose();
         }
-        currentDialogue = new Dialogue(this, stage, title, message, options, isBusStopDialogue, npcPosition);
+        currentNPCDialogue = new Dialogue_NPC(this, stage, title, message, npcPosition);
+    }
+
+    public void displayBusStopDialogue(String title, String message, List<String> options, Vector2 busStopPosition) {
+        if (currentBusDialogue != null) {
+            currentBusDialogue.dispose();
+        }
+        currentBusDialogue = new Dialogue_Bus(this, stage, title, message, options, busStopPosition);
     }
 
     public Stage getStage() {
@@ -231,6 +240,22 @@ public class PlayScreen implements Screen {
             return; // Stop further rendering after game over
         }
 
+        if (currentNPCDialogue != null) {
+            currentNPCDialogue.update(delta);
+            if (currentNPCDialogue.shouldClose()) {
+                currentNPCDialogue.closeDialog();
+                currentNPCDialogue = null;
+            }
+        }
+
+        if (currentBusDialogue != null) {
+            currentBusDialogue.update(delta);
+            if (currentBusDialogue.shouldClose()) {
+                currentBusDialogue.closeDialog();
+                currentBusDialogue = null;
+            }
+        }
+        
         game.batch.setColor(Color.WHITE);
         game.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -361,7 +386,7 @@ public class PlayScreen implements Screen {
         gamecam.position.set(clampedX, clampedY, 0);
         gamecam.update();
     }
-    
+
     public void updateMiniMap(String newMapPath) {
         miniMap.loadMiniMap(newMapPath); // This will only update the mini-map
     }
@@ -408,12 +433,16 @@ public class PlayScreen implements Screen {
             car.update(dt);
         }
 
-        if (currentDialogue != null) {
-            currentDialogue.update(dt);
-            if (currentDialogue.shouldClose()) {
-                currentDialogue.closeDialog();
-                currentDialogue = null;
+        if (currentBusDialogue != null) {
+            currentBusDialogue.update(dt);
+            if (currentBusDialogue.shouldClose()) {
+                currentBusDialogue.closeDialog();
+                currentBusDialogue = null;
             }
+        }
+
+        if (currentNPCDialogue != null) {
+            currentNPCDialogue.update(dt);
         }
 
     }

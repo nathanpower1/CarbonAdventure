@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.Dialogue_Tutorial;
+import com.noname.carbonadventure.Scenes.Dialogue_Train_Tutorial;
 import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
@@ -28,16 +28,15 @@ public class Train_Station_Tutorial extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-
         List<String> tutorialMessages = Arrays.asList(
-                "Welcome to the Dublin Bus Tutorial!",
+                "Welcome to the Dublin Train Tutorial!",
                 "This tutorial will explain how you can use the bus system to travel between different stops efficiently.",
-                "You can select any of the stops on the map to travel, and you will be teleported there!",
-                "Each stop is located near a valuable gem, but watch out, cause its not free! Keep an eye an your carbon meter as you traverse the stations!",
-                "Goodluck!\nEnjoy your journey!"
+                "You can select any of the stations on the map to travel, and you will be transported there!",
+                "Each station is located in the corners of the map, allowing you to easily travel from one side to the other! But watch out, cause its not free! Keep an eye on your carbon meter as you traverse the map!",
+                "Goodluck!"
         );
 
-        new Dialogue_Tutorial(screen.getStage(), "", tutorialMessages);
+        new Dialogue_Train_Tutorial(screen.getStage(), "", tutorialMessages);
         HUD.increaseCarbonMeter(10);
     }
 
@@ -45,4 +44,3 @@ public class Train_Station_Tutorial extends InteractiveTileObject {
         return screen.getStage();
     }
 }
-
