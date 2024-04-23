@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.List;
@@ -19,7 +20,9 @@ public class Dialogue_Train {
     private Skin skin;
     private PlayScreen playScreen;
     private Vector2 trainStopPosition;
-    public static final float distance_min = 0.5f; // Customize as needed
+
+    public static final float distance_min = 0.5f;
+
 
     public Dialogue_Train(PlayScreen playScreen, Stage stage, String title, String message, List<String> options, Vector2 trainStopPosition) {
         this.playScreen = playScreen;
@@ -61,20 +64,38 @@ public class Dialogue_Train {
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void update(float delta) {
-        if (shouldClose()) {
-            closeDialog();
-        }
-    }
-
-    public boolean shouldClose() {
-        Vector2 playerPosition = playScreen.getPlayer().getPosition();
-        return trainStopPosition.dst(playerPosition) > distance_min;
-    }
-
     private void handleDialogResult(String option) {
         closeDialog();
-        // Implement train-specific actions
+        teleportPlayerBasedOnStop(option);
+    }
+
+    private void teleportPlayerBasedOnStop(String stop) {
+        float destinationX = 0;
+        float destinationY = 0;
+
+        switch (stop) {
+            case "North Station":
+                destinationX = 10;
+                destinationY = 20;
+                break;
+            case "Central Station":
+                destinationX = 15;
+                destinationY = 25;
+                break;
+            case "South Station":
+                destinationX = 5;
+                destinationY = 10;
+                break;
+        }
+        playScreen.teleportPlayer(Play.player, destinationX, destinationY);
+    }
+
+    public void update(float delta) {
+        Vector2 playerPosition = playScreen.getPlayer().getPosition();
+        float distance = trainStopPosition.dst(playerPosition);
+        if (trainStopPosition.dst(playerPosition) > distance_min) {
+            closeDialog();
+        }
     }
 
     public void closeDialog() {
@@ -91,4 +112,3 @@ public class Dialogue_Train {
         }
     }
 }
-

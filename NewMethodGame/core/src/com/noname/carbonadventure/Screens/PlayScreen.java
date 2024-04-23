@@ -79,7 +79,6 @@ public class PlayScreen implements Screen {
 
     private Dialogue_NPC currentNPCDialogue;
     private Dialogue_Bus currentBusDialogue;
-    private Dialogue_Luas currentLuasDialogue;
 
     private Cowboy cowboy;
 
@@ -160,13 +159,6 @@ public class PlayScreen implements Screen {
             currentBusDialogue.dispose();
         }
         currentBusDialogue = new Dialogue_Bus(this, stage, title, message, options, busStopPosition);
-    }
-
-    public void displayLuasDialogue(String title, String message, List<String> options, Vector2 luasStopPosition) {
-        if (currentLuasDialogue != null) {
-            currentLuasDialogue.dispose();
-        }
-        currentLuasDialogue = new Dialogue_Luas(this, stage, title, message, options, luasStopPosition);
     }
 
     public Stage getStage() {
@@ -263,15 +255,7 @@ public class PlayScreen implements Screen {
                 currentBusDialogue = null;
             }
         }
-
-        if (currentLuasDialogue != null) {
-            currentLuasDialogue.update(delta);
-            if (currentLuasDialogue.shouldClose()) {
-                currentLuasDialogue.closeDialog();
-                currentLuasDialogue = null;
-            }
-        }
-
+        
         game.batch.setColor(Color.WHITE);
         game.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 

@@ -54,7 +54,7 @@ public class Dialogue_Bus {
                 closeDialog();
             }
         });
-        dialog.getButtonTable().add(closeButton).padRight(10);;
+        dialog.getButtonTable().add(closeButton).padRight(20);;
 
         dialog.show(stage);
         dialog.setPosition((stage.getWidth() - dialog.getWidth()) / 2, 10);
