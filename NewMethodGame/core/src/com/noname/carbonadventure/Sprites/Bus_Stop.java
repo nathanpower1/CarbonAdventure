@@ -30,13 +30,13 @@ public class Bus_Stop extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        List<String> busStops = Arrays.asList("East","","Central","","West");
+        List<String> busStops = Arrays.asList("East Plaza","","Central Park","","West Side");
         Vector2 busStopPosition = new Vector2(x, y);
 
         if (currentDialogue != null) {
             currentDialogue.dispose();
         }
-        currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Welcome to the Dublin Bus!\n\nPlease choose a stop you would like to travel to:", busStops, busStopPosition);
+        currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Welcome to the Dublin Bus!\nPlease choose a stop you would like to travel to:", busStops, busStopPosition);
         HUD.increaseCarbonMeter(10);
     }
 

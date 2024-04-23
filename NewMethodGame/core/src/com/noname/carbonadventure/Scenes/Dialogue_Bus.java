@@ -40,21 +40,21 @@ public class Dialogue_Bus {
         dialog.setMovable(false);
         Label label = new Label(message, skin, "default");
         label.setWrap(true);
-        dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(10);
+        dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(5);
 
         for (String option : options) {
             TextButton optionButton = new TextButton(option, skin);
             dialog.button(optionButton, option);
         }
 
-        TextButton closeButton = new TextButton("exit", skin);
+        TextButton closeButton = new TextButton("Exit", skin);
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 closeDialog();
             }
         });
-        dialog.getButtonTable().add(closeButton).padRight(20);;
+        dialog.getButtonTable().add(closeButton).padLeft(20).padRight(10);
 
         dialog.show(stage);
         dialog.setPosition((stage.getWidth() - dialog.getWidth()) / 2, 10);
@@ -64,11 +64,13 @@ public class Dialogue_Bus {
     }
 
     public void update(float delta) {
-        Vector2 playerPosition = playScreen.getPlayer().getPosition();
-        float distance = busStopPosition.dst(playerPosition);
-        if (busStopPosition.dst(playerPosition) > distance_min) {
+        if (isDialogOpen() && shouldClose()) {
             closeDialog();
         }
+    }
+
+    private boolean isDialogOpen() {
+        return dialog != null && dialog.isVisible();
     }
 
     public boolean shouldClose() {
@@ -86,15 +88,15 @@ public class Dialogue_Bus {
         float destinationY = 0;
 
         switch (stop) {
-            case "Central":
+            case "Central Park":
                 destinationX = 5.41833f;
                 destinationY = 27.368333f;
                 break;
-            case "East":
+            case "East Plaza":
                 destinationX = 0.315f;
                 destinationY = 24.978333f;
                 break;
-            case "West":
+            case "West Side":
                 destinationX = 9.11167f;
                 destinationY = 28.395002f;
                 break;
