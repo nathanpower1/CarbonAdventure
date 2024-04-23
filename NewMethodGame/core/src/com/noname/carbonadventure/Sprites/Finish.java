@@ -21,7 +21,7 @@ public class Finish extends InteractiveTileObject {
 
     @Override
     public void OnBodyHit() {
-        HUD.levelReset();
+        HUD.levelReset(120);
         Gdx.app.log("Finish", "Finish line has been triggered.");
         float destinationX = 490/Play.PPM;// Change this to the desired X coordinate
         float destinationY = 940/Play.PPM;// Change this to the desired Y coordinate
