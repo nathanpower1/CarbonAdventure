@@ -24,6 +24,7 @@ public class CowboyDuel extends NPC {
     private Array<TextureRegion> frames;
     private boolean isSoundPlaying = false;
 
+
     public CowboyDuel(PlayScreen screen, float x, float y) {
         super(screen, x, y);
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -42,6 +43,7 @@ public class CowboyDuel extends NPC {
         setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
         setRegion(NPCRun.getKeyFrame(stateTime, true));
     }
+
 
     @Override
     protected void defineNPC() {
@@ -63,4 +65,6 @@ public class CowboyDuel extends NPC {
 
     }
     public void BodyHit() {}
+
+
 }

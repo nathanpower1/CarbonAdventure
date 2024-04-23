@@ -11,7 +11,12 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
+import com.noname.carbonadventure.Scenes.Dialogue_Tutorial;
+import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static com.noname.carbonadventure.Play.player;
 
@@ -23,6 +28,8 @@ public class Cowboy extends NPC {
     private TextureRegion NPCStand;
     private Array<TextureRegion> frames;
     private boolean isSoundPlaying = false;
+
+    public static boolean cowboyInteracted = false;
 
     public Cowboy(PlayScreen screen, float x, float y) {
         super(screen, x, y);
@@ -65,6 +72,7 @@ public class Cowboy extends NPC {
     }
 
     public void BodyHit() {
+        cowboyInteracted = true;
         // Check if the sound is not currently playing
         if (!isSoundPlaying) {
             // Log the collision
@@ -93,6 +101,15 @@ public class Cowboy extends NPC {
             float destinationX = 490/Play.PPM;// Change this to the desired X coordinate
             float destinationY = 1700/Play.PPM;// Change this to the desired Y coordinate
             screen.teleportPlayer(player, destinationX, destinationY);
+            HUD.levelReset(10);
+
+            List<String> cowboyMessages = Arrays.asList(
+                    "You have found the Carbon Cowboy!",
+                    "How quick are your reactions?.",
+                    "Press the Spacebar before your time runs out! Be quick!"
+            );
+
+            new Dialogue_Tutorial(screen.getStage(), "", cowboyMessages);
         }
     }
 }
