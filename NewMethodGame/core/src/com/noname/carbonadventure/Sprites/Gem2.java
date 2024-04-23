@@ -23,7 +23,7 @@ public class Gem2 extends InteractiveTileObject {
         Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
         setCategoryFilter(Play.DESTROYED_BIT);
         getCell().setTile(null);
-        HUD.addGemIcon(null);
+        HUD.addGemIcon("img/croppedGem3.png");
         gemCount--;
 
         // Check if all gems are collected
