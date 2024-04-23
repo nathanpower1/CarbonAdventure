@@ -82,7 +82,6 @@ public class PlayScreen implements Screen {
 
     private Cowboy cowboy;
 
-
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
@@ -200,6 +199,10 @@ public class PlayScreen implements Screen {
         return player;
     }
 
+    public List<Bus_Stop> getBusStops() {
+        return busStops;
+    }
+
     @Override
     public void render(float delta) {
 
@@ -250,10 +253,6 @@ public class PlayScreen implements Screen {
 
         if (currentBusDialogue != null) {
             currentBusDialogue.update(delta);
-            if (currentBusDialogue.shouldClose()) {
-                currentBusDialogue.closeDialog();
-                currentBusDialogue = null;
-            }
         }
         
         game.batch.setColor(Color.WHITE);
@@ -408,6 +407,10 @@ public class PlayScreen implements Screen {
         }
         hud.update(dt);
 
+        for (Bus_Stop busStop : busStops) {
+            busStop.update(dt);
+        }
+
         if(player.currentState != Player.State.DEAD){
             gamecam.position.x= player.b2body.getPosition().x;
             gamecam.position.y= player.b2body.getPosition().y;
@@ -445,10 +448,6 @@ public class PlayScreen implements Screen {
             currentNPCDialogue.update(dt);
         }
 
-    }
-
-    public List<Bus_Stop> getBusStops() {
-        return busStops;
     }
 
     public void teleportPlayer(Player player, float destinationX, float destinationY) {
