@@ -54,7 +54,7 @@ public class Car extends Sprite implements Box2DObject {
 
         FixtureDef fdef = new FixtureDef();
         fdef.filter.categoryBits = Play.PLAYER_BIT;
-        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT | Play.NPC_BIT | Play.PATH_BIT;
+        fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.OBJECT_BIT | Play.PATH_BIT;
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData("car");
     }

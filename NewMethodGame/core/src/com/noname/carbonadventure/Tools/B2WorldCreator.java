@@ -201,6 +201,16 @@ public class B2WorldCreator {
                     Bus_Stop busStop = new Bus_Stop(screen, rect);
                     playScreen.getBusStops().add(busStop);
                 }
+            }else if ("Train_Station_Tutorial".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Train_Station_Tutorial(screen, rect);
+                }
+            }else if ("Train_Station".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Train_Station(screen, rect);
+                }
             }
         }
     }

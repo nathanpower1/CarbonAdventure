@@ -68,7 +68,7 @@ public class Geezer extends NPC {
             Gdx.app.log("NPC Collision","");
 
             // Play the sound
-            Play.manager.get("audio/sounds/geezer.mp3", Sound.class).play();
+            Play.manager.get("audio/sounds/alright.mp3", Sound.class).play();
 
             // Set the flag to indicate that the sound is playing
             isSoundPlaying = true;

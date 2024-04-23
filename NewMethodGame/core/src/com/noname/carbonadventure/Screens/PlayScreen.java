@@ -473,8 +473,16 @@ public class PlayScreen implements Screen {
             // Set the new position of the player's Box2D body
             player.b2body.setTransform(destinationX, destinationY, player.b2body.getAngle());
 
+
             // Update the position of the sprite to match the new position of the Box2D body
             player.setPosition(destinationX - player.getWidth() / 2, destinationY - player.getHeight() / 2);
+
+            // Set the new position of the player's Box2D body
+            bike.b2body.setTransform(destinationX, destinationY, bike.b2body.getAngle());
+
+
+            // Update the position of the sprite to match the new position of the Box2D body
+            bike.setPosition(destinationX - bike.getWidth() / 2, destinationY - bike.getHeight() / 2);
         });
     }
 
