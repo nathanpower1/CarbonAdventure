@@ -27,7 +27,6 @@ import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.noname.carbonadventure.Scenes.HUD.stage;
@@ -362,12 +361,7 @@ public class PlayScreen implements Screen {
         gamecam.position.set(clampedX, clampedY, 0);
         gamecam.update();
     }
-
-    private void someMethodToTriggerDialogue() {
-        Vector2 npcPosition = new Vector2(10, 10);
-        displayNPCDialogue("Hello", "How are you doing?", Arrays.asList("Good", "Bad"), true, npcPosition);
-    }
-
+    
     public void updateMiniMap(String newMapPath) {
         miniMap.loadMiniMap(newMapPath); // This will only update the mini-map
     }
@@ -379,6 +373,7 @@ public class PlayScreen implements Screen {
         world.step(1/60f,6,2);
 
         player.update(dt);
+
         car.update(dt);
         bike.update(dt);
         for (NPC npc : creator.getNPCs()){
@@ -395,13 +390,6 @@ public class PlayScreen implements Screen {
 
        // gamecam.position.x= player.b2body.getPosition().x;
        // gamecam.position.y= player.b2body.getPosition().y;
-
-        if (currentDialogue != null) {
-            currentDialogue.update(dt);  // Make sure this line is effectively being called
-            if (currentDialogue.shouldClose()) {
-                currentDialogue = null;
-            }
-        }
 
         updateCamera(dt);
         gamecam.update();
@@ -420,6 +408,18 @@ public class PlayScreen implements Screen {
             car.update(dt);
         }
 
+        if (currentDialogue != null) {
+            currentDialogue.update(dt);
+            if (currentDialogue.shouldClose()) {
+                currentDialogue.closeDialog();
+                currentDialogue = null;
+            }
+        }
+
+    }
+
+    public List<Bus_Stop> getBusStops() {
+        return busStops;
     }
 
     public void teleportPlayer(Player player, float destinationX, float destinationY) {

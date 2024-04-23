@@ -1,15 +1,19 @@
 package com.noname.carbonadventure.Tools;
 
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 import com.noname.carbonadventure.Sprites.*;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class B2WorldCreator {
     private Array<Dude> dudes;
@@ -19,9 +23,9 @@ public class B2WorldCreator {
     private Array<Train> trains;
     private Array<Elvis> elvis;
 
+    private PlayScreen playScreen;
+
     private Array<CowboyDuel> cowboyduel;
-
-
 
     public B2WorldCreator(PlayScreen screen) {
         World world = screen.getWorld();
@@ -30,6 +34,7 @@ public class B2WorldCreator {
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
         Body body;
+        this.playScreen = screen;
 
         for (MapLayer layer : map.getLayers()) {
             if ("Walls".equals(layer.getName())) {
@@ -66,7 +71,9 @@ public class B2WorldCreator {
                 dudes = new Array<Dude>();
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                    dudes.add(new Dude(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM));
+                    Dude dude = new Dude(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM);
+                    dudes.add(dude);
+                    createDialogueForNPC(screen, dude, "Dude Dialogue", "Hello, player!", Arrays.asList("Option 1", "Option 2"), false);
                 }
             } else if ("Elvis".equals(layer.getName())) {
                 elvis = new Array<Elvis>();
@@ -188,8 +195,19 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new GarbageTutorial(screen, rect);
                 }
+            } else if ("Bus_Stop".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    Bus_Stop busStop = new Bus_Stop(screen, rect);
+                    playScreen.getBusStops().add(busStop);
+                }
             }
         }
+    }
+
+    private void createDialogueForNPC(PlayScreen screen, NPC npc, String title, String message, List<String> options, boolean isBusStopDialogue) {
+        Vector2 npcPosition = new Vector2(npc.getX(), npc.getY());
+        screen.displayNPCDialogue(title, message, options, isBusStopDialogue, npcPosition);
     }
 
     public Array<Dude> getDudes() {
