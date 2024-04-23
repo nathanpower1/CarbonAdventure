@@ -17,7 +17,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
@@ -82,6 +84,8 @@ public class PlayScreen implements Screen {
 
     private Cowboy cowboy;
 
+    private Skin uiSkin;
+
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
@@ -99,7 +103,7 @@ public class PlayScreen implements Screen {
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
         stage = new Stage(new ExtendViewport(800, 480), game.batch);
 
-        Skin uiSkin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
+        uiSkin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
         busStops = new ArrayList<>();
 
         playerNameDisplay = new PlayerNameDisplay(game, stage, uiSkin);
@@ -163,6 +167,27 @@ public class PlayScreen implements Screen {
     public Stage getStage() {
         return stage;
     }
+
+    public void onPlayerTeleported() {
+        displayLevelCompleteDialogue();
+    }
+
+    private void displayLevelCompleteDialogue() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Tutorial complete! Lets GO " );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 3);
+    }
+
+
 
     public TextureAtlas getAtlas(){
         return atlas;
@@ -265,6 +290,8 @@ public class PlayScreen implements Screen {
         stage.act(delta);
         stage.draw();
     }
+
+
 
     public boolean gameOver(){
         if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3){

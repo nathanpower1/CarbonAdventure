@@ -6,7 +6,10 @@ import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
+import java.awt.*;
+
 import static com.noname.carbonadventure.Play.player;
+import static com.noname.carbonadventure.Scenes.HUD.stage;
 
 public class Finish extends InteractiveTileObject {
     private PlayScreen screen;
@@ -29,6 +32,8 @@ public class Finish extends InteractiveTileObject {
         // Teleport the player to the destination
         screen.teleportPlayer(player, destinationX, destinationY);
         screen.updateMiniMap("maps/Level_1.2.tmx");
+
+
     }
 }
 
