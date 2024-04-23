@@ -62,7 +62,7 @@ public class Play extends Game {
 		manager.load("audio/sounds/bus_honk.wav", Sound.class);
 		manager.load("audio/sounds/hello.wav", Sound.class);
 		manager.load("audio/sounds/car_horn.wav", Sound.class);
-		manager.load("audio/sounds/geezer.mp3", Sound.class);
+		manager.load("audio/sounds/alright.mp3", Sound.class);
 		manager.load("audio/sounds/best_shot.wav", Sound.class);
 		manager.load("audio/sounds/wompwomp.mp3", Sound.class);
 		manager.load("audio/sounds/Elvis.wav", Sound.class);
