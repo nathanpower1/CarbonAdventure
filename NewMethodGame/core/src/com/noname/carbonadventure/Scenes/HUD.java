@@ -58,7 +58,7 @@ public class HUD implements Disposable {
 
     private Texture carbonMeterTexture;
 
-    private float maxTime; // this is in minutes
+    private static float maxTime; // this is in minutes
     private static float currentTime = 0.0f; // this is in seconds
     private Image timeBarBase;
     private Image timeBarFill;
@@ -117,7 +117,7 @@ public class HUD implements Disposable {
         timeBarFill.setSize(0, 20);
         timeBarFill.setPosition(38.8f, Play.V_HEIGHT - 26.9f);
 
-        worldTimer = 60; // This is in seconds
+        worldTimer = 6000; // This is in seconds
         maxTime = worldTimer/60F;
         //timeCount = 0;
         //score = null;
@@ -179,6 +179,7 @@ public class HUD implements Disposable {
     public static void setWorldTimer(int time){
         worldTimer = time;
         currentTime = 0;
+        maxTime = worldTimer/60F;
     }
     public static void setScore(int time, int carbon){
         score = time*100 - carbon;
@@ -261,13 +262,13 @@ public class HUD implements Disposable {
     }
 
 
-    public static void levelReset() {
+    public static void levelReset(int levelTime) {
 
         int time = getWorldTimer();
         int carbon = getCarbonMeter();
         setScore(time, carbon);
         setCarbonMeter(0);
-        setWorldTimer(120);
+        setWorldTimer(levelTime);
         resetGemIcons();
     }
 
