@@ -30,9 +30,16 @@ public class LeaderboardScreen implements Screen {
         mainTable.setFillParent(true);
         mainTable.top();
 
+
+
         // Table that will hold leaderboard entries and the back button
         Table entriesTable = new Table();
         entriesTable.top();
+
+        Label leaderboardLabel = new Label("Leaderboard", skin);
+        leaderboardLabel.setFontScale(0.8f); // Make the header larger
+        entriesTable.add(leaderboardLabel).expandX().fillX().center().padTop(10).padBottom(10);
+        entriesTable.row(); // Move to the next row for entries
 
         // ScrollPane for scrolling through leaderboard entries
         ScrollPane scrollPane = new ScrollPane(entriesTable, skin);
@@ -51,7 +58,7 @@ public class LeaderboardScreen implements Screen {
             nameLabel.setFontScale(fontScale);
             scoreLabel.setFontScale(fontScale);
             entriesTable.add(nameLabel).expandX().fillX().left().padLeft(10);
-            entriesTable.add(scoreLabel).right().padRight(10);
+            entriesTable.add(scoreLabel).right().pad(10);
             entriesTable.row();
         }
 

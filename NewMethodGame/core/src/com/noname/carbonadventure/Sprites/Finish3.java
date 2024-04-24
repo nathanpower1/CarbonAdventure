@@ -29,5 +29,6 @@ public class Finish3 extends InteractiveTileObject {
         // Teleport the player to the destination
         screen.teleportPlayer(player, destinationX, destinationY);
         screen.updateMiniMap("maps/Level_1.3.tmx");
+        screen.onPlayerTeleported4();
     }
 }

@@ -17,7 +17,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.noname.carbonadventure.Play;
@@ -77,9 +79,12 @@ public class PlayScreen implements Screen {
 
     private List<Bus_Stop> busStops;
 
-    private Dialogue currentDialogue;
+    private Dialogue_NPC currentNPCDialogue;
+    private Dialogue_Bus currentBusDialogue;
 
     private Cowboy cowboy;
+
+    private Skin uiSkin;
 
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
@@ -98,7 +103,7 @@ public class PlayScreen implements Screen {
         gamePort = new ExtendViewport(Play.V_WIDTH / Play.PPM,Play.V_HEIGHT / Play.PPM,gamecam);
         stage = new Stage(new ExtendViewport(800, 480), game.batch);
 
-        Skin uiSkin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
+        uiSkin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
         busStops = new ArrayList<>();
 
         playerNameDisplay = new PlayerNameDisplay(game, stage, uiSkin);
@@ -146,15 +151,97 @@ public class PlayScreen implements Screen {
     }
 
     public void displayNPCDialogue(String title, String message, List<String> options, boolean isBusStopDialogue, Vector2 npcPosition) {
-        if (currentDialogue != null) {
-            currentDialogue.dispose();
+        if (currentNPCDialogue != null) {
+            currentNPCDialogue.dispose();
         }
-        currentDialogue = new Dialogue(this, stage, title, message, options, isBusStopDialogue, npcPosition);
+        currentNPCDialogue = new Dialogue_NPC(this, stage, title, message, npcPosition);
+    }
+
+    public void displayBusStopDialogue(String title, String message, List<String> options, Vector2 busStopPosition) {
+        if (currentBusDialogue != null) {
+            currentBusDialogue.dispose();
+        }
+        currentBusDialogue = new Dialogue_Bus(this, stage, title, message, options, busStopPosition);
     }
 
     public Stage getStage() {
         return stage;
     }
+
+    public void onPlayerTeleported() {
+        displayLevelCompleteDialogue();
+    }
+
+    private void displayLevelCompleteDialogue() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Tutorial complete! Lets GO " );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 3);
+    }
+
+    public void onPlayerTeleported2() {
+        displayLevelCompleteDialogue2();
+    }
+
+    private void displayLevelCompleteDialogue2() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Level 1 complete! Score: " + currentScore );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 4);
+    }
+    public void onPlayerTeleported3() {
+        displayLevelCompleteDialogue3();
+    }
+    private void displayLevelCompleteDialogue3() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Level 2 complete! Score: " + currentScore );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 4);
+    }
+
+    public void onPlayerTeleported4() {
+        displayLevelCompleteDialogue4();
+    }
+    private void displayLevelCompleteDialogue4() {
+        int currentScore = HUD.getScore();
+
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Level 3 complete! Score: " + currentScore );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 4);
+    }
+
 
     public TextureAtlas getAtlas(){
         return atlas;
@@ -189,6 +276,10 @@ public class PlayScreen implements Screen {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public List<Bus_Stop> getBusStops() {
+        return busStops;
     }
 
     @Override
@@ -231,6 +322,18 @@ public class PlayScreen implements Screen {
             return; // Stop further rendering after game over
         }
 
+        if (currentNPCDialogue != null) {
+            currentNPCDialogue.update(delta);
+            if (currentNPCDialogue.shouldClose()) {
+                currentNPCDialogue.closeDialog();
+                currentNPCDialogue = null;
+            }
+        }
+
+        if (currentBusDialogue != null) {
+            currentBusDialogue.update(delta);
+        }
+        
         game.batch.setColor(Color.WHITE);
         game.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -241,6 +344,8 @@ public class PlayScreen implements Screen {
         stage.act(delta);
         stage.draw();
     }
+
+
 
     public boolean gameOver(){
         if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3){
@@ -361,7 +466,7 @@ public class PlayScreen implements Screen {
         gamecam.position.set(clampedX, clampedY, 0);
         gamecam.update();
     }
-    
+
     public void updateMiniMap(String newMapPath) {
         miniMap.loadMiniMap(newMapPath); // This will only update the mini-map
     }
@@ -382,6 +487,10 @@ public class PlayScreen implements Screen {
                 npc.b2body.setActive(true);
         }
         hud.update(dt);
+
+        for (Bus_Stop busStop : busStops) {
+            busStop.update(dt);
+        }
 
         if(player.currentState != Player.State.DEAD){
             gamecam.position.x= player.b2body.getPosition().x;
@@ -408,18 +517,18 @@ public class PlayScreen implements Screen {
             car.update(dt);
         }
 
-        if (currentDialogue != null) {
-            currentDialogue.update(dt);
-            if (currentDialogue.shouldClose()) {
-                currentDialogue.closeDialog();
-                currentDialogue = null;
+        if (currentBusDialogue != null) {
+            currentBusDialogue.update(dt);
+            if (currentBusDialogue.shouldClose()) {
+                currentBusDialogue.closeDialog();
+                currentBusDialogue = null;
             }
         }
 
-    }
+        if (currentNPCDialogue != null) {
+            currentNPCDialogue.update(dt);
+        }
 
-    public List<Bus_Stop> getBusStops() {
-        return busStops;
     }
 
     public void teleportPlayer(Player player, float destinationX, float destinationY) {

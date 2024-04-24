@@ -11,6 +11,7 @@ import static com.noname.carbonadventure.Play.player;
 public class FinishTutorial extends InteractiveTileObject {
     private PlayScreen screen;
 
+
     public FinishTutorial(PlayScreen screen, Rectangle rect) {
         super(screen, rect);
         this.screen = screen;
@@ -30,5 +31,6 @@ public class FinishTutorial extends InteractiveTileObject {
         // Teleport the player to the destination
         screen.teleportPlayer(player, destinationX, destinationY);
         screen.updateMiniMap("maps/Level_1.0.tmx");
+        screen.onPlayerTeleported();
     }
 }
