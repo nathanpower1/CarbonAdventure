@@ -182,7 +182,7 @@ public class HUD implements Disposable {
         maxTime = worldTimer/60F;
     }
     public static void setScore(int time, int carbon){
-        score = time*100 - carbon;
+        score += time*100 - carbon;
     }
 
     public static int getScore() {return score;}
