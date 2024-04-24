@@ -25,57 +25,64 @@ public class LeaderboardScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
 
-
         Table mainTable = new Table();
         mainTable.setFillParent(true);
         mainTable.top();
 
+        // Creating a header table to hold only the leaderboard label
+        Table headerTable = new Table();
+        Label leaderboardLabel = new Label("LEADERBOARD", skin);
+        leaderboardLabel.setFontScale(0.9f); // Smaller font scale
+        headerTable.add(leaderboardLabel).expandX().center().padTop(3);
 
+        // Add the header table to the main table
+        mainTable.add(headerTable).fillX().expandX();
+        mainTable.row(); // Move to the next row for the button
 
-        // Table that will hold leaderboard entries and the back button
-        Table entriesTable = new Table();
-        entriesTable.top();
-
-        Label leaderboardLabel = new Label("Leaderboard", skin);
-        leaderboardLabel.setFontScale(0.8f); // Make the header larger
-        entriesTable.add(leaderboardLabel).expandX().fillX().center().padTop(10).padBottom(10);
-        entriesTable.row(); // Move to the next row for entries
-
-        // ScrollPane for scrolling through leaderboard entries
-        ScrollPane scrollPane = new ScrollPane(entriesTable, skin);
-        scrollPane.setScrollingDisabled(true, false); // Disable horizontal scrolling, enable vertical
-        scrollPane.setFadeScrollBars(false); 
-
-        // Adding the ScrollPane to the main table
-        mainTable.add(scrollPane).expand().fill().pad(10);
-
-        // Leaderboard entries
-        Array<LeaderboardEntry> entries = game.getLeaderboardEntries();
-        float fontScale = 0.5f;
-        for (LeaderboardEntry entry : entries) {
-            Label nameLabel = new Label(entry.getPlayerName(), skin, "giygas");
-            Label scoreLabel = new Label(String.valueOf(entry.getScore()), skin, "giygas");
-            nameLabel.setFontScale(fontScale);
-            scoreLabel.setFontScale(fontScale);
-            entriesTable.add(nameLabel).expandX().fillX().left().padLeft(10);
-            entriesTable.add(scoreLabel).right().pad(10);
-            entriesTable.row();
-        }
-
-        // Button to go back to the main menu, added at the end inside the scrollable area
-        TextButton backButton = new TextButton("Back to Main Menu", skin, "default");
+        // Button to go back to the main menu, positioned at the top left or center if desired
+        TextButton backButton = new TextButton("< MAIN MENU >", skin, "default");
+        backButton.getLabel().setFontScale(0.5f); // Reduce the font scale of the button text
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
+        mainTable.add(backButton).padTop(3).center();
 
-        entriesTable.add(backButton).fillX().padTop(30).padBottom(10);
+        mainTable.row(); // Move to the next row for the scrollable area
 
-        // add the main table to the stage
+        // Table for leaderboard entries
+        Table entriesTable = new Table();
+        entriesTable.top();
+
+        // ScrollPane setup
+        ScrollPane scrollPane = new ScrollPane(entriesTable, skin);
+        scrollPane.setScrollingDisabled(true, false); // Disable horizontal, enable vertical scrolling
+        scrollPane.setFadeScrollBars(false);
+
+        // Add ScrollPane to the main table to occupy most of the screen
+        mainTable.add(scrollPane).expand().fill().pad(10);
+
+        // Populate the leaderboard
+        Array<LeaderboardEntry> entries = game.getLeaderboardEntries();
+        float fontScale = 0.5f; // Adjust font scale for entries
+        for (LeaderboardEntry entry : entries) {
+            Label nameLabel = new Label(entry.getPlayerName(), skin, "default");
+            Label scoreLabel = new Label(String.valueOf(entry.getScore()), skin, "default");
+            nameLabel.setFontScale(fontScale);
+            scoreLabel.setFontScale(fontScale);
+            entriesTable.add(nameLabel).expandX().fillX().left().padLeft(10);
+            entriesTable.add(scoreLabel).right().padRight(10);
+            entriesTable.row();
+        }
+
+        // Add the main table to the stage
         stage.addActor(mainTable);
     }
+
+
+
 
 
 
