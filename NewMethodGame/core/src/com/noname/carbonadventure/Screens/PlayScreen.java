@@ -242,6 +242,39 @@ public class PlayScreen implements Screen {
         }, 4);
     }
 
+    public void onPlayerTeleportedCowboy() {
+        displayLevelCompleteDialogueCowboy();
+    }
+    private void displayLevelCompleteDialogueCowboy() {
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("This is the Carbon Cowboy! The litter culprit.");
+        dialog.show(stage);
+
+        // Schedule to hide the first dialog after 3 seconds
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+
+                // Inside the hide task of the first dialog, create and schedule the second dialog
+                Dialog dialog2 = new Dialog("", uiSkin);
+                dialog2.text("Press the SpaceBar before time runs out to banish him!");
+                dialog2.show(stage);
+
+                // Schedule to hide the second dialog after 6 seconds from its display
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        dialog2.hide();
+
+                        // Call HUD.levelReset(10) immediately after the second dialog is hidden
+                        HUD.levelReset(10);
+                    }
+                }, 6); // This is relative to when dialog2 is shown
+            }
+        }, 3); // This is relative to when the first dialog is shown
+    }
+
 
     public TextureAtlas getAtlas(){
         return atlas;
