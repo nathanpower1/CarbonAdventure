@@ -30,6 +30,6 @@ public class Finish4 extends InteractiveTileObject {
         playerFinish = true;
 
         Gdx.app.log("Finish", "Finish line has been triggered.");
-        // 490/Play.PPM,3180/Play.PPM
+
     }
 }
