@@ -56,30 +56,51 @@ public class LeaderboardScreen implements Screen {
         Table entriesTable = new Table();
         entriesTable.top();
 
-        // ScrollPane setup
+// Define headers
+        Label nameLabelHeader = new Label("Player", skin, "default");
+        Label scoreLabelHeader = new Label("Score", skin, "default");
+        Label timeLabelHeader = new Label("Time", skin, "default");
+
+// Set font scale or other styling for headers if needed
+        float headerFontScale = 0.6f;
+        nameLabelHeader.setFontScale(headerFontScale);
+        scoreLabelHeader.setFontScale(headerFontScale);
+        timeLabelHeader.setFontScale(headerFontScale);
+
+// Add headers to the table
+        entriesTable.add(nameLabelHeader).expandX().fillX().pad(10);
+        entriesTable.add(scoreLabelHeader).expandX().fillX().pad(10);
+        entriesTable.add(timeLabelHeader).expandX().fillX().pad(10);
+        entriesTable.row(); // Start a new row for actual entries
+
+// ScrollPane setup
         ScrollPane scrollPane = new ScrollPane(entriesTable, skin);
         scrollPane.setScrollingDisabled(true, false); // Disable horizontal, enable vertical scrolling
         scrollPane.setFadeScrollBars(false);
 
-        // Add ScrollPane to the main table to occupy most of the screen
+// Add ScrollPane to the main table to occupy most of the screen
         mainTable.add(scrollPane).expand().fill().pad(10);
 
-        // Populate the leaderboard
+// Populate the leaderboard
         Array<LeaderboardEntry> entries = game.getLeaderboardEntries();
         float fontScale = 0.5f; // Adjust font scale for entries
         for (LeaderboardEntry entry : entries) {
             Label nameLabel = new Label(entry.getPlayerName(), skin, "default");
             Label scoreLabel = new Label(String.valueOf(entry.getScore()), skin, "default");
+            Label timeLabel = new Label(String.format("%.2f s", entry.getTimeTaken()), skin, "default");
+
             nameLabel.setFontScale(fontScale);
             scoreLabel.setFontScale(fontScale);
+            timeLabel.setFontScale(fontScale);
+
             entriesTable.add(nameLabel).expandX().fillX().left().padLeft(10);
-            entriesTable.add(scoreLabel).right().padRight(10);
+            entriesTable.add(scoreLabel).expandX().fillX().center();
+            entriesTable.add(timeLabel).expandX().fillX().right().padRight(10);
             entriesTable.row();
         }
 
-        // Add the main table to the stage
-        stage.addActor(mainTable);
-    }
+// Add the main table to the stage
+        stage.addActor(mainTable);}
 
 
 

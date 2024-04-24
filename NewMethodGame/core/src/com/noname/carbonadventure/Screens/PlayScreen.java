@@ -19,6 +19,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -83,6 +84,11 @@ public class PlayScreen implements Screen {
     private Dialogue_Bus currentBusDialogue;
 
     private Cowboy cowboy;
+
+    private long startTime;
+    private long endTime;
+    private boolean timerRunning = false;
+
 
     private Skin uiSkin;
 
@@ -277,6 +283,24 @@ public class PlayScreen implements Screen {
         }, 3); // This is relative to when the first dialog is shown
     }
 
+    public void startGameTimer() {
+        startTime = TimeUtils.millis();
+        timerRunning = true;
+    }
+
+    public float stopGameTimer() {
+        if (timerRunning) {
+            endTime = TimeUtils.millis();
+            long elapsedTime = endTime - startTime; // Time in milliseconds
+            float elapsedSeconds = elapsedTime / 1000.0f; // Convert milliseconds to seconds
+            timerRunning = false;
+            Gdx.app.log("Timer", "Elapsed Time: " + elapsedSeconds + " seconds");
+            return elapsedSeconds; // Return the elapsed seconds
+        }
+        return 0;
+
+    }
+
 
     public TextureAtlas getAtlas(){
         return atlas;
@@ -358,6 +382,7 @@ public class PlayScreen implements Screen {
         }
 
         if (gameComplete()){
+            stopGameTimer();
             game.setScreen(new GameComplete(game));
             dispose(); // Properly dispose of current screen resources
             return;
@@ -390,19 +415,18 @@ public class PlayScreen implements Screen {
 
     public boolean gameOver(){
         if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3){
-            String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
-            int score = hud.getScore();  // Make sure HUD is updating scores correctly
-            game.addLeaderboardEntry(playerName, score);  // Add leaderboard entry before the game ends
+
             return true;
         }
         return false;
     }
 
     public boolean gameComplete(){
-        if(Finish4.playerFinish){
-            String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
-            int score = hud.getScore();  // Make sure HUD is updating scores correctly
-            game.addLeaderboardEntry(playerName, score);  // Add leaderboard entry before the game ends
+        if (Finish4.playerFinish) {
+            String playerName = game.getPlayerName();  // Get the player's name
+            int score = hud.getScore();  // Get the player's score
+            float timeTaken = stopGameTimer();  // Get the elapsed time from the timer
+            game.addLeaderboardEntry(playerName, score, timeTaken);  // Add an entry with time taken
             return true;
         }
         return false;
