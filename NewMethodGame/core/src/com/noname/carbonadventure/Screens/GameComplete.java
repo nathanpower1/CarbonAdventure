@@ -26,7 +26,7 @@ public class GameComplete implements Screen {
     private Game game;
     public GameComplete(Game game){
         this.game = game;
-        Skin skin = new Skin(Gdx.files.internal("data/uiskin.json"));
+        Skin skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
         viewport = new FitViewport(Play.V_WIDTH,Play.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport,((Play) game).batch);
 

@@ -86,6 +86,8 @@ public class PlayScreen implements Screen {
 
     private Skin uiSkin;
 
+    private Finish4 finishline;
+
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
@@ -355,6 +357,12 @@ public class PlayScreen implements Screen {
             return; // Stop further rendering after game over
         }
 
+        if (gameComplete()){
+            game.setScreen(new GameComplete(game));
+            dispose(); // Properly dispose of current screen resources
+            return;
+        }
+
         if (currentNPCDialogue != null) {
             currentNPCDialogue.update(delta);
             if (currentNPCDialogue.shouldClose()) {
@@ -382,6 +390,16 @@ public class PlayScreen implements Screen {
 
     public boolean gameOver(){
         if(player.currentState == Player.State.DEAD && player.getStateTimer() > 3){
+            String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
+            int score = hud.getScore();  // Make sure HUD is updating scores correctly
+            game.addLeaderboardEntry(playerName, score);  // Add leaderboard entry before the game ends
+            return true;
+        }
+        return false;
+    }
+
+    public boolean gameComplete(){
+        if(Finish4.playerFinish){
             String playerName = game.getPlayerName();  // Ensure this is the correct method to fetch the player name
             int score = hud.getScore();  // Make sure HUD is updating scores correctly
             game.addLeaderboardEntry(playerName, score);  // Add leaderboard entry before the game ends
