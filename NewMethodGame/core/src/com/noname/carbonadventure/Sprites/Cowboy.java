@@ -81,7 +81,7 @@ public class Cowboy extends NPC {
             //Music
             Music music = Play.manager.get("audio/music/cowboyTrio.mp3", Music.class);
             Music music2 = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
-            Music music3 = Play.manager.get("audio/music/jailhouse.mp3", Music.class);
+            Music music3 = Play.manager.get("audio/music/lasvegas.mp3", Music.class);
 
 
             if(!music2.isPlaying() && !music3.isPlaying()){

@@ -81,7 +81,7 @@ public class Elvis extends NPC {
             if (burgerCount > 0) {
                 if (music.isPlaying()) {
                     music.stop();
-                    Play.manager.get("audio/music/jailhouse.mp3", Music.class).play();
+                    Play.manager.get("audio/music/lasvegas.mp3", Music.class).play();
                 }
 
             }
