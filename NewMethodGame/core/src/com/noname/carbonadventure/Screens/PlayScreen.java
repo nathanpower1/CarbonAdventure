@@ -228,6 +228,7 @@ public class PlayScreen implements Screen {
     }
     private void displayLevelCompleteDialogue4() {
         int currentScore = HUD.getScore();
+
         Dialog dialog = new Dialog("", uiSkin);
         dialog.text("Level 3 complete! Score: " + currentScore );
 
