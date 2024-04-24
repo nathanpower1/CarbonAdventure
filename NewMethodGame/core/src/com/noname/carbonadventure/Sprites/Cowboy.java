@@ -81,7 +81,7 @@ public class Cowboy extends NPC {
             //Music
             Music music = Play.manager.get("audio/music/cowboyTrio.mp3", Music.class);
             Music music2 = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
-            Music music3 = Play.manager.get("audio/music/lasvegas.mp3", Music.class);
+            Music music3 = Play.manager.get("audio/music/jailhouse.mp3", Music.class);
 
 
             if(!music2.isPlaying() && !music3.isPlaying()){
@@ -108,18 +108,13 @@ public class Cowboy extends NPC {
                     isSoundPlaying = false;
                 }
             }, 10); // Reset the flag after 10 seconds
-            float destinationX = 490/Play.PPM;// Change this to the desired X coordinate
-            float destinationY = 1700/Play.PPM;// Change this to the desired Y coordinate
+            float destinationX = 480/Play.PPM;// Change this to the desired X coordinate
+            float destinationY = 1620/Play.PPM;// Change this to the desired Y coordinate
             screen.teleportPlayer(player, destinationX, destinationY);
-            HUD.levelReset(10);
+            HUD.levelReset(100);
+            screen.onPlayerTeleportedCowboy();
 
-            List<String> cowboyMessages = Arrays.asList(
-                    "You have found the Carbon Cowboy!",
-                    "How quick are your reactions?.",
-                    "Press the Spacebar before your time runs out! Be quick!"
-            );
 
-            new Dialogue_Tutorial(screen.getStage(), "", cowboyMessages);
         }
     }
 }
