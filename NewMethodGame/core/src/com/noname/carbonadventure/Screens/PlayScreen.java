@@ -187,6 +187,59 @@ public class PlayScreen implements Screen {
         }, 3);
     }
 
+    public void onPlayerTeleported2() {
+        displayLevelCompleteDialogue2();
+    }
+
+    private void displayLevelCompleteDialogue2() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Level 1 complete! Score: " + currentScore );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 4);
+    }
+    public void onPlayerTeleported3() {
+        displayLevelCompleteDialogue3();
+    }
+    private void displayLevelCompleteDialogue3() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Level 2 complete! Score: " + currentScore );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 4);
+    }
+
+    public void onPlayerTeleported4() {
+        displayLevelCompleteDialogue4();
+    }
+    private void displayLevelCompleteDialogue4() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Level 3 complete! Score: " + currentScore );
+
+        dialog.show(stage);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 4);
+    }
 
 
     public TextureAtlas getAtlas(){
