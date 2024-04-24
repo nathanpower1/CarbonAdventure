@@ -12,7 +12,6 @@ import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 import com.noname.carbonadventure.Sprites.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class B2WorldCreator {
@@ -67,13 +66,27 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new Bus_Stop(screen, rect);
                 }
-            } else if ("Dudes".equals(layer.getName())) {
+            } else if ("Bus_Stop_level2".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Bus_Stop_Level2(screen, rect);
+                }
+            }else if ("Bus_Stop_level3".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Bus_Stop_Level3(screen, rect);
+                }
+            }else if ("Bus_Stop_level4".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new Bus_Stop_Level4(screen, rect);
+                }
+            }else if ("Dudes".equals(layer.getName())) {
                 dudes = new Array<Dude>();
                 for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     Dude dude = new Dude(screen, rect.getX() / Play.PPM, rect.getY() / Play.PPM);
                     dudes.add(dude);
-                    createDialogueForNPC(screen, dude, "Dude Dialogue", "Hello, player!", Arrays.asList("Option 1", "Option 2"), false);
                 }
             } else if ("Elvis".equals(layer.getName())) {
                 elvis = new Array<Elvis>();
