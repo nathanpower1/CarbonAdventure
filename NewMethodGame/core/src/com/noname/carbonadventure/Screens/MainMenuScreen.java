@@ -58,14 +58,14 @@ public class MainMenuScreen implements Screen {
         // Add buttons
         playButton = createImageButton("img/play01.png", "img/play02.png", () -> game.setScreen(new PlayerNameScreen(game)));
         leaderboardButton = createImageButton("img/leaderboard01.png", "img/leaderboard02.png", () ->  game.setScreen(new LeaderboardScreen(game)));
-        tutorialButton = createImageButton("img/option01.png", "img/option02.png", () -> {});
+
         exitButton = createImageButton("img/restart01.png", "img/restart02.png", Gdx.app::exit);
 
         table.center();
         table.padTop(170);
         table.add(playButton).padTop(40).padBottom(10).row();
         table.add(leaderboardButton).padBottom(10).row();
-        table.add(tutorialButton).padBottom(10).row();
+
         table.add(exitButton);
 
         // Initial positioning of the logo
@@ -165,7 +165,7 @@ public class MainMenuScreen implements Screen {
         float baseSize = 72;
 
         table.clearChildren();
-        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, tutorialButton, exitButton)) {
+        for (ImageButton button : Arrays.asList(playButton, leaderboardButton,  exitButton)) {
             float newSize = baseSize * scaleFactor;
             button.setSize(newSize, newSize); // Apply new size
             table.add(button).size(newSize, newSize).padBottom(10 * scaleFactor).row();
@@ -174,7 +174,7 @@ public class MainMenuScreen implements Screen {
         table.pack();
 
 
-        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, tutorialButton, exitButton)) {
+        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, exitButton)) {
 
             button.setSize(baseSize * scaleFactor, baseSize * scaleFactor);
 
@@ -185,7 +185,7 @@ public class MainMenuScreen implements Screen {
         table.clearChildren();
         table.add(playButton).size(playButton.getWidth(), playButton.getHeight()).padBottom(10 * scaleFactor).row();
         table.add(leaderboardButton).size(leaderboardButton.getWidth(), leaderboardButton.getHeight()).padBottom(10 * scaleFactor).row();
-        table.add(tutorialButton).size(tutorialButton.getWidth(), tutorialButton.getHeight()).padBottom(10 * scaleFactor).row();
+
         table.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).row();
 
 
