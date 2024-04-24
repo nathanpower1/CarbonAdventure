@@ -78,10 +78,20 @@ public class Cowboy extends NPC {
             // Log the collision
             Gdx.app.log("Cowboy Collision","");
 
-            Music music = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
-            if (music.isPlaying()) {
-                music.stop();
+            //Music
+            Music music = Play.manager.get("audio/music/cowboyTrio.mp3", Music.class);
+            Music music2 = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
+            Music music3 = Play.manager.get("audio/music/jailhouse.mp3", Music.class);
+
+
+            if(!music2.isPlaying() && !music3.isPlaying()){
+                music.play();}
+            else if (music2.isPlaying()| music3.isPlaying()){
+                music2.stop();
+                music3.stop();
+                music.play();
             }
+
 
             Play.manager.get("audio/sounds/best_shot.wav", Sound.class).play();
             Play.manager.get("audio/music/cowboyTrio.mp3", Music.class).play();
