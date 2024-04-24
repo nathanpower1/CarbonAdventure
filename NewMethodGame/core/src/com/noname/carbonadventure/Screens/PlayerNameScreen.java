@@ -28,11 +28,11 @@ public class PlayerNameScreen implements Screen {
         nameTextField = new TextField("", skin);
         nameTextField.setMessageText("Enter Name");
         // Position the text field appropriately on the screen
-        nameTextField.setPosition(100, 150);
+        nameTextField.setPosition(280, 250);
 
         TextButton startGameButton = new TextButton("Start Game", skin);
         // Position the button appropriately on the screen
-        startGameButton.setPosition(100, 100);
+        startGameButton.setPosition(280, 200);
         startGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
