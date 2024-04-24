@@ -1,23 +1,24 @@
 package com.noname.carbonadventure.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.Dialogue_Bus;
+import com.noname.carbonadventure.Scenes.Bus_Stop_Level3_Dialogue;
 import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Bus_Stop extends InteractiveTileObject {
+public class Bus_Stop_Level3 extends InteractiveTileObject {
     private final PlayScreen screen;
     private float x, y;
-    private Dialogue_Bus currentDialogue;
+    private Bus_Stop_Level3_Dialogue currentDialogue;
 
-    public Bus_Stop(PlayScreen screen, Rectangle bounds) {
+    public Bus_Stop_Level3(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
         this.screen = screen;
         fixture.setUserData(this);
@@ -30,13 +31,16 @@ public class Bus_Stop extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        List<String> busStops = Arrays.asList("East Plaza","","Central Park","","West Side");
+        List<String> busStops = Arrays.asList("Park","","Town","","Park ext","","South St");
         Vector2 busStopPosition = new Vector2(x, y);
+
+        Gdx.app.log("Bus_Stop_Level3", "Collision detected at x: " + x + ", y: " + y);
+
 
         if (currentDialogue != null) {
             currentDialogue.dispose();
         }
-        currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
+        currentDialogue = new Bus_Stop_Level3_Dialogue(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
         HUD.increaseCarbonMeter(10);
     }
 
@@ -45,7 +49,7 @@ public class Bus_Stop extends InteractiveTileObject {
             Vector2 playerPosition = screen.getPlayer().getPosition();
             float distance = new Vector2(x, y).dst(playerPosition);
 
-            if (distance > Dialogue_Bus.distance_min) {
+            if (distance > Bus_Stop_Level3_Dialogue.distance_min) {
                 currentDialogue.closeDialog();
                 currentDialogue = null;
             }

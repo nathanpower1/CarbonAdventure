@@ -73,7 +73,7 @@ public class Fella extends NPC {
                     dialogue.closeDialog();
                     isSoundPlaying = false;
                 }
-            }, 3);
+            }, 1);
         }
     }
 }

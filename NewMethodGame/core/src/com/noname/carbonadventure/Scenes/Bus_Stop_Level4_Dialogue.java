@@ -9,25 +9,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.List;
 
-public class Dialogue_Train {
+public class Bus_Stop_Level4_Dialogue {
     private Stage stage;
     private Dialog dialog;
     private Skin skin;
     private PlayScreen playScreen;
-    private Vector2 trainStopPosition;
+    private Vector2 busStopPosition;
 
     public static final float distance_min = 0.5f;
 
-
-    public Dialogue_Train(PlayScreen playScreen, Stage stage, String title, String message, List<String> options, Vector2 trainStopPosition) {
+    public Bus_Stop_Level4_Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> options, Vector2 busStopPosition) {
         this.playScreen = playScreen;
         this.stage = stage;
-        this.trainStopPosition = trainStopPosition;
+        this.busStopPosition = busStopPosition;
 
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
 
@@ -41,27 +41,47 @@ public class Dialogue_Train {
         dialog.setMovable(false);
         Label label = new Label(message, skin, "default");
         label.setWrap(true);
-        dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(10);
+        dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(5);
 
         for (String option : options) {
             TextButton optionButton = new TextButton(option, skin);
             dialog.button(optionButton, option);
         }
 
-        TextButton closeButton = new TextButton("exit", skin);
+        TextButton closeButton = new TextButton("Exit", skin);
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 closeDialog();
             }
         });
-        dialog.getButtonTable().add(closeButton).padRight(10);
+        dialog.getButtonTable().add(closeButton).padLeft(20).padRight(10);
 
         dialog.show(stage);
         dialog.setPosition((stage.getWidth() - dialog.getWidth()) / 2, 10);
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                closeDialog();
+            }
+        }, 7);
+    }
+    public void update(float delta) {
+        if (isDialogOpen() && shouldClose()) {
+            closeDialog();
+        }
+    }
+
+    private boolean isDialogOpen() {
+        return dialog != null && dialog.isVisible();
+    }
+
+    public boolean shouldClose() {
+        Vector2 playerPosition = playScreen.getPlayer().getPosition();
+        return busStopPosition.dst(playerPosition) > distance_min;
     }
 
     private void handleDialogResult(String option) {
@@ -69,49 +89,30 @@ public class Dialogue_Train {
         teleportPlayerBasedOnStop(option);
     }
 
+
     private void teleportPlayerBasedOnStop(String stop) {
         float destinationX = 0;
         float destinationY = 0;
 
         switch (stop) {
-            case "N1":
-                destinationX = 17.4867f;
-                destinationY = 14.697767f;
-                break;
-            case "E1":
-                destinationX = 17.69f;
-                destinationY = 0.9444673f;
-                break;
-            case "S1":
-                destinationX = 17.603399f;
-                destinationY = 8.939467f;
+            case "Estate":
+                destinationX = 23.96f;
+                destinationY = 13.279967f;
                 break;
             case "Hub":
-                destinationX = 24.0534f;
-                destinationY = 8.649467f;
+                destinationX = 23.8267f;
+                destinationY = 8.166699f;
                 break;
-            case "N2":
-                destinationX = 30.266699f;
-                destinationY = 14.857767f;
+            case "East St":
+                destinationX = 17.58f;
+                destinationY =  6.233366f;
                 break;
-            case "E2":
-                destinationX = 30.238401f;
-                destinationY = 8.644467f;
-                break;
-            case "S2":
-                destinationX = 30.2534f;
-                destinationY = 0.6444673f;
+            case "Home":
+                destinationX = 28.3267f;
+                destinationY = 5.766634f;
                 break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
-    }
-
-    public void update(float delta) {
-        Vector2 playerPosition = playScreen.getPlayer().getPosition();
-        float distance = trainStopPosition.dst(playerPosition);
-        if (trainStopPosition.dst(playerPosition) > distance_min) {
-            closeDialog();
-        }
     }
 
     public void closeDialog() {
@@ -128,3 +129,4 @@ public class Dialogue_Train {
         }
     }
 }
+

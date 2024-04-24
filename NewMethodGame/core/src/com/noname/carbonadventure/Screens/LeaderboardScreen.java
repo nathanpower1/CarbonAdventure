@@ -3,16 +3,19 @@ package com.noname.carbonadventure.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.models.LeaderboardEntry;
-import com.badlogic.gdx.utils.Array;
 
 public class LeaderboardScreen implements Screen {
+    private final Image backgroundImage;
+    private final Texture backgroundTexture;
     private Play game;
     private Stage stage;
     private Skin skin;
@@ -24,6 +27,12 @@ public class LeaderboardScreen implements Screen {
         stage = new Stage(new FitViewport(Play.V_WIDTH, Play.V_HEIGHT), game.batch);
         Gdx.input.setInputProcessor(stage);
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
+
+        backgroundTexture = new Texture(Gdx.files.internal("img/leaderboardbackground4.png"));
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setSize(Play.V_WIDTH, Play.V_HEIGHT);
+        backgroundImage.setPosition(0, 0);
+        stage.addActor(backgroundImage);
 
         Table mainTable = new Table();
         mainTable.setFillParent(true);

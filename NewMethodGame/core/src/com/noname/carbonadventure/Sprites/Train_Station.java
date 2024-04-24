@@ -1,5 +1,6 @@
 package com.noname.carbonadventure.Sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -30,7 +31,10 @@ public class Train_Station extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        List<String> trainStops = Arrays.asList("North Station", "Central Station", "South Station");
+        List<String> trainStops = Arrays.asList("N1","","E1","","S1","","Hub","","N2","","E2","","S2");
+
+        Gdx.app.log("Train_Station", "Collision detected at x: " + x + ", y: " + y);
+
 
         Vector2 trainStopPosition = new Vector2(x, y);
 
