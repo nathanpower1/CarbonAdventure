@@ -15,7 +15,8 @@ public class InformationScreen implements Screen {
     private Play game;
     private Stage stage;
     private Skin skin;
-   
+    private final Image backgroundImage;
+    private final Texture backgroundTexture;
 
     public InformationScreen(final Play game) {
         this.game = game;
@@ -24,6 +25,11 @@ public class InformationScreen implements Screen {
 
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
 
+        backgroundTexture = new Texture(Gdx.files.internal("img/leaderboardbackground4.png"));
+        backgroundImage = new Image(backgroundTexture);
+        backgroundImage.setSize(Play.V_WIDTH, Play.V_HEIGHT);
+        backgroundImage.setPosition(0, 0);
+        stage.addActor(backgroundImage);
 
         Table mainTable = new Table();
         mainTable.setFillParent(true);
