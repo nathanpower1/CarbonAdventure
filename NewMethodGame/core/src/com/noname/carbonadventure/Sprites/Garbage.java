@@ -24,14 +24,16 @@ public class Garbage extends InteractiveTileObject{
 
     @Override
     public void OnBodyHit() {
-        if (HUD.getCarbonMeter() > 0) {
-            Gdx.app.log("Garbage Collision","");
-            Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
-            setCategoryFilter(Play.DESTROYED_BIT);
-            getCell().setTile(null);
-            // Update carbon meter
-            HUD.increaseCarbonMeter(-5); // Decrease carbon meter by 5
-            //HUD.addScore(1);
+
+        Gdx.app.log("Garbage Collision","");
+        Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+        setCategoryFilter(Play.DESTROYED_BIT);
+        getCell().setTile(null);
+        // Update carbon meter
+        HUD.increaseCarbonMeter(-5); // Decrease carbon meter by 5
+        //HUD.addScore(1);
+        if (HUD.getCarbonMeter() == 0);{
+            HUD.addScore(50);
         }
     }
 }
