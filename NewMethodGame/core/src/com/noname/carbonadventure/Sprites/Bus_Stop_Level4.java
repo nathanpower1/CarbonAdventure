@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.Bus_Stop_Level4_Dialogue;
-import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.Arrays;
@@ -40,7 +39,6 @@ public class Bus_Stop_Level4 extends InteractiveTileObject {
             currentDialogue.dispose();
         }
         currentDialogue = new Bus_Stop_Level4_Dialogue(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
-        HUD.increaseCarbonMeter(10);
     }
 
     public void update(float delta) {

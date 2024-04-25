@@ -99,9 +99,9 @@ public class Dialogue_Bus {
                 destinationX = 5.21833f;
                 destinationY = 27.368333f;
                 break;
-            case "East Plaza":
-                destinationX = 0.315f;
-                destinationY = 24.978333f;
+            case "East Lake":
+                destinationX = 0.415f;
+                destinationY = 25.078333f;
                 break;
             case "West Side":
                 destinationX = 9.11167f;
@@ -109,6 +109,7 @@ public class Dialogue_Bus {
                 break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
+        HUD.increaseCarbonMeter(10);
     }
 
     public void closeDialog() {
