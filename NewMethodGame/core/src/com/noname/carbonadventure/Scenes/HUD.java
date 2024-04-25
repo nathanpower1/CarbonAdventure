@@ -184,6 +184,11 @@ public class HUD implements Disposable {
         currentTime = 0;
         maxTime = worldTimer/60F;
     }
+
+    public static void addScore(int additionalScore){
+        score += additionalScore;
+    }
+
     public static void setScore(int time, int carbon){
         int newscore = score + (time * 10 - carbon * 10);
         score = Math.max(newscore, 0);
@@ -234,7 +239,8 @@ public class HUD implements Disposable {
     }
 
     public static void increaseCarbonMeter(int value) {
-        carbonMeter += value;
+        int newCarbon = carbonMeter + value;
+        carbonMeter = Math.max(newCarbon, 0);
         if (carbonMeter > MAX_CARBON) {
             carbonMeter = MAX_CARBON;
             Play.player.dead();
