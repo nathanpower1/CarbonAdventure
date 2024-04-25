@@ -29,7 +29,7 @@ public class Bus_Stop extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        List<String> busStops = Arrays.asList("East Lake","","Central Park","","West Side");
+        List<String> busStops = Arrays.asList("East Lake"," ","Central Park"," ","West Side");
         Vector2 busStopPosition = new Vector2(x, y);
 
         if (currentDialogue == null || !currentDialogue.isInCooldown()) {

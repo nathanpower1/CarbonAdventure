@@ -460,9 +460,6 @@ public class PlayScreen implements Screen {
             }
         }
 
-        if (currentBusDialogue != null) {
-            currentBusDialogue.update(delta);
-        }
         
         game.batch.setColor(Color.WHITE);
         game.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -696,13 +693,6 @@ public class PlayScreen implements Screen {
             car.update(dt);
         }
 
-        if (currentBusDialogue != null) {
-            currentBusDialogue.update(dt);
-            if (currentBusDialogue.shouldClose()) {
-                currentBusDialogue.closeDialog();
-                currentBusDialogue = null;
-            }
-        }
 
         if (currentNPCDialogue != null) {
             currentNPCDialogue.update(dt);

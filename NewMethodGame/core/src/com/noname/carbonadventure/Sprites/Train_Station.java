@@ -29,9 +29,8 @@ public class Train_Station extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        List<String> trainStops = Arrays.asList("N1","","E1","","S1","","Hub","","N2","","E2","","S2");
+        List<String> trainStops = Arrays.asList("N1"," ","E1"," ","S1"," ","Hub"," ","N2"," ","E2"," ","S2");
 
-        // Provide a message for the dialogue
         String welcomeMessage = "Welcome to the Dublin Train!\nPlease choose a stop you would like to travel to:";
 
         if (currentDialogue == null || !currentDialogue.isInCooldown()) {
