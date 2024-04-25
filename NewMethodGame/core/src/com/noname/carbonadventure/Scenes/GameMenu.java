@@ -52,7 +52,7 @@ public class GameMenu {
 
     public void dispose() {
         stage.dispose();
-        // Also consider disposing of textures if not managed elsewhere
+        game.dispose();
     }
 
     public void resize(int width, int height) {
