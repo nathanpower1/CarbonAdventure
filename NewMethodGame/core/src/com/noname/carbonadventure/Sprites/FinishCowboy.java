@@ -30,5 +30,6 @@ public class FinishCowboy extends InteractiveTileObject {
         screen.teleportPlayer(player, destinationX, destinationY);
         screen.updateMiniMap("maps/Level_1.3.tmx");
         screen.onPlayerTeleportedCowboyDefeat();
+        screen.setCowboyFinishTriggered(true);
     }
 }

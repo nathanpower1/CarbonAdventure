@@ -99,6 +99,9 @@ public class PlayScreen implements Screen {
 
     private int spacePressCount = 0;
 
+    private boolean cowboyFinishTriggered = false;
+
+
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
         NPCatlas = new TextureAtlas("NPC.atlas");
@@ -326,6 +329,14 @@ public class PlayScreen implements Screen {
 
     }
 
+    public boolean isCowboyFinishTriggered() {
+        return cowboyFinishTriggered;
+    }
+
+    public void setCowboyFinishTriggered(boolean triggered) {
+        cowboyFinishTriggered = triggered;
+    }
+
 
     public TextureAtlas getAtlas(){
         return atlas;
@@ -518,6 +529,11 @@ public class PlayScreen implements Screen {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+
+            if (!cowboyFinishTriggered) {
+                return; // Exit early if cowboyFinishTriggered is false
+            }
+
             if (currentCharacter.equals(player)) {
                 playerCowboy.b2body.setTransform(player.b2body.getPosition(), player.b2body.getAngle());
                 playerCowboy.b2body.setLinearVelocity(player.b2body.getLinearVelocity());
