@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -456,19 +457,23 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float dt) {
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            // Increment the counter each time the spacebar is pressed
-            spacePressCount++;
 
-            // Check if the spacebar has been pressed 5 times
-            if (spacePressCount >= 5) {
-                if (Cowboy.cowboyInteracted) {
-                    BarricadeCowboy.destroyAll();
-                    HUD.levelReset(100);
-                    // Reset the counter so the process can start over or stop counting
-                    spacePressCount = 0;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if (Cowboy.cowboyInteracted){
+            // Increment the counter each time the spacebar is pressed
+                spacePressCount++;
+                Play.manager.get("audio/sounds/gunshot.mp3", Sound.class).play();
+
+                // Check if the spacebar has been pressed 5 times
+                if (spacePressCount >= 5) {
+                        BarricadeCowboy.destroyAll();
+                        HUD.levelReset(100);
+                        // Reset the counter so the process can start over or stop counting
+                        spacePressCount = 0;
+                        Cowboy.cowboyInteracted = false;
+                    }
                 }
-            }
         }
         // Toggle between player and car with 'C'
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {
