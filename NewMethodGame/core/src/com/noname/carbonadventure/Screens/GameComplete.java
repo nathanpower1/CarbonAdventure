@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,10 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.noname.carbonadventure.Play;
-
-import java.awt.*;
 
 public class GameComplete implements Screen {
     private Viewport viewport;
@@ -36,7 +34,7 @@ public class GameComplete implements Screen {
         table.center();
         table.setFillParent(true);
 
-        Label gameoverLabel = new Label("YOU WIN", font);
+        Label gameoverLabel = new Label("YOU WIN", skin);
         table.add(gameoverLabel).expandX();
 
         TextButton leaderboardButton = new TextButton("View Leaderboard", skin);
