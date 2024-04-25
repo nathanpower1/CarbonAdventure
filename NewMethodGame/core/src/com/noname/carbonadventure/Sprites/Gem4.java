@@ -9,9 +9,11 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 
 public class Gem4 extends InteractiveTileObject {
     private static int gemCount = 0; // Static variable to keep track of total gems
+    private PlayScreen screen;
 
     public Gem4(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
+        this.screen = screen;
         fixture.setUserData(this);
         setCategoryFilter(Play.GEM_BIT);
         gemCount++;
@@ -28,6 +30,7 @@ public class Gem4 extends InteractiveTileObject {
 
         // Check if all gems are collected
         if (gemCount == 0) {
+            screen.allGemsCollected();
             Barricade4.destroyAll(); // Destroy all Barricade objects
             System.out.println("All gems are collected!");
         }

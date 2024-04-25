@@ -15,9 +15,12 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 public class Gem extends InteractiveTileObject {
     private static int gemCount = 0; // Static variable to keep track of total gems
 
+    private PlayScreen screen;
+
     public Gem(PlayScreen screen, Rectangle bounds) {
         super(screen, bounds);
         fixture.setUserData(this);
+        this.screen = screen;
         setCategoryFilter(Play.GEM_BIT);
         gemCount++;
         Gdx.app.log("Gem Collision Now", String.valueOf(gemCount));
@@ -46,6 +49,7 @@ public class Gem extends InteractiveTileObject {
 
         // Check if all gems are collected
         if (gemCount == 0) {
+            screen.allGemsCollected();
             Barricade.destroyAll(); // Destroy all Barricade objects
             Gdx.app.log("All gems are collected!", "");
         }
