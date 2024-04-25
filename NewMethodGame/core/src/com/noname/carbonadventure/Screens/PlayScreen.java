@@ -238,6 +238,22 @@ public class PlayScreen implements Screen {
         }, 4);
     }
 
+    public void allGemsCollected() {
+        displayallGemsCollected();
+    }
+
+    private void displayallGemsCollected() {
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("The barricade has been lifted!");
+        dialog.show(stage);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 2);
+    }
+
     public void onPlayerTeleportedGarbageTutorial() {
         displayLevelCompleteDialogueGarbageTutorial();
     }
