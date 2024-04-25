@@ -221,6 +221,23 @@ public class PlayScreen implements Screen {
         }, 4);
     }
 
+    public void onPlayerTeleportedGarbageTutorial() {
+        displayLevelCompleteDialogueGarbageTutorial();
+    }
+
+    private void displayLevelCompleteDialogueGarbageTutorial() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Pick up Garbage = Lower Carbon Emissions" );
+        dialog.show(stage);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 1);
+    }
+
     public void onPlayerTeleported2() {
         displayLevelCompleteDialogue2();
     }
