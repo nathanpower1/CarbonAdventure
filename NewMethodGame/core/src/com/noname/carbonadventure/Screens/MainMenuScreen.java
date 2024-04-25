@@ -79,14 +79,18 @@ public class MainMenuScreen implements Screen {
         //Music
         Music music2 = Play.manager.get("audio/music/cowboy.mp3", Music.class);
         Music music3 = Play.manager.get("audio/music/lasvegas.mp3", Music.class);
+        Music music4 = Play.manager.get("audio/music/finish.mp3", Music.class);
+        Music music5 = Play.manager.get("audio/music/cowboyTrio.mp3", Music.class);
 
         music = Play.manager.get("audio/music/buckbumble.mp3",Music.class);
         music.setLooping(true);
-        if(!music2.isPlaying() && !music3.isPlaying()){
+        if(!music2.isPlaying() && !music4.isPlaying() && !music5.isPlaying() && !music3.isPlaying()){
             music.play();}
         else if (music2.isPlaying()| music3.isPlaying()){
             music2.stop();
             music3.stop();
+            music4.stop();
+            music5.stop();
             music.play();
         }
 

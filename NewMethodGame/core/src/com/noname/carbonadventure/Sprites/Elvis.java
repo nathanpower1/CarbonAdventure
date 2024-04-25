@@ -73,7 +73,7 @@ public class Elvis extends NPC {
             // Log the collision
             Gdx.app.log("Elvis Collision","");
 
-            Music music = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
+            Music music = Play.manager.get("audio/music/cowboy.mp3", Music.class);
 
 
 
@@ -81,6 +81,7 @@ public class Elvis extends NPC {
             if (burgerCount > 0) {
                 if (music.isPlaying()) {
                     music.stop();
+                    Play.manager.get("audio/sounds/thankyou.mp3", Sound.class).play();
                     Play.manager.get("audio/music/lasvegas.mp3", Music.class).play();
                 }
 

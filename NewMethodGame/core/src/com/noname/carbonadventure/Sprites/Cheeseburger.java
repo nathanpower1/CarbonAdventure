@@ -26,7 +26,7 @@ public class Cheeseburger extends InteractiveTileObject {
 
 
         // Play gem collection sound effect
-        Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+        Play.manager.get("audio/sounds/Elvis_uh.mp3", Sound.class).play();
         burgerCount++;
         // Set category filter to DESTROYED_BIT to prevent further collisions
         setCategoryFilter(Play.DESTROYED_BIT);

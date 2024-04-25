@@ -27,7 +27,8 @@ public class Train_Station_Tutorial extends InteractiveTileObject {
 
     @Override
     public void OnBodyHit() {
-        Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
+
+        Play.manager.get("audio/sounds/train_horn.mp3", Sound.class).play();
         List<String> tutorialMessages = Arrays.asList(
                 "Welcome to the Dublin Train Tutorial!",
                 "This tutorial will explain how you can use the bus system to travel between different stops efficiently.",
