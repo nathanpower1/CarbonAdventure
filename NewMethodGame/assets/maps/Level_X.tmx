@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="41" nextobjectid="835">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="41" nextobjectid="838">
  <tileset firstgid="1" source="city.tsx"/>
  <tileset firstgid="4115" source="Gems.tsx"/>
  <tileset firstgid="4164" source="railway.tsx"/>
@@ -855,6 +855,9 @@
   <object id="805" x="1203.33" y="74" width="20.6667" height="63.3333"/>
   <object id="806" x="1167.33" y="32" width="14.6667" height="32.6667"/>
   <object id="807" x="1134.67" y="0.666667" width="31.3333" height="32.6667"/>
+  <object id="835" x="2703.5" y="-3.875" width="34.625" height="5.625"/>
+  <object id="836" x="2382.33" y="1595" width="34.6667" height="8.66667"/>
+  <object id="837" x="464" y="2224.5" width="33" height="15.5"/>
  </objectgroup>
  <objectgroup id="26" name="Trains">
   <object id="680" x="1687" y="2978.5" width="2.5" height="10"/>
