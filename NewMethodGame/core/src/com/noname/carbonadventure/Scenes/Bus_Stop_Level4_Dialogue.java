@@ -113,6 +113,7 @@ public class Bus_Stop_Level4_Dialogue {
                 break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
+        HUD.increaseCarbonMeter(10);
     }
 
     public void closeDialog() {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.Dialogue_Bus;
-import com.noname.carbonadventure.Scenes.HUD;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.Arrays;
@@ -30,14 +29,13 @@ public class Bus_Stop extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        List<String> busStops = Arrays.asList("East Plaza","","Central Park","","West Side");
+        List<String> busStops = Arrays.asList("East Lake","","Central Park","","West Side");
         Vector2 busStopPosition = new Vector2(x, y);
 
         if (currentDialogue != null) {
             currentDialogue.dispose();
         }
         currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
-        HUD.increaseCarbonMeter(10);
     }
 
     public void update(float delta) {
