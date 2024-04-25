@@ -72,7 +72,6 @@ public class Cowboy extends NPC {
     }
 
     public void BodyHit() {
-        cowboyInteracted = true;
         // Check if the sound is not currently playing
         if (!isSoundPlaying) {
             // Log the collision
