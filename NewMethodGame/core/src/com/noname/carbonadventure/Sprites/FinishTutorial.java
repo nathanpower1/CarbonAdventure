@@ -23,6 +23,7 @@ public class FinishTutorial extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         HUD.levelReset(120);
+        HUD.resetScore();
         Gdx.app.log("Finish", "Finish line has been triggered.");
         // 490/Play.PPM,3180/Play.PPM
         float destinationX = 490/Play.PPM;// Change this to the desired X coordinate
@@ -32,5 +33,6 @@ public class FinishTutorial extends InteractiveTileObject {
         screen.teleportPlayer(player, destinationX, destinationY);
         screen.updateMiniMap("maps/Level_1.0.tmx");
         screen.onPlayerTeleported();
+        screen.startGameTimer();
     }
 }

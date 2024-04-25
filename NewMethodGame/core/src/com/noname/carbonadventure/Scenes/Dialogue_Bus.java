@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
@@ -61,6 +62,12 @@ public class Dialogue_Bus {
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                closeDialog();
+            }
+        }, 7);
     }
 
     public void update(float delta) {
@@ -89,7 +96,7 @@ public class Dialogue_Bus {
 
         switch (stop) {
             case "Central Park":
-                destinationX = 5.41833f;
+                destinationX = 5.21833f;
                 destinationY = 27.368333f;
                 break;
             case "East Plaza":
@@ -98,7 +105,7 @@ public class Dialogue_Bus {
                 break;
             case "West Side":
                 destinationX = 9.11167f;
-                destinationY = 28.395002f;
+                destinationY = 29.0f;
                 break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);

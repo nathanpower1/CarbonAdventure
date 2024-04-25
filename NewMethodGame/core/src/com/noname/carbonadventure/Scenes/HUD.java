@@ -33,6 +33,9 @@ public class HUD implements Disposable {
     private Image carbonMeterBase;
     private Image carbonMeterFill;
 
+  
+
+
 
     static Label carbonMeterLabel;
 
@@ -182,7 +185,9 @@ public class HUD implements Disposable {
         maxTime = worldTimer/60F;
     }
     public static void setScore(int time, int carbon){
-        score = time*100 - carbon;
+        int newscore = score + (time * 10 - carbon * 10);
+        score = Math.max(newscore, 0);
+
     }
 
     public static int getScore() {return score;}
@@ -267,6 +272,8 @@ public class HUD implements Disposable {
 
         int time = getWorldTimer();
         int carbon = getCarbonMeter();
+        System.out.println(time);
+        System.out.println(carbon);
         setScore(time, carbon);
         setCarbonMeter(0);
         setWorldTimer(levelTime);

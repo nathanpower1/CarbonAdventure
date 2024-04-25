@@ -22,10 +22,11 @@ import java.util.Arrays;
 public class MainMenuScreen implements Screen {
     private Play game;
     private Stage stage;
-    private Texture bgTexture;
+    private Texture bgTexture, logoTexture;
     private Music music;
 
     private Table table;
+    private Image logoImage;
 
     private ImageButton playButton;
     private ImageButton leaderboardButton;
@@ -38,17 +39,42 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
 
-
-
         // Background
-        bgTexture = new Texture(Gdx.files.internal("img/FbQJeV5WYAM_58i.png"));
+        bgTexture = new Texture(Gdx.files.internal("img/background2.png"));
         Image backgroundImage = new Image(bgTexture);
         backgroundImage.setFillParent(true);
         stage.addActor(backgroundImage);
 
+        // Load logo and create image
+        logoTexture = new Texture(Gdx.files.internal("img/logo_transparent_corrected-2.png")); // Ensure this matches your actual logo file path
+        logoImage = new Image(logoTexture);
+        stage.addActor(logoImage);
+
+        // Table for buttons
         Table table = new Table();
-        table.setFillParent(true); // The table will fill the stage
+        table.setFillParent(true);
         stage.addActor(table);
+
+        // Add buttons
+        playButton = createImageButton("img/play01.png", "img/play02.png", () -> game.setScreen(new PlayerNameScreen(game)));
+        leaderboardButton = createImageButton("img/leaderboard01.png", "img/leaderboard02.png", () ->  game.setScreen(new LeaderboardScreen(game)));
+
+        exitButton = createImageButton("img/restart01.png", "img/restart02.png", Gdx.app::exit);
+
+        table.center();
+        table.padTop(170);
+        table.add(playButton).padTop(40).padBottom(10).row();
+        table.add(leaderboardButton).padBottom(10).row();
+
+        table.add(exitButton);
+
+        // Initial positioning of the logo
+        // Recalculate the logo's position after adding all actors to ensure correct placement
+        stage.act();  // This updates all actor bounds and positions based on the current stage layout
+        float logoWidth = logoImage.getWidth();
+        float logoHeight = logoImage.getHeight();
+        logoImage.setPosition((Gdx.graphics.getWidth() - logoWidth) / 2, Gdx.graphics.getHeight() - logoHeight - 120); // 20 pixels above the topmost button
+
 
         //Music
         Music music2 = Play.manager.get("audio/music/cowboy.mp3", Music.class);
@@ -59,30 +85,16 @@ public class MainMenuScreen implements Screen {
         if(!music2.isPlaying() && !music3.isPlaying()){
             music.play();}
         else if (music2.isPlaying()| music3.isPlaying()){
-                music2.stop();
-                music3.stop();
-                music.play();
+            music2.stop();
+            music3.stop();
+            music.play();
         }
 
 
 
 
         // Buttons
-        playButton = createImageButton("img/play01.png", "img/play02.png", () -> game.setScreen(new PlayerNameScreen(game)));
-        leaderboardButton = createImageButton("img/leaderboard01.png", "img/leaderboard02.png", () ->  game.setScreen(new LeaderboardScreen(game)));
-        tutorialButton = createImageButton("img/option01.png", "img/option02.png", () -> {});
-        exitButton = createImageButton("img/restart01.png", "img/restart02.png", Gdx.app::exit);
 
-
-
-
-
-
-        table.center();
-        table.add(playButton).padBottom(10).row();
-        table.add(leaderboardButton).padBottom(10).row();
-        table.add(tutorialButton).padBottom(10).row();
-        table.add(exitButton);
 
     }
 
@@ -137,6 +149,11 @@ public class MainMenuScreen implements Screen {
 
 
         updateButtonSizes(scaleFactor);
+
+        float logoWidth = 300 * scaleFactor; // Original width * scaleFactor
+        float logoHeight = 150 * scaleFactor; // Original height * scaleFactor
+        logoImage.setSize(logoWidth, logoHeight);
+        logoImage.setPosition(width / 2 - logoWidth / 2, height - logoHeight - 30 * scaleFactor); // 30 is the margin from
     }
 
     private void updateButtonSizes(float scaleFactor) {
@@ -148,7 +165,7 @@ public class MainMenuScreen implements Screen {
         float baseSize = 72;
 
         table.clearChildren();
-        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, tutorialButton, exitButton)) {
+        for (ImageButton button : Arrays.asList(playButton, leaderboardButton,  exitButton)) {
             float newSize = baseSize * scaleFactor;
             button.setSize(newSize, newSize); // Apply new size
             table.add(button).size(newSize, newSize).padBottom(10 * scaleFactor).row();
@@ -157,7 +174,7 @@ public class MainMenuScreen implements Screen {
         table.pack();
 
 
-        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, tutorialButton, exitButton)) {
+        for (ImageButton button : Arrays.asList(playButton, leaderboardButton, exitButton)) {
 
             button.setSize(baseSize * scaleFactor, baseSize * scaleFactor);
 
@@ -168,7 +185,7 @@ public class MainMenuScreen implements Screen {
         table.clearChildren();
         table.add(playButton).size(playButton.getWidth(), playButton.getHeight()).padBottom(10 * scaleFactor).row();
         table.add(leaderboardButton).size(leaderboardButton.getWidth(), leaderboardButton.getHeight()).padBottom(10 * scaleFactor).row();
-        table.add(tutorialButton).size(tutorialButton.getWidth(), tutorialButton.getHeight()).padBottom(10 * scaleFactor).row();
+
         table.add(exitButton).size(exitButton.getWidth(), exitButton.getHeight()).row();
 
 

@@ -36,7 +36,7 @@ public class Bus_Stop extends InteractiveTileObject {
         if (currentDialogue != null) {
             currentDialogue.dispose();
         }
-        currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Welcome to the Dublin Bus!\nPlease choose a stop you would like to travel to:", busStops, busStopPosition);
+        currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
         HUD.increaseCarbonMeter(10);
     }
 

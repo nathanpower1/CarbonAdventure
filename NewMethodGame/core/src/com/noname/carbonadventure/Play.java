@@ -103,7 +103,7 @@ public class Play extends Game {
 	}
 
 	private void saveLeaderboard() {
-		String leaderboardJson = json.toJson(leaderboardEntries);
+		String leaderboardJson = json.toJson(leaderboardEntries, Array.class, LeaderboardEntry.class); // Ensure correct type handling
 		prefs.putString("leaderboard", leaderboardJson);
 		prefs.flush();
 	}
@@ -119,12 +119,11 @@ public class Play extends Game {
 			}
 		}
 	}
-
-	public void addLeaderboardEntry(String playerName, int score) {
-		LeaderboardEntry entry = new LeaderboardEntry(playerName, score);
+	public void addLeaderboardEntry(String playerName, int score, float timeTaken) {
+		LeaderboardEntry entry = new LeaderboardEntry(playerName, score, timeTaken);
 		leaderboardEntries.add(entry);
 		leaderboardEntries.sort();
-		saveLeaderboard();
+		saveLeaderboard(); // Save the updated leaderboard after adding a new entry
 	}
 
 	public Array<LeaderboardEntry> getLeaderboardEntries() {

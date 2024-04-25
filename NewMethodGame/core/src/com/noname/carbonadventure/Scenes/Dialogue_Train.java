@@ -74,17 +74,33 @@ public class Dialogue_Train {
         float destinationY = 0;
 
         switch (stop) {
-            case "North Station":
-                destinationX = 10;
-                destinationY = 20;
+            case "N1":
+                destinationX = 17.4867f;
+                destinationY = 14.697767f;
                 break;
-            case "Central Station":
-                destinationX = 15;
-                destinationY = 25;
+            case "E1":
+                destinationX = 17.69f;
+                destinationY = 0.9444673f;
                 break;
-            case "South Station":
-                destinationX = 5;
-                destinationY = 10;
+            case "S1":
+                destinationX = 17.603399f;
+                destinationY = 8.939467f;
+                break;
+            case "Hub":
+                destinationX = 24.0534f;
+                destinationY = 8.649467f;
+                break;
+            case "N2":
+                destinationX = 30.266699f;
+                destinationY = 14.857767f;
+                break;
+            case "E2":
+                destinationX = 30.238401f;
+                destinationY = 8.644467f;
+                break;
+            case "S2":
+                destinationX = 30.2534f;
+                destinationY = 0.6444673f;
                 break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
