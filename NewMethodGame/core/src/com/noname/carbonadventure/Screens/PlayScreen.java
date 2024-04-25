@@ -509,7 +509,7 @@ public class PlayScreen implements Screen {
                 // Check if the spacebar has been pressed 5 times
                 if (spacePressCount >= 5) {
                         BarricadeCowboy.destroyAll();
-                        HUD.levelReset(100);
+                        HUD.setWorldTimer(100);
                         // Reset the counter so the process can start over or stop counting
                         spacePressCount = 0;
                         Cowboy.cowboyInteracted = false;
