@@ -111,10 +111,9 @@ public class Cowboy extends NPC {
             float destinationX = 480/Play.PPM;// Change this to the desired X coordinate
             float destinationY = 1620/Play.PPM;// Change this to the desired Y coordinate
             screen.teleportPlayer(player, destinationX, destinationY);
-            HUD.levelReset(100);
+            HUD.setWorldTimer(120);
+            HUD.setCarbonMeter(0);
             screen.onPlayerTeleportedCowboy();
-
-
         }
     }
 }
