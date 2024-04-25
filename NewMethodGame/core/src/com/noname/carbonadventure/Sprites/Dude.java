@@ -8,10 +8,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
+import com.noname.carbonadventure.Scenes.Dialogue_NPC;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 public class Dude extends NPC{
@@ -85,22 +85,21 @@ public class Dude extends NPC{
     public void BodyHit() {
         // Check if the sound is not currently playing
         if (!isSoundPlaying) {
-            // Log the collision
             Gdx.app.log("NPC Collision","");
-
-            // Play the sound
             Play.manager.get("audio/sounds/cuh.wav", Sound.class).play();
-
-            // Set the flag to indicate that the sound is playing
             isSoundPlaying = true;
 
-            // Start a timer to reset the flag after 10 seconds
+            Vector2 npcPosition = new Vector2(b2body.getPosition().x, b2body.getPosition().y);
+            Dialogue_NPC dialogue = new Dialogue_NPC(screen, screen.getStage(), "", "Leave me alone", npcPosition);
+
+
             Timer.schedule(new Timer.Task(){
                 @Override
                 public void run() {
+                    dialogue.closeDialog();
                     isSoundPlaying = false;
                 }
-            }, 10); // Reset the flag after 10 seconds
+            }, 1);
         }
     }
 }

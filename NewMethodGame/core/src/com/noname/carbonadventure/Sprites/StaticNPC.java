@@ -14,46 +14,48 @@ import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.Dialogue_NPC;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
-public class Fella extends NPC {
+public class StaticNPC extends NPC {
     private float stateTime;
-    private Animation<TextureRegion> NPCRun;
+    private Animation<TextureRegion> NPCStand;
     private Array<TextureRegion> frames;
     private boolean isSoundPlaying = false;
+    private int currentDialogueIndex = 0;
+    private Array<Dialogue_NPC> dialogues;
 
-    public Fella(PlayScreen screen, float x, float y) {
+    public StaticNPC(PlayScreen screen, float x, float y) {
         super(screen, x, y);
-        frames = new Array<>();
-        for (int i = 1; i <= 2; i++) {
-            frames.add(screen.getFellaAtlas().findRegion("Fella_down", i));
-        }
-        NPCRun = new Animation<>(0.5f, frames);
+        frames = new Array<TextureRegion>();
+        frames.add(screen.getNPCAtlas().findRegion("NPC_down", 1));
+        NPCStand = new Animation<TextureRegion>(1f, frames);
 
         stateTime = 0;
         setBounds(getX(), getY(), 18 / Play.PPM, 16 / Play.PPM);
-        defineNPC();
+
+        // Initialize dialogues
+        dialogues = new Array<Dialogue_NPC>();
+        dialogues.add(new Dialogue_NPC(screen, screen.getStage(), "Dialogue 1", "Hello, how can I help you?", new Vector2(x, y)));
+        dialogues.add(new Dialogue_NPC(screen, screen.getStage(), "Dialogue 2", "Leave me alone.", new Vector2(x, y)));
     }
 
-    @Override
     public void update(float dt) {
         stateTime += dt;
-        setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
-        setRegion(NPCRun.getKeyFrame(stateTime, true));
-        b2body.setLinearVelocity(velocity);
+        setPosition(getX(), getY());
+        setRegion(NPCStand.getKeyFrame(stateTime, true));
     }
 
     @Override
     protected void defineNPC() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(getX(), getY());
-        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.position.set(this.getX(), this.getY());
+        bdef.type = BodyDef.BodyType.StaticBody; 
         b2body = world.createBody(bdef);
 
+        FixtureDef fdef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(10 / Play.PPM);
-
-        FixtureDef fdef = new FixtureDef();
         fdef.filter.categoryBits = Play.NPC_BIT;
         fdef.filter.maskBits = Play.DEFAULT_BIT | Play.GEM_BIT | Play.NPC_BIT | Play.OBJECT_BIT | Play.PLAYER_BIT;
+
         fdef.shape = shape;
         b2body.createFixture(fdef).setUserData(this);
     }
@@ -61,17 +63,19 @@ public class Fella extends NPC {
     public void BodyHit() {
         if (!isSoundPlaying) {
             Gdx.app.log("NPC Collision", "");
-            Play.manager.get("audio/sounds/hello.wav", Sound.class).play();
+            Play.manager.get("audio/sounds/cuh.wav", Sound.class).play();
             isSoundPlaying = true;
 
-            Vector2 npcPosition = new Vector2(b2body.getPosition().x, b2body.getPosition().y);
-            Dialogue_NPC dialogue = new Dialogue_NPC(screen, screen.getStage(), "", "Don't forget to recycle, it saves the environment bitch", npcPosition);
+            Dialogue_NPC currentDialogue = dialogues.get(currentDialogueIndex);
+            currentDialogue.closeDialog();
 
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    dialogue.closeDialog();
+                    currentDialogue.closeDialog();
                     isSoundPlaying = false;
+                    // Optionally, cycle to the next dialogue or reset the index
+                    currentDialogueIndex = (currentDialogueIndex + 1) % dialogues.size;
                 }
             }, 1);
         }

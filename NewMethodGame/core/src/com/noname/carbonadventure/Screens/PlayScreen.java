@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -95,6 +96,8 @@ public class PlayScreen implements Screen {
     private Skin uiSkin;
 
     private Finish4 finishline;
+
+    private int spacePressCount = 0;
 
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
@@ -195,7 +198,24 @@ public class PlayScreen implements Screen {
             public void run() {
                 dialog.hide();
             }
-        }, 3);
+        }, 1);
+    }
+
+    public void onPlayerTeleportedCowboyDefeat() {
+        displayLevelCompleteDialogueCowboyDefeat();
+    }
+
+    private void displayLevelCompleteDialogueCowboyDefeat() {
+        int currentScore = HUD.getScore();
+        Dialog dialog = new Dialog("", uiSkin);
+        dialog.text("Cowboy Defeated! Score: " + currentScore );
+        dialog.show(stage);
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                dialog.hide();
+            }
+        }, 1);
     }
 
     public void onPlayerTeleported2() {
@@ -214,7 +234,7 @@ public class PlayScreen implements Screen {
             public void run() {
                 dialog.hide();
             }
-        }, 4);
+        }, 1);
     }
     public void onPlayerTeleported3() {
         displayLevelCompleteDialogue3();
@@ -231,7 +251,7 @@ public class PlayScreen implements Screen {
             public void run() {
                 dialog.hide();
             }
-        }, 4);
+        }, 1);
     }
 
     public void onPlayerTeleported4() {
@@ -250,7 +270,7 @@ public class PlayScreen implements Screen {
             public void run() {
                 dialog.hide();
             }
-        }, 4);
+        }, 1);
     }
 
     public void onPlayerTeleportedCowboy() {
@@ -259,6 +279,7 @@ public class PlayScreen implements Screen {
     private void displayLevelCompleteDialogueCowboy() {
         Dialog dialog = new Dialog("", uiSkin);
         dialog.text("This is the Carbon Cowboy! The litter culprit.");
+        dialog.setPosition(0, stage.getHeight() - dialog.getHeight());
         dialog.show(stage);
 
         // Schedule to hide the first dialog after 3 seconds
@@ -269,7 +290,8 @@ public class PlayScreen implements Screen {
 
                 // Inside the hide task of the first dialog, create and schedule the second dialog
                 Dialog dialog2 = new Dialog("", uiSkin);
-                dialog2.text("Press the SpaceBar before time runs out to banish him!");
+                dialog2.text("Press the SpaceBar 5 times before time runs out!");
+                dialog2.setPosition(0, stage.getHeight() - dialog.getHeight());
                 dialog2.show(stage);
 
                 // Schedule to hide the second dialog after 6 seconds from its display
@@ -279,11 +301,11 @@ public class PlayScreen implements Screen {
                         dialog2.hide();
 
                         // Call HUD.levelReset(10) immediately after the second dialog is hidden
-                        HUD.levelReset(10);
+                        HUD.setWorldTimer(5);
                     }
-                }, 6); // This is relative to when dialog2 is shown
+                }, 4); // This is relative to when dialog2 is shown
             }
-        }, 3); // This is relative to when the first dialog is shown
+        }, 2); // This is relative to when the first dialog is shown
     }
 
     public void startGameTimer() {
@@ -443,12 +465,23 @@ public class PlayScreen implements Screen {
 
     public void handleInput(float dt) {
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if (Cowboy.cowboyInteracted) {
-                HUD.levelReset(25);
-                //destroy cowboy duel
 
-            }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if (Cowboy.cowboyInteracted){
+            // Increment the counter each time the spacebar is pressed
+                spacePressCount++;
+                Play.manager.get("audio/sounds/gunshot.mp3", Sound.class).play();
+
+                // Check if the spacebar has been pressed 5 times
+                if (spacePressCount >= 5) {
+                        BarricadeCowboy.destroyAll();
+                        HUD.levelReset(100);
+                        // Reset the counter so the process can start over or stop counting
+                        spacePressCount = 0;
+                        Cowboy.cowboyInteracted = false;
+                    }
+                }
         }
         // Toggle between player and car with 'C'
         if (Gdx.input.isKeyJustPressed(Input.Keys.C)) {

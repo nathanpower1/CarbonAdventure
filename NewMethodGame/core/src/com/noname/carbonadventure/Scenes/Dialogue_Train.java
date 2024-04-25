@@ -104,6 +104,7 @@ public class Dialogue_Train {
                 break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
+        HUD.increaseCarbonMeter(10);
     }
 
     public void update(float delta) {

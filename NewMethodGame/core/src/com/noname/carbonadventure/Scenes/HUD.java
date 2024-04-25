@@ -269,7 +269,6 @@ public class HUD implements Disposable {
 
 
     public static void levelReset(int levelTime) {
-
         int time = getWorldTimer();
         int carbon = getCarbonMeter();
         System.out.println(time);
@@ -279,7 +278,6 @@ public class HUD implements Disposable {
         setWorldTimer(levelTime);
         resetGemIcons();
     }
-
 
     @Override
     public void dispose() {

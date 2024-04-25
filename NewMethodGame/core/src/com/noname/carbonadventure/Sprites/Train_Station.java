@@ -6,9 +6,8 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.HUD;
-import com.noname.carbonadventure.Screens.PlayScreen;
 import com.noname.carbonadventure.Scenes.Dialogue_Train;
+import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +41,6 @@ public class Train_Station extends InteractiveTileObject {
             currentDialogue.dispose();
         }
         currentDialogue = new Dialogue_Train(screen, screen.getStage(), "", "Welcome to the Dublin Train!\n\nPlease choose a stop you would like to travel to:", trainStops, trainStopPosition);
-        HUD.increaseCarbonMeter(10);
     }
 
     public void update(float delta) {
