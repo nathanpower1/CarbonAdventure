@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,7 @@ public class Dialogue_Tutorial {
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
+
     }
 
     private void advanceDialogue() {
@@ -72,6 +74,8 @@ public class Dialogue_Tutorial {
         if (skin != null) {
             skin.dispose();
             skin = null;
+
         }
+
     }
 }

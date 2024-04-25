@@ -1,5 +1,6 @@
 package com.noname.carbonadventure.Scenes;
 
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -24,7 +25,7 @@ public class GameMenu {
     public GameMenu(Play game) {
         this.game = game;
         this.stage = new Stage(new FitViewport(Play.V_WIDTH, Play.V_HEIGHT));
-        Gdx.input.setInputProcessor(stage); // Set this stage as the input processor
+        Gdx.input.setInputProcessor(stage);// Set this stage as the input processor
         initButtons();
     }
 
@@ -88,7 +89,7 @@ public class GameMenu {
         stage.getViewport().update(width, height, true);
         stage.getCamera().position.set(Play.V_WIDTH / 2, Play.V_HEIGHT / 2, 0);
         stage.getCamera().update();
-        Gdx.input.setInputProcessor(stage);
+        
         updateButtonPositions(width, height);
 
     }
@@ -106,9 +107,9 @@ public class GameMenu {
         // Update button positions - align to the right, stacked vertically
         // Note that we're adjusting the Y position for each button based on the one above it
         toggleButton.setPosition(buttonsX, baseY);
-        menuButton.setPosition(buttonsX, baseY - (buttonHeight + 1)); // Positioned 1 unit below the toggle button
-        quitButton.setPosition(buttonsX, baseY - 2 * (buttonHeight + 1)); // Positioned 1 unit below the menu button
-        pauseButton.setPosition(buttonsX, baseY - 3 * (buttonHeight + 1)); // Positioned 1 unit below the quit button
+        menuButton.setPosition(buttonsX, baseY - (buttonHeight + 0)); // Positioned 1 unit below the toggle button
+        quitButton.setPosition(buttonsX, baseY - 2 * (buttonHeight + 0)); // Positioned 1 unit below the menu button
+        pauseButton.setPosition(buttonsX, baseY - 3 * (buttonHeight + 0)); // Positioned 1 unit below the quit button
     }
     public void dispose() {
         stage.dispose();
@@ -117,6 +118,7 @@ public class GameMenu {
         disposeButtonTexture(quitButton);
         disposeButtonTexture(pauseButton);
         disposeButtonTexture(toggleButton);
+
     }
 
 

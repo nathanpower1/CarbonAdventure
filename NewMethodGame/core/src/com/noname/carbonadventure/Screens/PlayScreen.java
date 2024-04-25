@@ -367,6 +367,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
+
     }
 
     public Player getPlayer() {
