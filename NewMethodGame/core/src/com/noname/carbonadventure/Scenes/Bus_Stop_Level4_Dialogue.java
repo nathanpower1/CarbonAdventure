@@ -43,25 +43,31 @@ public class Bus_Stop_Level4_Dialogue {
         dialog = new Dialog(title, skin) {
             @Override
             protected void result(Object object) {
-                handleDialogResult(object.toString());
+                if ("Exit".equals(object.toString())) {
+                    closeDialog();
+                } else {
+                    handleDialogResult(object.toString());
+                }
             }
         };
 
         dialog.setMovable(false);
         Label label = new Label(message, skin, "default");
         label.setWrap(true);
-        dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(5);
+        dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(10);
 
         for (String option : options) {
-            TextButton optionButton = new TextButton(option, skin);
-            dialog.button(optionButton, option);
+            if (!option.isEmpty()) {
+                TextButton optionButton = new TextButton(option, skin);
+                dialog.button(optionButton, option).padBottom(10);
+            }
         }
 
         TextButton closeButton = new TextButton("Exit", skin);
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                closeDialog();
+                dialog.hide();
             }
         });
         dialog.getButtonTable().add(closeButton).padLeft(20).padRight(10);
@@ -80,6 +86,10 @@ public class Bus_Stop_Level4_Dialogue {
         }, 5);
     }
 
+    public boolean isInCooldown() {
+        return isCooldown;
+    }
+
     private void startCooldown() {
         isCooldown = true;
         Timer.schedule(new Timer.Task() {
@@ -90,28 +100,9 @@ public class Bus_Stop_Level4_Dialogue {
         }, COOLDOWN_TIME);
     }
 
-    public boolean isInCooldown() {
-        return isCooldown;
-    }
-
-    public void update(float delta) {
-        if (isDialogOpen() && shouldClose()) {
-            closeDialog();
-        }
-    }
-
-    private boolean isDialogOpen() {
-        return dialog != null && dialog.isVisible();
-    }
-
-    public boolean shouldClose() {
-        Vector2 playerPosition = playScreen.getPlayer().getPosition();
-        return busStopPosition.dst(playerPosition) > distance_min;
-    }
-
     private void handleDialogResult(String option) {
-        closeDialog();
         teleportPlayerBasedOnStop(option);
+        closeDialog();
     }
 
     private void teleportPlayerBasedOnStop(String stop) {
@@ -119,11 +110,26 @@ public class Bus_Stop_Level4_Dialogue {
         float destinationY = 0;
 
         switch (stop) {
-            case "Estate": destinationX = 23.96f; destinationY = 13.279967f; break;
-            case "Hub": destinationX = 23.8267f; destinationY = 8.166699f; break;
-            case "East St": destinationX = 17.58f; destinationY = 6.233366f; break;
-            case "Home": destinationX = 28.3267f; destinationY = 5.766634f; break;
-            case "!?": destinationX = 18.88f; destinationY = 13.586668f; break;
+            case "Estate":
+                destinationX = 23.96f;
+                destinationY = 13.279967f;
+                break;
+            case "Hub":
+                destinationX = 23.8267f;
+                destinationY = 8.166699f;
+                break;
+            case "East St":
+                destinationX = 17.58f;
+                destinationY = 6.233366f;
+                break;
+            case "Home":
+                destinationX = 28.3267f;
+                destinationY = 5.766634f;
+                break;
+            case "!?":
+                destinationX = 18.88f;
+                destinationY = 13.586668f;
+                break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
         HUD.increaseCarbonMeter(10);

@@ -40,7 +40,14 @@ public class Dialogue_Bus {
 
     private void createDialogue(String title, String message, List<String> options) {
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
-        dialog = new Dialog(title, skin);
+        dialog = new Dialog(title, skin) {
+            @Override
+            protected void result(Object object) {
+                if (object != null) {
+                    handleDialogResult(object.toString());
+                }
+            }
+        };
         dialog.setMovable(false);
 
         Label label = new Label(message, skin, "default");
@@ -48,15 +55,17 @@ public class Dialogue_Bus {
         dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(5);
 
         for (String option : options) {
-            TextButton optionButton = new TextButton(option, skin);
-            dialog.button(optionButton, option);
+            if (!option.isEmpty()) {
+                TextButton optionButton = new TextButton(option, skin);
+                dialog.button(optionButton, option).padBottom(10);
+            }
         }
 
         TextButton closeButton = new TextButton("Exit", skin);
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                closeDialog();
+                dialog.hide();
             }
         });
         dialog.getButtonTable().add(closeButton).padLeft(20).padRight(10);
@@ -66,13 +75,6 @@ public class Dialogue_Bus {
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
-
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                closeDialog();
-            }
-        }, 7);
     }
 
     public boolean isInCooldown() {
@@ -89,24 +91,13 @@ public class Dialogue_Bus {
         }, COOLDOWN_TIME);
     }
 
-    public void update(float delta) {
-        if (isDialogOpen() && shouldClose()) {
-            closeDialog();
-        }
-    }
-
-    private boolean isDialogOpen() {
-        return dialog != null && dialog.isVisible();
-    }
-
-    public boolean shouldClose() {
-        Vector2 playerPosition = playScreen.getPlayer().getPosition();
-        return busStopPosition.dst(playerPosition) > distance_min;
-    }
-
     private void handleDialogResult(String option) {
-        closeDialog();
+        if (option.equals("Exit")) {
+            closeDialog();
+            return;
+        }
         teleportPlayerBasedOnStop(option);
+        closeDialog();
     }
 
     private void teleportPlayerBasedOnStop(String stop) {

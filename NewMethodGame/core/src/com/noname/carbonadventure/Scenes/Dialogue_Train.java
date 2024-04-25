@@ -40,7 +40,14 @@ public class Dialogue_Train {
     }
 
     private void createDialogue(String title, String message, List<String> options) {
-        dialog = new Dialog(title, skin);
+        dialog = new Dialog(title, skin) {
+            @Override
+            protected void result(Object object) {
+                if (object != null) {
+                    handleDialogResult(object.toString());
+                }
+            }
+        };
         dialog.setMovable(false);
 
         Label label = new Label(message, skin, "default");
@@ -52,11 +59,11 @@ public class Dialogue_Train {
             dialog.button(optionButton, option);
         }
 
-        TextButton closeButton = new TextButton("exit", skin);
+        TextButton closeButton = new TextButton("Exit", skin);
         closeButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                closeDialog();
+                dialog.cancel();
             }
         });
         dialog.getButtonTable().add(closeButton).padRight(10);
@@ -82,6 +89,30 @@ public class Dialogue_Train {
         }, COOLDOWN_TIME);
     }
 
+    private void handleDialogResult(String option) {
+        if (!"Exit".equals(option)) {
+            teleportPlayerBasedOnStop(option);
+        }
+        closeDialog();
+    }
+
+    private void teleportPlayerBasedOnStop(String stop) {
+        float destinationX = 0;
+        float destinationY = 0;
+
+        switch (stop) {
+            case "N1": destinationX = 17.4867f; destinationY = 14.897767f; break;
+            case "S1": destinationX = 17.69f; destinationY = 0.9444673f; break;
+            case "E1": destinationX = 17.603399f; destinationY = 8.939467f; break;
+            case "Hub": destinationX = 24.0534f; destinationY = 8.649467f; break;
+            case "N2": destinationX = 30.266699f; destinationY = 14.857767f; break;
+            case "E2": destinationX = 30.238401f; destinationY = 8.644467f; break;
+            case "S2": destinationX = 30.2534f; destinationY = 0.6444673f; break;
+        }
+        playScreen.teleportPlayer(Play.player, destinationX, destinationY);
+        HUD.increaseCarbonMeter(10);
+    }
+
     public void update(float delta) {
         if (isDialogOpen() && shouldClose()) {
             closeDialog();
@@ -95,29 +126,6 @@ public class Dialogue_Train {
     private boolean shouldClose() {
         Vector2 playerPosition = playScreen.getPlayer().getPosition();
         return trainStopPosition.dst(playerPosition) > distance_min;
-    }
-
-    private void handleDialogResult(String option) {
-        closeDialog();
-        teleportPlayerBasedOnStop(option);
-    }
-
-    private void teleportPlayerBasedOnStop(String stop) {
-        float destinationX = 0;
-        float destinationY = 0;
-
-        // Define coordinates based on the selected stop
-        switch (stop) {
-            case "N1": destinationX = 17.4867f; destinationY = 14.897767f; break;
-            case "S1": destinationX = 17.69f; destinationY = 0.9444673f; break;
-            case "E1": destinationX = 17.603399f; destinationY = 8.939467f; break;
-            case "Hub": destinationX = 24.0534f; destinationY = 8.649467f; break;
-            case "N2": destinationX = 30.266699f; destinationY = 14.857767f; break;
-            case "E2": destinationX = 30.238401f; destinationY = 8.644467f; break;
-            case "S2": destinationX = 30.2534f; destinationY = 0.6444673f; break;
-        }
-        playScreen.teleportPlayer(Play.player, destinationX, destinationY);
-        HUD.increaseCarbonMeter(10);
     }
 
     public void closeDialog() {
