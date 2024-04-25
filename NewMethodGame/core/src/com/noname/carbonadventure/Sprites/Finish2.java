@@ -24,6 +24,7 @@ public class Finish2 extends InteractiveTileObject {
     public void OnBodyHit() {
         HUD.levelReset(120);
         Gdx.app.log("Finish", "Finish line has been triggered.");
+        Play.manager.get("audio/sounds/levelup.wav", Sound.class).play();
         Music music = Play.manager.get("audio/music/cowboyTrio.mp3", Music.class);
         Music music2 = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
         Music music3 = Play.manager.get("audio/music/lasvegas.mp3", Music.class);

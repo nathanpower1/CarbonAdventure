@@ -2,6 +2,7 @@ package com.noname.carbonadventure.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
@@ -31,7 +32,7 @@ public class Finish4 extends InteractiveTileObject {
         playerFinish = true;
 
         Gdx.app.log("Finish", "Finish line has been triggered.");
-
+        Play.manager.get("audio/sounds/levelup.wav", Sound.class).play();
         Music music = Play.manager.get("audio/music/lasvegas.mp3", Music.class);
         Music music2 = Play.manager.get("audio/music/cowboy.mp3", Music.class);
         Music music3 = Play.manager.get("audio/music/finish.mp3", Music.class);

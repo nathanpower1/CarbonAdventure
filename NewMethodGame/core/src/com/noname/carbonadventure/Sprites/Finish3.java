@@ -1,6 +1,7 @@
 package com.noname.carbonadventure.Sprites;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.noname.carbonadventure.Play;
 import com.noname.carbonadventure.Scenes.HUD;
@@ -22,6 +23,7 @@ public class Finish3 extends InteractiveTileObject {
     public void OnBodyHit() {
         HUD.levelReset(120);
         Gdx.app.log("Finish", "Finish line has been triggered.");
+        Play.manager.get("audio/sounds/levelup.wav", Sound.class).play();
         // 2410/Play.PPM,1570/Play.PPM
         float destinationX = 2410/Play.PPM;// Change this to the desired X coordinate
         float destinationY = 1570/Play.PPM;// Change this to the desired Y coordinate
