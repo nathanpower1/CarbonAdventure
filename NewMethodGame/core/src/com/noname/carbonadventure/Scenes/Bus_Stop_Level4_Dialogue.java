@@ -111,6 +111,10 @@ public class Bus_Stop_Level4_Dialogue {
                 destinationX = 28.3267f;
                 destinationY = 5.766634f;
                 break;
+            case "!?":
+                destinationX = 18.88f;
+                destinationY = 13.586668f;
+                break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
         HUD.increaseCarbonMeter(10);

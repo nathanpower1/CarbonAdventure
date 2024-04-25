@@ -239,6 +239,11 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     Static_Guy staticGuy = new Static_Guy(screen, rect);
                 }
+            }else if ("Static_Train_Guy".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    Static_Train_Guy Static_Train_Guy = new Static_Train_Guy(screen, rect);
+                }
             }
         }
     }

@@ -16,7 +16,7 @@ public class Static_Guy extends InteractiveTileObject {
             "Buses use less fuel per passenger compared to cars, making them an eco-friendly option for commuting.",
             "Public transportation can save over 1.4 billion gallons of gasoline annually.",
             "One full bus can remove up to 40 vehicles from the road, reducing congestion and greenhouse gases.",
-            "Did you know that all buses are named Frank in Ireland",
+            "Did you know that in Ireland, all buses are named Frank",
             "In 2023, Dublin Bus introduced over 200 hybrid-electric vehicles to their fleet",
             "Buses run on alternative energy sources like natural gas, biodiesel, or electricity, which emit fewer pollutants than conventional gasoline and diesel.",
             "Buses contribute to reducing noise pollution compared to the cumulative effect of many cars, especially in dense urban areas.",
