@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +18,12 @@ public class Dialogue_Tutorial {
     private List<String> messages;
     private int currentMessageIndex = 0;
     private Label messageLabel;
+    private Runnable onClose;
 
     public Dialogue_Tutorial(Stage stage, String title, List<String> messages) {
         this.stage = stage;
         this.messages = new ArrayList<>(messages);
+        this.onClose = onClose;
 
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
         dialog = new Dialog(title, skin);
@@ -46,6 +47,9 @@ public class Dialogue_Tutorial {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
                 dialog.hide();
+                if (onClose != null) {
+                    onClose.run();
+                }
             }
         });
 
@@ -57,13 +61,15 @@ public class Dialogue_Tutorial {
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
-
     }
 
     private void advanceDialogue() {
         currentMessageIndex++;
         if (currentMessageIndex >= messages.size()) {
             dialog.hide();
+            if (onClose != null) {
+                onClose.run();
+            }
         } else {
             messageLabel.setText(messages.get(currentMessageIndex));
             dialog.pack();
@@ -74,8 +80,6 @@ public class Dialogue_Tutorial {
         if (skin != null) {
             skin.dispose();
             skin = null;
-
         }
-
     }
 }
