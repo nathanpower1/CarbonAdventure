@@ -14,24 +14,21 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 import com.noname.carbonadventure.Scenes.HUD;
 
 public class GarbageTutorial extends InteractiveTileObject{
+    private PlayScreen screen;
     public GarbageTutorial(PlayScreen screen, Rectangle bounds){
         super(screen,bounds);
         fixture.setUserData(this);
         setCategoryFilter(Play.GEM_BIT);
-
-
+        this.screen = screen;
     }
 
     @Override
     public void OnBodyHit() {
-        if (HUD.getCarbonMeter() > 0) {
-            Gdx.app.log("Garbage Collision","");
-            Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
-            setCategoryFilter(Play.DESTROYED_BIT);
-            getCell().setTile(null);
-            // Update carbon meter
-            HUD.increaseCarbonMeter(-5); // Decrease carbon meter by 5
-            //HUD.addScore(1);
-        }
+
+        Gdx.app.log("Garbage Collision","");
+        Play.manager.get("audio/sounds/Gem_Collect.wav", Sound.class).play();
+        setCategoryFilter(Play.DESTROYED_BIT);
+        getCell().setTile(null);
+        screen.onPlayerTeleportedGarbageTutorial();
     }
 }
