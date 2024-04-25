@@ -21,7 +21,7 @@ public class Finish3 extends InteractiveTileObject {
 
     @Override
     public void OnBodyHit() {
-        HUD.levelReset(120);
+        HUD.levelReset(150);
         Gdx.app.log("Finish", "Finish line has been triggered.");
         Play.manager.get("audio/sounds/levelup.wav", Sound.class).play();
         // 2410/Play.PPM,1570/Play.PPM
