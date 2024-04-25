@@ -34,7 +34,7 @@ public class GameOverScreen implements Screen {
         table.center();
         table.setFillParent(true);
 
-        Label gameoverLabel = new Label("Game Over", font);
+        Label gameoverLabel = new Label("Game Over", skin);
         table.add(gameoverLabel).expandX();
 
         TextButton leaderboardButton = new TextButton("View Leaderboard", skin);
