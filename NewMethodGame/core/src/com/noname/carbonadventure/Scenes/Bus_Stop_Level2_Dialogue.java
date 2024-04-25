@@ -21,7 +21,6 @@ public class Bus_Stop_Level2_Dialogue {
     private Skin skin;
     private PlayScreen playScreen;
     private Vector2 busStopPosition;
-
     private boolean isCooldown;
     private static final float COOLDOWN_TIME = 3;
 
@@ -31,10 +30,12 @@ public class Bus_Stop_Level2_Dialogue {
         this.playScreen = playScreen;
         this.stage = stage;
         this.busStopPosition = busStopPosition;
-        this.isCooldown = false; // Initial state
+        this.isCooldown = false;
 
-        skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
+        initDialog(title, message, options);
+    }
 
+    private void initDialog(String title, String message, List<String> options) {
         if (!isCooldown) {
             setupDialogue(title, message, options);
             startCooldown();
@@ -42,13 +43,10 @@ public class Bus_Stop_Level2_Dialogue {
     }
 
     private void setupDialogue(String title, String message, List<String> options) {
-        dialog = new Dialog(title, skin) {
-            @Override
-            protected void result(Object object) {
-                handleDialogResult(object.toString());
-            }
-        };
+        skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
+        dialog = new Dialog(title, skin);
         dialog.setMovable(false);
+
         Label label = new Label(message, skin, "default");
         label.setWrap(true);
         dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(5);
@@ -72,12 +70,6 @@ public class Bus_Stop_Level2_Dialogue {
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
-        Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                closeDialog();
-            }
-        }, 7);
     }
 
     public boolean isInCooldown() {
@@ -118,32 +110,15 @@ public class Bus_Stop_Level2_Dialogue {
         float destinationX = 0;
         float destinationY = 0;
 
-       switch (stop) {
-            case "East":
-                destinationX = 0.293333f;
-                destinationY = 7.213333f;
-                break;
-            case "North":
-                destinationX = 8.98f;
-                destinationY = 8.433333f;
-                break;
-            case "Town":
-                destinationX = 5.40667f;
-                destinationY =  6.0800323f;
-                break;
-            case "S.E":
-                destinationX = 0.773333f;
-                destinationY = 0.646667f;
-                break;
-            case "S.W":
-                destinationX = 8.9733305f;
-                destinationY = 1.706667f;
-                break;
-
+        switch (stop) {
+            case "East": destinationX = 0.293333f; destinationY = 7.213333f; break;
+            case "North": destinationX = 8.98f; destinationY = 8.433333f; break;
+            case "Town": destinationX = 5.40667f; destinationY = 6.0800323f; break;
+            case "S.E": destinationX = 0.773333f; destinationY = 0.646667f; break;
+            case "S.W": destinationX = 8.9733305f; destinationY = 1.706667f; break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
         HUD.increaseCarbonMeter(10);
-
     }
 
     public void closeDialog() {

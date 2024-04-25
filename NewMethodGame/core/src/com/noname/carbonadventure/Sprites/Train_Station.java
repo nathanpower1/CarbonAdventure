@@ -1,6 +1,5 @@
 package com.noname.carbonadventure.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -32,15 +31,15 @@ public class Train_Station extends InteractiveTileObject {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
         List<String> trainStops = Arrays.asList("N1","","E1","","S1","","Hub","","N2","","E2","","S2");
 
-        Gdx.app.log("Train_Station", "Collision detected at x: " + x + ", y: " + y);
+        // Provide a message for the dialogue
+        String welcomeMessage = "Welcome to the Dublin Train!\nPlease choose a stop you would like to travel to:";
 
-
-        Vector2 trainStopPosition = new Vector2(x, y);
-
-        if (currentDialogue != null) {
-            currentDialogue.dispose();
+        if (currentDialogue == null || !currentDialogue.isInCooldown()) {
+            if (currentDialogue != null) {
+                currentDialogue.dispose();
+            }
+            currentDialogue = new Dialogue_Train(screen, screen.getStage(), "", welcomeMessage, trainStops, new Vector2(x, y));
         }
-        currentDialogue = new Dialogue_Train(screen, screen.getStage(), "", "Welcome to the Dublin Train!\n\nPlease choose a stop you would like to travel to:", trainStops, trainStopPosition);
     }
 
     public void update(float delta) {
