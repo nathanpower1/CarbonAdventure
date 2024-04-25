@@ -20,7 +20,9 @@ public class FinishCowboy extends InteractiveTileObject {
 
     @Override
     public void OnBodyHit() {
-        HUD.levelReset(120);
+        HUD.addScore(2000);
+        HUD.setWorldTimer(120);
+        HUD.setCarbonMeter(0);
         Gdx.app.log("Finish", "Finish line has been triggered.");
         // 2410/Play.PPM,1570/Play.PPM
         float destinationX = 390/Play.PPM;// Change this to the desired X coordinate
