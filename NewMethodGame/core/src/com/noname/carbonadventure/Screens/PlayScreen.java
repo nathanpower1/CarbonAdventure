@@ -31,6 +31,7 @@ import com.noname.carbonadventure.Tools.B2WorldCreator;
 import com.noname.carbonadventure.Tools.WorldContactListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.noname.carbonadventure.Scenes.HUD.stage;
@@ -101,6 +102,8 @@ public class PlayScreen implements Screen {
 
     private boolean cowboyFinishTriggered = false;
 
+    private Dialogue_Tutorial startDialogue;
+
 
     public PlayScreen(Play game){
         atlas = new TextureAtlas("player.atlas");
@@ -126,7 +129,6 @@ public class PlayScreen implements Screen {
         Gdx.app.log("Debug", "Retrieved Name: " + game.getPlayerName());
         // create HUD
         //hud = new HUD(game.batch);
-
 
         //create map
         loader = new TmxMapLoader();
@@ -165,6 +167,21 @@ public class PlayScreen implements Screen {
         mapWidth = map.getProperties().get("width", Integer.class) * map.getProperties().get("tilewidth", Integer.class);
         mapHeight = map.getProperties().get("height", Integer.class) * map.getProperties().get("tileheight", Integer.class);
 
+    }
+
+    private void showStartupDialogue() {
+        // Messages to show at the start of the game
+        java.util.List<String> messages = Arrays.asList(
+                "Welcome to Carbon Adventure Tutorial!",
+                "Navigate through the game and learn about reducing carbon footprints.",
+                "Use the arrow keys to move around and interact with objects.",
+                "The aim of the game is to pick up all the gems before your time runs out!",
+                "By utilising the different modes of transport, you can traverse the map at speed to collect all the gems.",
+                "But remember, this comes at cost. Each trip will fill your carbon meter, and once full, you'll have to start again!",
+                "In addition to public transport, you can also skateboard or drive by toggling the correct key, but each comes at a price, so be careful!",
+                "Now, enjoy our game and go and explore, for there is lots to uncover!"
+        );
+        startDialogue = new Dialogue_Tutorial(stage, "", messages);
     }
 
     public void displayNPCDialogue(String title, String message, List<String> options, boolean isBusStopDialogue, Vector2 npcPosition) {
@@ -389,7 +406,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-
+        showStartupDialogue();
     }
 
     public Player getPlayer() {
@@ -760,8 +777,9 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
         gameMenu.dispose();
-
-
+        if (startDialogue != null) {
+            startDialogue.dispose();
+        }
 
     }
 }
