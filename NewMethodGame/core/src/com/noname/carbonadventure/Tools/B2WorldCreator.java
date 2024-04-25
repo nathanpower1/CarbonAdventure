@@ -224,6 +224,16 @@ public class B2WorldCreator {
                     Rectangle rect = ((RectangleMapObject) object).getRectangle();
                     new Train_Station(screen, rect);
                 }
+            }else if ("BarricadeCowboy".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new BarricadeCowboy(screen, rect);
+                }
+            }else if ("FinishCowboy".equals(layer.getName())) {
+                for (MapObject object : layer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                    new FinishCowboy(screen, rect);
+                }
             }
         }
     }
