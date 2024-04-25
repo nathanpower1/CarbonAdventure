@@ -75,7 +75,7 @@ public class Dialogue_Train {
 
         switch (stop) {
             case "N1":
-                destinationX = 17.4867f;
+                destinationX = 17.8867f;
                 destinationY = 14.697767f;
                 break;
             case "E1":
