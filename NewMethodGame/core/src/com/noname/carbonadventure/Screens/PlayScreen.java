@@ -354,6 +354,10 @@ public class PlayScreen implements Screen {
         cowboyFinishTriggered = triggered;
     }
 
+    public GameMenu getGameMenu() {
+        return gameMenu;
+    }
+
 
     public TextureAtlas getAtlas(){
         return atlas;
@@ -565,6 +569,12 @@ public class PlayScreen implements Screen {
                 playerCowboy.b2body.setActive(false);
                 player.b2body.setActive(true);
             }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+            game.setScreen(new MainMenuScreen(game));
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+            Gdx.app.exit();
         }
 
         // Exit early if the player is dead, no further controls should be processed
