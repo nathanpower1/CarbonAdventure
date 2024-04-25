@@ -67,7 +67,7 @@ public class Bus_Stop_Level4_Dialogue {
             public void run() {
                 closeDialog();
             }
-        }, 7);
+        }, 5);
     }
     public void update(float delta) {
         if (isDialogOpen() && shouldClose()) {

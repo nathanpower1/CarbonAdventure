@@ -34,7 +34,7 @@ public class EnvironmentDialogue {
             public void run() {
                 closeDialog();
             }
-        }, 7);
+        }, 5);
     }
 
     public void closeDialog() {
