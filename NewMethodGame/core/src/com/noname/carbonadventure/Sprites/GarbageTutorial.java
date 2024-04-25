@@ -14,11 +14,12 @@ import com.noname.carbonadventure.Screens.PlayScreen;
 import com.noname.carbonadventure.Scenes.HUD;
 
 public class GarbageTutorial extends InteractiveTileObject{
-    PlayScreen screen;
+    private PlayScreen screen;
     public GarbageTutorial(PlayScreen screen, Rectangle bounds){
         super(screen,bounds);
         fixture.setUserData(this);
         setCategoryFilter(Play.GEM_BIT);
+        this.screen = screen;
     }
 
     @Override
