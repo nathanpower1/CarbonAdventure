@@ -211,14 +211,14 @@ public class PlayScreen implements Screen {
     private void displayLevelCompleteDialogueCowboyDefeat() {
         int currentScore = HUD.getScore();
         Dialog dialog = new Dialog("", uiSkin);
-        dialog.text("Cowboy Defeated! Score: " + currentScore );
+        dialog.text("Cowboy Defeated! Score: " + currentScore + "\n\nPress Z for a surprise ;) !");
         dialog.show(stage);
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 dialog.hide();
             }
-        }, 1);
+        }, 4);
     }
 
     public void onPlayerTeleported2() {
@@ -531,7 +531,7 @@ public class PlayScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
 
             if (!cowboyFinishTriggered) {
-                return; // Exit early if cowboyFinishTriggered is false
+                return;
             }
 
             if (currentCharacter.equals(player)) {
