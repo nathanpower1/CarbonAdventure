@@ -21,6 +21,8 @@ public class Bus_Stop_Level4_Dialogue {
     private Skin skin;
     private PlayScreen playScreen;
     private Vector2 busStopPosition;
+    private boolean isCooldown;
+    private static final float COOLDOWN_TIME = 3;
 
     public static final float distance_min = 0.5f;
 
@@ -28,9 +30,16 @@ public class Bus_Stop_Level4_Dialogue {
         this.playScreen = playScreen;
         this.stage = stage;
         this.busStopPosition = busStopPosition;
+        this.isCooldown = false;
 
+        if (!isCooldown) {
+            setupDialogue(title, message, options);
+            startCooldown();
+        }
+    }
+
+    private void setupDialogue(String title, String message, List<String> options) {
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
-
         dialog = new Dialog(title, skin) {
             @Override
             protected void result(Object object) {
@@ -62,6 +71,7 @@ public class Bus_Stop_Level4_Dialogue {
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
+
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
@@ -69,6 +79,21 @@ public class Bus_Stop_Level4_Dialogue {
             }
         }, 5);
     }
+
+    private void startCooldown() {
+        isCooldown = true;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                isCooldown = false;
+            }
+        }, COOLDOWN_TIME);
+    }
+
+    public boolean isInCooldown() {
+        return isCooldown;
+    }
+
     public void update(float delta) {
         if (isDialogOpen() && shouldClose()) {
             closeDialog();
@@ -89,32 +114,16 @@ public class Bus_Stop_Level4_Dialogue {
         teleportPlayerBasedOnStop(option);
     }
 
-
     private void teleportPlayerBasedOnStop(String stop) {
         float destinationX = 0;
         float destinationY = 0;
 
         switch (stop) {
-            case "Estate":
-                destinationX = 23.96f;
-                destinationY = 13.279967f;
-                break;
-            case "Hub":
-                destinationX = 23.8267f;
-                destinationY = 8.166699f;
-                break;
-            case "East St":
-                destinationX = 17.58f;
-                destinationY =  6.233366f;
-                break;
-            case "Home":
-                destinationX = 28.3267f;
-                destinationY = 5.766634f;
-                break;
-            case "!?":
-                destinationX = 18.88f;
-                destinationY = 13.586668f;
-                break;
+            case "Estate": destinationX = 23.96f; destinationY = 13.279967f; break;
+            case "Hub": destinationX = 23.8267f; destinationY = 8.166699f; break;
+            case "East St": destinationX = 17.58f; destinationY = 6.233366f; break;
+            case "Home": destinationX = 28.3267f; destinationY = 5.766634f; break;
+            case "!?": destinationX = 18.88f; destinationY = 13.586668f; break;
         }
         playScreen.teleportPlayer(Play.player, destinationX, destinationY);
         HUD.increaseCarbonMeter(10);
@@ -134,4 +143,3 @@ public class Bus_Stop_Level4_Dialogue {
         }
     }
 }
-

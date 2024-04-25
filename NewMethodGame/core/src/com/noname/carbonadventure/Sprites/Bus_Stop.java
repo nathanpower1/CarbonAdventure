@@ -32,10 +32,12 @@ public class Bus_Stop extends InteractiveTileObject {
         List<String> busStops = Arrays.asList("East Lake","","Central Park","","West Side");
         Vector2 busStopPosition = new Vector2(x, y);
 
-        if (currentDialogue != null) {
-            currentDialogue.dispose();
+        if (currentDialogue == null || !currentDialogue.isInCooldown()) {
+            if (currentDialogue != null) {
+                currentDialogue.dispose();
+            }
+            currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
         }
-        currentDialogue = new Dialogue_Bus(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
     }
 
     public void update(float delta) {

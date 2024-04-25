@@ -21,6 +21,8 @@ public class Dialogue_Bus {
     private Skin skin;
     private PlayScreen playScreen;
     private Vector2 busStopPosition;
+    private boolean isCooldown;
+    private static final float COOLDOWN_TIME = 3;
 
     public static final float distance_min = 0.5f;
 
@@ -28,17 +30,19 @@ public class Dialogue_Bus {
         this.playScreen = playScreen;
         this.stage = stage;
         this.busStopPosition = busStopPosition;
+        this.isCooldown = false;
 
+        if (!isCooldown) {
+            createDialogue(title, message, options);
+            startCooldown();
+        }
+    }
+
+    private void createDialogue(String title, String message, List<String> options) {
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
-
-        dialog = new Dialog(title, skin) {
-            @Override
-            protected void result(Object object) {
-                handleDialogResult(object.toString());
-            }
-        };
-
+        dialog = new Dialog(title, skin);
         dialog.setMovable(false);
+
         Label label = new Label(message, skin, "default");
         label.setWrap(true);
         dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(5);
@@ -62,12 +66,27 @@ public class Dialogue_Bus {
         dialog.toFront();
         stage.act();
         Gdx.input.setInputProcessor(stage);
+
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 closeDialog();
             }
         }, 7);
+    }
+
+    public boolean isInCooldown() {
+        return isCooldown;
+    }
+
+    private void startCooldown() {
+        isCooldown = true;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                isCooldown = false;
+            }
+        }, COOLDOWN_TIME);
     }
 
     public void update(float delta) {

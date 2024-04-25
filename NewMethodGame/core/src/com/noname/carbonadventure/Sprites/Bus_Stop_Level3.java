@@ -1,6 +1,5 @@
 package com.noname.carbonadventure.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -33,13 +32,12 @@ public class Bus_Stop_Level3 extends InteractiveTileObject {
         List<String> busStops = Arrays.asList("Park","","Town","","Park ext","","South St");
         Vector2 busStopPosition = new Vector2(x, y);
 
-        Gdx.app.log("Bus_Stop_Level3", "Collision detected at x: " + x + ", y: " + y);
-
-
-        if (currentDialogue != null) {
-            currentDialogue.dispose();
+        if (currentDialogue == null || !currentDialogue.isInCooldown()) {
+            if (currentDialogue != null) {
+                currentDialogue.dispose();
+            }
+            currentDialogue = new Bus_Stop_Level3_Dialogue(screen, screen.getStage(), "Select Bus Stop", "Please choose a location you would like to travel to:", busStops, busStopPosition);
         }
-        currentDialogue = new Bus_Stop_Level3_Dialogue(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
     }
 
     public void update(float delta) {
