@@ -322,6 +322,7 @@ public class PlayScreen implements Screen {
 
                         // Call HUD.levelReset(10) immediately after the second dialog is hidden
                         HUD.setWorldTimer(5);
+                        Cowboy.cowboyInteracted = true;
                     }
                 }, 4); // This is relative to when dialog2 is shown
             }
