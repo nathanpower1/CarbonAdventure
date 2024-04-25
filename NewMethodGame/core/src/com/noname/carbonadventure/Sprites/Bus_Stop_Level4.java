@@ -30,15 +30,17 @@ public class Bus_Stop_Level4 extends InteractiveTileObject {
     @Override
     public void OnBodyHit() {
         Play.manager.get("audio/sounds/bus_honk.wav", Sound.class).play();
-        List<String> busStops = Arrays.asList("Estate","","Hub","","East St","","Home","","!?");
+        List<String> busStops = Arrays.asList("Estate", "Hub", "East St", "Home", "!?");
         Vector2 busStopPosition = new Vector2(x, y);
 
         Gdx.app.log("Bus_Stop_Level4", "Collision detected at x: " + x + ", y: " + y);
 
-        if (currentDialogue != null) {
-            currentDialogue.dispose();
+        if (currentDialogue == null || !currentDialogue.isInCooldown()) {
+            if (currentDialogue != null) {
+                currentDialogue.dispose();
+            }
+            currentDialogue = new Bus_Stop_Level4_Dialogue(screen, screen.getStage(), "Select Bus Stop", "Please choose a location you would like to travel to:", busStops, busStopPosition);
         }
-        currentDialogue = new Bus_Stop_Level4_Dialogue(screen, screen.getStage(), "", "Please choose a location you would like to travel to:", busStops, busStopPosition);
     }
 
     public void update(float delta) {

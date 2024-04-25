@@ -9,9 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Screens.PlayScreen;
 import com.badlogic.gdx.utils.Timer;
+import com.noname.carbonadventure.Screens.PlayScreen;
 
 import java.util.List;
 
@@ -21,6 +20,8 @@ public class Bus_Stop_Level3_Dialogue {
     private Skin skin;
     private PlayScreen playScreen;
     private Vector2 busStopPosition;
+    private boolean isCooldown;
+    private static final float COOLDOWN_TIME = 3;
 
     public static final float distance_min = 0.5f;
 
@@ -28,17 +29,19 @@ public class Bus_Stop_Level3_Dialogue {
         this.playScreen = playScreen;
         this.stage = stage;
         this.busStopPosition = busStopPosition;
+        this.isCooldown = false;
 
+        if (!isCooldown) {
+            setupDialogue(title, message, options);
+            startCooldown();
+        }
+    }
+
+    private void setupDialogue(String title, String message, List<String> options) {
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
-
-        dialog = new Dialog(title, skin) {
-            @Override
-            protected void result(Object object) {
-                handleDialogResult(object.toString());
-            }
-        };
-
+        dialog = new Dialog(title, skin);
         dialog.setMovable(false);
+
         Label label = new Label(message, skin, "default");
         label.setWrap(true);
         dialog.getContentTable().add(label).width(stage.getWidth() - 40).pad(5);
@@ -71,52 +74,18 @@ public class Bus_Stop_Level3_Dialogue {
         }, 7);
     }
 
-    public void update(float delta) {
-        if (isDialogOpen() && shouldClose()) {
-            closeDialog();
-        }
+    public boolean isInCooldown() {
+        return isCooldown;
     }
 
-    private boolean isDialogOpen() {
-        return dialog != null && dialog.isVisible();
-    }
-
-    public boolean shouldClose() {
-        Vector2 playerPosition = playScreen.getPlayer().getPosition();
-        return busStopPosition.dst(playerPosition) > distance_min;
-    }
-
-    private void handleDialogResult(String option) {
-        closeDialog();
-        teleportPlayerBasedOnStop(option);
-    }
-
-    private void teleportPlayerBasedOnStop(String stop) {
-        float destinationX = 0;
-        float destinationY = 0;
-
-        switch (stop) {
-            case "Park":
-                destinationX = 23.8133f;
-                destinationY = 28.89333f;
-                break;
-            case "Town":
-                destinationX = 29.74f;
-                destinationY = 30.093332f;
-                break;
-            case "Park ext":
-                destinationX = 27.533302f;
-                destinationY = 25.77333f;
-                break;
-            case "South St":
-                destinationX = 23.966698f;
-                destinationY = 23.680002f;
-                break;
-
-        }
-        playScreen.teleportPlayer(Play.player, destinationX, destinationY);
-        HUD.increaseCarbonMeter(10);
-
+    private void startCooldown() {
+        isCooldown = true;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                isCooldown = false;
+            }
+        }, COOLDOWN_TIME);
     }
 
     public void closeDialog() {

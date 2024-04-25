@@ -22,22 +22,32 @@ public class Bus_Stop_Level2_Dialogue {
     private PlayScreen playScreen;
     private Vector2 busStopPosition;
 
+    private boolean isCooldown;
+    private static final float COOLDOWN_TIME = 3;
+
     public static final float distance_min = 0.5f;
 
     public Bus_Stop_Level2_Dialogue(PlayScreen playScreen, Stage stage, String title, String message, List<String> options, Vector2 busStopPosition) {
         this.playScreen = playScreen;
         this.stage = stage;
         this.busStopPosition = busStopPosition;
+        this.isCooldown = false; // Initial state
 
         skin = new Skin(Gdx.files.internal("data/terra-mother-ui.json"));
 
+        if (!isCooldown) {
+            setupDialogue(title, message, options);
+            startCooldown();
+        }
+    }
+
+    private void setupDialogue(String title, String message, List<String> options) {
         dialog = new Dialog(title, skin) {
             @Override
             protected void result(Object object) {
                 handleDialogResult(object.toString());
             }
         };
-
         dialog.setMovable(false);
         Label label = new Label(message, skin, "default");
         label.setWrap(true);
@@ -68,6 +78,20 @@ public class Bus_Stop_Level2_Dialogue {
                 closeDialog();
             }
         }, 7);
+    }
+
+    public boolean isInCooldown() {
+        return isCooldown;
+    }
+
+    private void startCooldown() {
+        isCooldown = true;
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                isCooldown = false;
+            }
+        }, COOLDOWN_TIME);
     }
 
     public void update(float delta) {
