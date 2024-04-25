@@ -22,10 +22,12 @@ public class Player extends Sprite {
     private Animation <TextureRegion> playerUp;
     public World world;
     public Body b2body;
-    private TextureRegion playerStand;
+    protected TextureRegion playerStand;
+
     private float stateTimer;
 
-    private boolean runningRight;
+    protected boolean runningRight;
+
     private boolean playerIsDead;
     private boolean hasPlayedBooSound = false;
 
@@ -184,6 +186,19 @@ public class Player extends Sprite {
     public Body getBody() {
         return this.b2body;
     }
+
+    protected void setStateTimer(float stateTimer) {
+        this.stateTimer = stateTimer;
+    }
+
+    public TextureRegion getPlayerStand() {
+        return playerStand;
+    }
+
+    public boolean isRunningRight() {
+        return runningRight;
+    }
+
 
 
 

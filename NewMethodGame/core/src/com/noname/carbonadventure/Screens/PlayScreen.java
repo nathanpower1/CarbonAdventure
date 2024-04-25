@@ -89,6 +89,8 @@ public class PlayScreen implements Screen {
     private long endTime;
     private boolean timerRunning = false;
 
+    private PlayerCowboy playerCowboy;
+
 
     private Skin uiSkin;
 
@@ -139,6 +141,7 @@ public class PlayScreen implements Screen {
         car = new Car(world);
         bike = new Bike(world);
         currentCharacter = player;
+        playerCowboy = new PlayerCowboy(this);
 
         // create HUD
         hud = new HUD(game.batch , player);
@@ -365,6 +368,11 @@ public class PlayScreen implements Screen {
         } else if (currentCharacter.equals(bike)) {
             bike.draw(game.batch);
         }
+        if (currentCharacter.equals(player)) {
+            player.draw(game.batch);
+        } else if (currentCharacter.equals(playerCowboy)) {
+            playerCowboy.draw(game.batch);
+        }
         for (NPC npc : creator.getNPCs())
             npc.draw(game.batch);
         game.batch.end();
@@ -476,6 +484,22 @@ public class PlayScreen implements Screen {
             }
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.Z)) {
+            if (currentCharacter.equals(player)) {
+                playerCowboy.b2body.setTransform(player.b2body.getPosition(), player.b2body.getAngle());
+                playerCowboy.b2body.setLinearVelocity(player.b2body.getLinearVelocity());
+                currentCharacter = playerCowboy;
+                player.b2body.setActive(false);
+                playerCowboy.b2body.setActive(true);
+            } else if (currentCharacter.equals(playerCowboy)) {
+                player.b2body.setTransform(playerCowboy.b2body.getPosition(), playerCowboy.b2body.getAngle());
+                player.b2body.setLinearVelocity(playerCowboy.b2body.getLinearVelocity());
+                currentCharacter = player;
+                playerCowboy.b2body.setActive(false);
+                player.b2body.setActive(true);
+            }
+        }
+
         // Exit early if the player is dead, no further controls should be processed
         if (player.currentState == Player.State.DEAD) {
             return;
@@ -553,6 +577,8 @@ public class PlayScreen implements Screen {
         world.step(1/60f,6,2);
 
         player.update(dt);
+
+        playerCowboy.update(dt);
 
         car.update(dt);
         bike.update(dt);
