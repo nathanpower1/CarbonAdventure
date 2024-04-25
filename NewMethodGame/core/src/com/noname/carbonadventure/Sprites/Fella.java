@@ -4,14 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.noname.carbonadventure.Play;
-import com.noname.carbonadventure.Scenes.Dialogue_NPC;
 import com.noname.carbonadventure.Screens.PlayScreen;
 
 public class Fella extends NPC {
@@ -64,13 +62,10 @@ public class Fella extends NPC {
             Play.manager.get("audio/sounds/hello.wav", Sound.class).play();
             isSoundPlaying = true;
 
-            Vector2 npcPosition = new Vector2(b2body.getPosition().x, b2body.getPosition().y);
-            Dialogue_NPC dialogue = new Dialogue_NPC(screen, screen.getStage(), "", "Don't forget to recycle, it saves the environment bitch", npcPosition);
 
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    dialogue.closeDialog();
                     isSoundPlaying = false;
                 }
             }, 1);

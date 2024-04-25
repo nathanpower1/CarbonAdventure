@@ -34,7 +34,7 @@ public class Bus_Stop_Tutorial extends InteractiveTileObject {
                 "This tutorial will explain how you can use the bus system to travel between different stops efficiently.",
                 "You can select any of the stops on the map to travel, and you will be teleported there!",
                 "Each stop is located near a valuable gem, but watch out, cause its not free! Keep an eye an your carbon meter as you traverse the stations!",
-                "Goodluck!\nEnjoy your journey!"
+                "Goodluck!Enjoy your journey!"
         );
 
         new Dialogue_Tutorial(screen.getStage(), "", tutorialMessages);
