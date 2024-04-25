@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="43" nextobjectid="884">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="200" height="200" tilewidth="16" tileheight="16" infinite="0" nextlayerid="43" nextobjectid="887">
  <tileset firstgid="1" source="city.tsx"/>
  <tileset firstgid="4115" source="Gems.tsx"/>
  <tileset firstgid="4164" source="railway.tsx"/>
@@ -754,7 +754,7 @@
   <object id="429" x="2496.18" y="1859.09" width="63.636" height="46.887"/>
   <object id="430" x="2509.68" y="2065.09" width="18.636" height="112.554"/>
   <object id="431" x="2413.68" y="1966.09" width="18.636" height="108.887"/>
-  <object id="432" x="2271.68" y="2063.59" width="113.636" height="15.887"/>
+  <object id="432" x="2271.68" y="2063.59" width="145.136" height="15.887"/>
   <object id="433" x="2414.18" y="2064.59" width="113.636" height="15.887"/>
   <object id="434" x="2270.68" y="2064.59" width="18.636" height="81.887"/>
   <object id="435" x="2270.68" y="2172.59" width="18.636" height="147.887"/>
@@ -883,10 +883,13 @@
   <object id="837" x="464" y="2224.5" width="33" height="15.5"/>
   <object id="872" x="1710.67" y="1735.5" width="122.667" height="371"/>
   <object id="873" x="1709.33" y="2102.17" width="362.667" height="9.6667"/>
-  <object id="879" x="2070.67" y="1539.5" width="21.3337" height="418.334"/>
+  <object id="879" x="2070.67" y="1698.5" width="21.3337" height="259.334"/>
   <object id="880" x="1833.33" y="1911.17" width="76.667" height="195"/>
   <object id="881" x="1910" y="1733.17" width="160" height="371"/>
   <object id="882" x="1833" y="1735.5" width="76.667" height="98.333"/>
+  <object id="884" x="1103" y="-2.5" width="33.25" height="6.75"/>
+  <object id="885" x="1092" y="-2.25" width="13" height="18"/>
+  <object id="886" x="2529.5" y="2178.5" width="141" height="29.5"/>
  </objectgroup>
  <objectgroup id="26" name="Trains">
   <object id="680" x="1687" y="2978.5" width="2.5" height="10"/>
