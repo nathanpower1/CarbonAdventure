@@ -29,7 +29,7 @@ public class FinishCowboy extends InteractiveTileObject {
         Music music = Play.manager.get("audio/music/cowboyTrio.mp3", Music.class);
         Music music2 = Play.manager.get("audio/music/buckbumble.mp3", Music.class);
         Music music3 = Play.manager.get("audio/music/lasvegas.mp3", Music.class);
-        Music music4 = Play.manager.get("audio/music/cowboy.mp3", Music.class);
+        Music music4 = Play.manager.get("audio/music/cowboy.mp3", Music.class, true);
 
 
 

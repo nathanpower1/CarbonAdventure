@@ -110,7 +110,7 @@ public class MiniMap {
     }
 
     public void resize(int width, int height) {
-        viewport.update(width, height);
+        viewport.update(width, height, true);
         camera.position.set(miniMapTopLeftCorner.x + miniMapSize / 2, miniMapTopLeftCorner.y + miniMapSize / 2, 0);
         camera.update();
     }

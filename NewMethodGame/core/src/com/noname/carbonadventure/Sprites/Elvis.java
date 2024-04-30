@@ -84,8 +84,12 @@ public class Elvis extends NPC {
                     Play.manager.get("audio/sounds/thankyou.mp3", Sound.class).play();
                     Play.manager.get("audio/music/lasvegas.mp3", Music.class).play();
                 }
+                else {
 
-            }
+                Play.manager.get("audio/sounds/thankyou.mp3", Sound.class).play();
+                Play.manager.get("audio/music/lasvegas.mp3", Music.class).play();
+
+            }}
             else {
                 Play.manager.get("audio/sounds/Elvis.wav", Sound.class).play();
             }
