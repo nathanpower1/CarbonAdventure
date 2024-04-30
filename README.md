@@ -39,11 +39,12 @@ To run the game locally, ensure you have the following installed:
 - Build and run the project from your IDE.
   
 ### Gameplay
-Use the arrow keys or on-screen controls to move the player character.
-Collect gems and other items to score points and progress through the levels.
-Avoid obstacles and enemies to stay alive and reach the end of each level.
-Compete for the highest score and try to beat your own records on the leaderboard.
+- Use the arrow keys or on-screen controls to move the player character.
+- Collect gems and other items to score points and progress through the levels.
+- Avoid obstacles and enemies to stay alive and reach the end of each level.
+- Compete for the highest score and try to beat your own records on the leaderboard.
 
 ## Acknowledgments
 Thanks to the creators of the LibGDX framework for providing a powerful platform for game development.
+
 Special thanks to our players for their valuable contributions and feedback.
