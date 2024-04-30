@@ -1,5 +1,3 @@
-
-https://github.com/nathanpower1/CarbonAdventure/assets/90730341/226b0482-4f07-47ac-95b0-af0104444752
 # CarbonAdventure
 CarbonAdventure is an exhilarating 2D Java game focused on the importance of minimizing your carbon footprint while traveling in your daily life. Embark on a thrilling adventure through colorful maps, challenging obstacles, entertaining characters and interactive elements while learning about sustainability and environmental awareness.
 
